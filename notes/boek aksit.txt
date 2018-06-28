@@ -1,0 +1,6 @@
+resource models p.63 ref[2,89]
+	https://s3.amazonaws.com/academia.edu.documents/41785662/camera_ready1.pdf?AWSAccessKeyId=AKIAIWOWYYGZ2Y53UL3A&Expires=1529570241&Signature=vYuid%2BxGIeqRbm8LhjO3eV06Df8%3D&response-content-disposition=inline%3B%20filename%3DModeling_resources_in_a_UML-based_simula.pdf
+resource aware component: p.64-65
+Resource utilisation model (RUM): section 6
+	Always over-abstraction -> guarentees
+	

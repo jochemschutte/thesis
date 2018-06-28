@@ -1,0 +1,29 @@
+scope
+1. measure
+	data collection
+	data storage
+	smart/fringe processing
+2. analyse
+	calc
+	display
+	report/relay
+(3. controll)
+	api
+	energy models
+	simulation
+	(feed back (downstream))
+	(software in node)
+	
+	
+what distinguishes iot applications and how does it affect qos
+how can we measure and collect qos metrics of a large iot application
+how can we anaylyse qos metrics of a large iot application
+how can we design an abstract platform that enables configurable data collection and analysis
+
+ecl
+credits (heuristic variable)
+available bandwidth
+
+kerel healthcare: kibet.kipkemoi@nedap.com
+
+vooronderzoek sturen

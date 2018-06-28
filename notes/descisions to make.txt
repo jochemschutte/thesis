@@ -1,0 +1,22 @@
+big data vs single server
+aggegate in thread or relay all data
+joint db or one db
+one main or layer with virtual main
+main server historic or not
+kafka or balanced queue between sensor process and accumulate process
+main memory or DB
+db: relational or OO
+persist as blob, formalised table or key-value (nosql, layerd architecture is tegen) (probably blob)
+store aggegated model or store full history (possibly with backup)
+HDFS or HBase/BigTable (HBase/BigTable)
+
+
+TODO
+meedere sensoren
+How to expose
+record existence lease
+
+File systems	
+	high volume low data
+Hadoop
+Google
