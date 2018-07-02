@@ -1,14 +1,22 @@
 big data vs single server
+	Both databases with common interface
 aggegate in thread or relay all data
-joint db or one db
+	Free to connect
 one main or layer with virtual main
 main server historic or not
+	models temporarily stored 
 kafka or balanced queue between sensor process and accumulate process
+	kafka
 main memory or DB
+	DB
 db: relational or OO
 persist as blob, formalised table or key-value (nosql, layerd architecture is tegen) (probably blob)
+	Blob
 store aggegated model or store full history (possibly with backup)
-HDFS or HBase/BigTable (HBase/BigTable)
+	Aggegateed (probably)
+HDFS 
+	HBase/BigTable
+distributed processes or spark
 
 
 TODO
