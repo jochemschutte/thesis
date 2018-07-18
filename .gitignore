@@ -4,3 +4,9 @@ doc/*.synctex.gz
 doc/*.log
 doc/*.bbl
 doc/*.blg
+.metadata
+.recommenders
+.settings
+target
+.classpath
+.project
