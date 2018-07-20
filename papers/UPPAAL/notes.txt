@@ -1,0 +1,20 @@
+build model
+calc model
+collapse model to varmap
+feed to opal
+calcTrace
+return next state
+
+how to optimize
+return trace
+  - 
+  - invert query and return diagnostic trace
+use priorities
+  
+testrun:
+    minTicks: 520
+	maxUsage: 2600 (mw) (10 jaar bij 520 ticks * 5 mW
+	tick: 1 week
+	
+Voor break-even-calculatie bij berekening van tick = 1 week, 5 berekeningen per sensor per dag, 10.000 sensoren is rekenkracht
+	equivalent aan 35x laptop nodig

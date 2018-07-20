@@ -1,0 +1,16 @@
+taskmodel, platformmodell
+dat scheduler verhaal
+
+
+doel, aanpak, verhaal, state
+what do we want to do
+this is the question i want to answer
+
+uml -> uppaal
+
+uppaal
+bugra yildiz - uppaal
+eclipse MDE ecore uppaal
+
+30 juli 13:00-15:00
+ruimte reserveren?
