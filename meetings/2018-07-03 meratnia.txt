@@ -1,0 +1,5 @@
+resource mapping door  middleware
+descriptive language
+
+Nedap doel
+nedap performance (ease of use, schaal)
