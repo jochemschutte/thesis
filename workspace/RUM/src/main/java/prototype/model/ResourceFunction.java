@@ -12,15 +12,26 @@ public class ResourceFunction{
 		this.expression = expression;
 	}
 	
-	public int execute(Message m, Map<String, Integer> values) throws EvalError{
+	public Double execute(Message m, Map<String, Double> values) throws EvalError{
 		Interpreter interpreter = new Interpreter();
-		for(Map.Entry<String, Integer> entry : m.getVars().entrySet()) {
+		for(Map.Entry<String, Double> entry : m.getVars().entrySet()) {
 			interpreter.set(entry.getKey(), entry.getValue());
 		}
-		for(Map.Entry<String, Integer> entry : values.entrySet()) {
+		for(Map.Entry<String, Double> entry : values.entrySet()) {
 			interpreter.set(entry.getKey(), entry.getValue());
 		}
-		return (Integer)interpreter.eval(expression);
+		Object o = interpreter.eval(expression);
+		if(o instanceof Double) {
+			return (double)o;
+		}else {
+			return (int)o*1.0;
+		}
+			
+	}
+	
+	@Override
+	public String toString() {
+		return expression;
 	}
 	
 }

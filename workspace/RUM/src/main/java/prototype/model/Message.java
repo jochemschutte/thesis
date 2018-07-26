@@ -5,9 +5,9 @@ import java.util.Map;
 public class Message{
 	
 	String currentModel;
-	Map<String, Integer> vars;
+	Map<String, Double> vars;
 	
-	public Message(String currentModel, Map<String, Integer> vars) {
+	public Message(String currentModel, Map<String, Double> vars) {
 		this.currentModel = currentModel;
 		this.vars = vars;
 	}
@@ -16,7 +16,7 @@ public class Message{
 		return currentModel;
 	}
 	
-	public Map<String, Integer> getVars() {
+	public Map<String, Double> getVars() {
 		return vars;
 	}
 	
