@@ -12,7 +12,7 @@ public class ResourceFunction{
 		this.expression = expression;
 	}
 	
-	public Double execute(Message m, Map<String, Double> values) throws EvalError{
+	public Double execute(RumMessage m, Map<String, Double> values) throws EvalError{
 		Interpreter interpreter = new Interpreter();
 		for(Map.Entry<String, Double> entry : m.getVars().entrySet()) {
 			interpreter.set(entry.getKey(), entry.getValue());

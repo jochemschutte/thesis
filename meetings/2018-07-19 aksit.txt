@@ -3,7 +3,7 @@ dat scheduler verhaal
 
 
 doel, aanpak, verhaal, state
-what do we want to do
+what do we want to do	
 this is the question i want to answer
 
 uml -> uppaal

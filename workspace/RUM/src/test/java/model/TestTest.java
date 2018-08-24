@@ -12,27 +12,26 @@ import org.junit.Test;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.SetMultimap;
 
-import bsh.EvalError;
-import prototype.main.Engine;
+import prototype.main.RumEngine;
 import prototype.model.Component;
-import prototype.model.Message;
 import prototype.model.ModelComponent;
 import prototype.model.RPM;
 import prototype.model.Resource;
 import prototype.model.ResourceFunction;
 import prototype.model.ResourceInterface;
 import prototype.model.ResourceInterface.InterfaceType;
+import prototype.model.RumMessage;
 import prototype.model.optimize.Optimizer;
 
 public abstract class TestTest{
 
-	protected Engine engine = null;
+	protected RumEngine engine = null;
 	protected Set<Component> components = null;
 	protected Set<Resource> resources = null;
 	protected Optimizer qos = null;
 	protected HashMultimap<ModelComponent, RPM> models = null;
 	
-	protected Message message = null;
+	protected RumMessage message = null;
 	
 	@Before
 	public abstract void prepare();
@@ -73,19 +72,15 @@ public abstract class TestTest{
 	@Test
 	public void run() { 
 		validatePrepare();
-		Set<Map<ModelComponent, RPM>> powerset = Engine.powerset(models);
-		try {
-			for(Map<ModelComponent, RPM> composition : powerset) {
-				engine.provision(composition, message);
-				Set<Resource> invalid = resources.stream().filter(r -> !r.isValid()).collect(Collectors.toSet());
-				System.out.print(String.format("%s: %f", composition.values(), qos.score()));
-				if(invalid.isEmpty())
-					System.out.println();
-				else
-					System.out.println(String.format(", invalid: %s", invalid));
-			}
-		} catch (EvalError e) {
-			e.printStackTrace();
+		Set<Map<ModelComponent, RPM>> powerset = RumEngine.powerset(models);
+		for(Map<ModelComponent, RPM> composition : powerset) {
+			engine.provision(composition, message);
+			Set<Resource> invalid = resources.stream().filter(r -> !r.isValid()).collect(Collectors.toSet());
+			System.out.print(String.format("%s: %f", composition.values(), qos.score()));
+			if(invalid.isEmpty())
+				System.out.println();
+			else
+				System.out.println(String.format(", invalid: %s", invalid));
 		}
 		System.out.println();
 		
@@ -97,7 +92,7 @@ public abstract class TestTest{
 			target.put(entry.getKey(), entry.getValue());
 		}
 		System.out.println();
-		engine = new Engine(components, qos, target);
+		engine = new RumEngine(components, qos, target);
 		engine.run(message);
 		
 		for(Component component : components) {

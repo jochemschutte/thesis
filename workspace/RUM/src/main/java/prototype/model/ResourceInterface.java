@@ -43,7 +43,30 @@ public class ResourceInterface{
 	
 	@Override
 	public String toString() {
-		return String.format("%s %d %s", type.toString().toLowerCase(), value, resource.getIdentifier());
+		return String.format("%s %f %s", type.toString().toLowerCase(), value, resource.getIdentifier());
+	}
+	
+	public static ResourceInterface[] connect(Component offering, Component consuming, Resource r, InterfaceType type) {
+		ResourceInterface[] result = new ResourceInterface[2];
+		result[0] = new ResourceInterface(r, offering, InterfaceType.OFFERS);
+		result[1] = new ResourceInterface(r, consuming, type);
+		return result;
+	}
+	
+	public static ResourceInterface[] connect(Component offering, Component consuming, Resource r) {
+		return connect(offering, consuming, r, InterfaceType.CONSUMES);
+	}
+	
+	public static ResourceInterface[] connect(Component offering, Component consuming, Resource r, String functionOffer, String functionConsumer, InterfaceType type) {
+		if(functionOffer != null)
+			offering.getResourceFunctions().put(r,  new ResourceFunction(functionOffer));
+		if(functionConsumer != null)
+			consuming.getResourceFunctions().put(r, new ResourceFunction(functionConsumer));
+		return connect(offering, consuming, r, type);
+	}
+	
+	public static ResourceInterface[] connect(Component offering, Component consuming, Resource r, String functionOffer, String functionConsumer) {
+		return connect(offering, consuming, r, functionOffer, functionConsumer, InterfaceType.CONSUMES);
 	}
 	
 }

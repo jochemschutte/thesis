@@ -6,7 +6,7 @@ import org.junit.Before;
 
 import com.google.common.collect.HashMultimap;
 
-import prototype.main.Engine;
+import prototype.main.RumEngine;
 import prototype.model.Component;
 import prototype.model.ModelComponent;
 import prototype.model.RPM;
@@ -14,6 +14,7 @@ import prototype.model.Resource;
 import prototype.model.ResourceFunction;
 import prototype.model.ResourceInterface;
 import prototype.model.ResourceInterface.InterfaceType;
+import prototype.model.RumMessage;
 import prototype.model.optimize.MinMaxOptimizer;
 import prototype.model.optimize.MinMaxOptimizer.MinMax;
 
@@ -80,7 +81,9 @@ public class TestModel extends TestTest{
 		models.put(radio, lowRadio);
 		models.put(radio, highRadio);
 		
-		engine = new Engine(components, qos, models);
+		engine = new RumEngine(components, qos, models);
+		
+		message = new RumMessage();
 	}
 	
 }

@@ -5,21 +5,22 @@ import static org.junit.Assert.assertEquals;
 import java.util.HashSet;
 import java.util.Map;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableMap;
 
 import bsh.EvalError;
-import prototype.main.Engine;
+import prototype.main.RumEngine;
 import prototype.model.Component;
-import prototype.model.Message;
 import prototype.model.ModelComponent;
 import prototype.model.RPM;
 import prototype.model.Resource;
 import prototype.model.ResourceFunction;
 import prototype.model.ResourceInterface;
 import prototype.model.ResourceInterface.InterfaceType;
+import prototype.model.RumMessage;
 import prototype.model.optimize.MinMaxOptimizer;
 import prototype.model.optimize.MinMaxOptimizer.MinMax;
 
@@ -104,9 +105,11 @@ public class FullModel extends TestTest{
 		high.getResourceFunctions().put(networkBandwidth, new ResourceFunction("20"));
 		models.put(composer, high);
 		
-		engine = new Engine(components, qos, models);
+		engine = new RumEngine(components, qos, models);
 		
-		message = new Message(null, ImmutableMap.of("timeRunning", 9.0, "powerPercentageLeft", 29.0));
+		message = new RumMessage();
+		message.setCurrentState(null);
+		message.getVars().putAll(ImmutableMap.of("timeRunning", 9.0, "powerPercentageLeft", 29.0));
 	}
 	
 	@Test
@@ -123,9 +126,9 @@ public class FullModel extends TestTest{
 		runForScenario(timeRunning, capacityLeft);
 	}
 	
-//	@Ignore
+	@Ignore
 	@Test
-	public void run() {
+	public void formulateMessages() {
 		double n = 0.0;
 		double end = 8;
 		int nr = 20;
@@ -138,7 +141,9 @@ public class FullModel extends TestTest{
 	public void runForScenario(double[] timeRunning, double[] capacityLeft) throws EvalError {
 		assertEquals(timeRunning.length, capacityLeft.length);
 		for(int i = 0; i < timeRunning.length; i++) {
-			Message message = new Message(null, ImmutableMap.of("timeRunning",timeRunning[i],"powerPercentageLeft",capacityLeft[i]));
+			RumMessage message = new RumMessage();
+			message.setCurrentState(null);
+			message.getVars().putAll(ImmutableMap.of("timeRunning",timeRunning[i],"powerPercentageLeft",capacityLeft[i]));
 			Map<ModelComponent, RPM> composition = engine.run(message);
 			System.out.println(String.format("%.1f timeRunning, %f battery left.", message.getVars().get("timeRunning"), message.getVars().get("powerPercentageLeft")));
 			if(composition != null) {

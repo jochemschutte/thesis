@@ -1,0 +1,17 @@
+Sensor #1 started. starting percentage: 5,0%, years running: 10,0
+Sensor #1 switched to 'middle. Years running: 10,0, percentage left 4,7%'
+Backoff: 1, queued: 87
+Sensor #1 has stopped. Years running 10,3
+Backoff: 1, queued: 87
+Backoff: 1, queued: 39
+Backoff: 16384, queued: 0
+Backoff: 131072, queued: 0
+Backoff: 262144, queued: 0
+Backoff: 262144, queued: 0
+Backoff: 524288, queued: 0
+Backoff: 524288, queued: 0
+Backoff: 524288, queued: 0
+Backoff: 1048576, queued: 0
+Backoff: 1048576, queued: 0
+Backoff: 1048576, queued: 0
+Backoff: 1048576, queued: 0

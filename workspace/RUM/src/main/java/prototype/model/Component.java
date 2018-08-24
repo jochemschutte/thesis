@@ -43,7 +43,7 @@ public class Component extends GraphNode<Component>{
 		}
 		return result;
 	}
-
+	
 	public Map<Resource, ResourceFunction> getResourceFunctions() {
 		return resourceFunctions;
 	}
@@ -57,7 +57,7 @@ public class Component extends GraphNode<Component>{
 		return resources;
 	}
 	
-	public void setValuesforInterfaces(Message m) throws EvalError{
+	public void setValuesforInterfaces(RumMessage m) throws EvalError{
 		//consumed resources
 		Map<String, Double> availableResources = new TreeMap<>();
 		Iterable<ResourceInterface> preceeding = Iterables.concat(consumes(), calcs());
@@ -78,7 +78,7 @@ public class Component extends GraphNode<Component>{
 		}
 	}
 	
-	public void setValueForInterface(ResourceInterface iface, Message m, Map<String, Double> values) throws EvalError {
+	public void setValueForInterface(ResourceInterface iface, RumMessage m, Map<String, Double> values) throws EvalError {
 		iface.setValue(getResourceFunctions().get(iface.getResource()).execute(m, values));
 	}
 	
