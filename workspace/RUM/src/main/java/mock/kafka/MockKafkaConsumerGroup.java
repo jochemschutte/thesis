@@ -8,7 +8,9 @@ import java.util.Collection;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -20,7 +22,9 @@ public class MockKafkaConsumerGroup extends MockKafkaConsumer{
 
 	ConcurrentLinkedQueue<IOMessage> queue = new ConcurrentLinkedQueue<>();
 	Collection<? extends SingleMessageProcessor> consumers;
+	Collection<ConsumerRunner> runners = null;
 	AtomicLong backoff = new AtomicLong(1);
+	AtomicInteger processed = new AtomicInteger(0);
 	
 	public MockKafkaConsumerGroup(Collection<? extends SingleMessageProcessor> cons) {
 		consumers = cons;
@@ -28,13 +32,14 @@ public class MockKafkaConsumerGroup extends MockKafkaConsumer{
 	}
 	
 	public void start() {
-		consumers.forEach(c -> new ConsumerRunner(c).start());
+		runners = consumers.stream().map(c -> new ConsumerRunner(c)).collect(Collectors.toSet());
+		runners.forEach(r-> r.start());
 	}
 	
 	@Override
 	public void consume(IOMessage m) {
 		queue.offer(m);
-//		consumers.forEach(c-> c.interrupt());
+		runners.forEach(r -> r.interrupt());
 	}
 	
 //	@Override
@@ -67,7 +72,7 @@ public class MockKafkaConsumerGroup extends MockKafkaConsumer{
 		
 		@Override
 		public void run() {
-			String message = String.format("Backoff: %d, queued: %d", backoff.get(), queue.size());
+			String message = String.format("Processed: %d, queued: %d", processed.getAndSet(0), queue.size());
 			p.publish("DEBUG", new IOMessage(ImmutableMap.of(SEVERITY, "INFO", FIELD_LABEL, "CONSUMER_GROUP", MESSAGE, message)));
 		}
 	}
@@ -83,14 +88,15 @@ public class MockKafkaConsumerGroup extends MockKafkaConsumer{
 		@Override
 		public void run() {
 			while(true) {
-//				System.out.println(backoff + "-"+ queue.size());
 				try {
 					Thread.sleep(backoff.get()-1);
 				}catch(InterruptedException e) {}
 				IOMessage next = queue.poll();
 				if(next != null) {
 					c.runForMessage(next);
-					backoff.getAndUpdate(x->Math.max(x/2,1));					
+//					backoff.getAndUpdate(x->Math.max(x/2,1));
+					backoff.set(1);
+					processed.incrementAndGet();
 				}else {
 					backoff.getAndUpdate(x->Math.max(x,x*2));
 				}

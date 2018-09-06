@@ -3,6 +3,7 @@ package architecture.demo.construct;
 import static architecture.demo.global.Fields.MODEL_HIGH;
 
 import java.util.Collection;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.google.common.collect.ImmutableList;
 
@@ -12,6 +13,7 @@ import architecture.demo.processes.Sensor;
 
 public class Main{
 	
+	static AtomicBoolean running = new AtomicBoolean(false);
 	
 	public static void main(String[] args) {
 		DebugLog log = new DebugLog();
@@ -24,12 +26,16 @@ public class Main{
 //		run(1000000, 1, 5);
 		
 		//2 days per second, 3 sensors
-//		run(172800, 3, 5);
+		run(172800, 3, 5);
 		
-		runDebug(5, 10, 900000, 5);
+//		run(60*24, 300, 50);
+		
+//		runDebug(5, 10, 900000, 5);
 	}
 	
 	private static void run(long speedfactor, int nrSensors, int nrSensorAnalysers) {
+		if(running.getAndSet(true)) 
+			throw new IllegalStateException("Simulator was initiated multiple times (comment a run-call)");
 		ConfigurableTimer.setInstance(new ConfigurableTimer(speedfactor));
 		Collection<Sensor> sensors = SensorEnvironment.construct(nrSensors);
 		BasicArchitectureEnvironment.construct(sensors,nrSensorAnalysers);
@@ -37,6 +43,9 @@ public class Main{
 	}
 	
 	private static void runDebug(double percentageLeft, double yearsRunning, long speedfactor, int nrProcessors) {
+		if(running.getAndSet(true)) 
+			throw new IllegalStateException("Simulator was initiated multiple times (comment a run-call)");
+		
 //		Sensor #3 switched to 'middle. Years running: 6,4, percentage left 47,2%'
 		
 		ConfigurableTimer.setInstance(new ConfigurableTimer(speedfactor));

@@ -49,10 +49,6 @@ public class Sensor extends MockKafkaProducer implements Runnable{
 		this.percentageUsedPerDayDeviation = percentageUsedPerDayDeviation;
 		this.yearsRunning = yearsRunning;
 		this.currentModel = currentModel;
-		
-		Map<String, String> debug = ImmutableMap.of(MESSAGE, 
-				String.format("Sensor #%s started. starting percentage: %.1f%%, years running: %.1f", sensorId, batteryPercentage, yearsRunning));
-		publish(DEBUG, new IOMessage(debug));
 	}
 	
 	public int getSensorId() {
@@ -73,9 +69,14 @@ public class Sensor extends MockKafkaProducer implements Runnable{
 	
 	@Override
 	public void run() {
+		long initialWait = (long)(86400000*Math.random()/ConfigurableTimer.getInstance().getSpeedFactor());
+		Map<String, String> debug = ImmutableMap.of(MESSAGE, 
+				String.format("Sensor #%s initiated. starting percentage: %.1f%%, years running: %.1f, waiting %d (simulated) seconds", sensorId, batteryPercentage, yearsRunning, initialWait/1000));
+		publish(DEBUG, new IOMessage(debug));
 		try {
-			Thread.sleep((long)(86400000*Math.random()/ConfigurableTimer.getInstance().getSpeedFactor()));
+			Thread.sleep(initialWait);
 		}catch(InterruptedException e) {}
+		publish(DEBUG, new IOMessage(ImmutableMap.of(MESSAGE, String.format("Sensor #%d started.", sensorId))));
 		while(batteryPercentage > 0) {
 			switch(currentModel) {
 			case MODEL_HIGH:
