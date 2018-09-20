@@ -3,6 +3,7 @@ package architecture.demo.construct;
 import static architecture.demo.global.Fields.AVG_THROUGHPUT;
 import static architecture.demo.global.Fields.NR_LESS_YEAR;
 import static architecture.demo.global.Fields.NR_MESSAGES;
+import static architecture.demo.global.Fields.NR_SENSORS;
 import static architecture.demo.global.Fields.SENSOR_ID;
 import static architecture.demo.global.Fields.SYSTEM_RUNTIME;
 import static architecture.demo.global.Topics.ACCUMULATOR;
@@ -44,7 +45,6 @@ public class BasicArchitectureEnvironment{
 		}
 		MockKafkaConsumerGroup sensorGroup = new MockKafkaConsumerGroup(ssprocessors);
 		sensorGroup.subscribe(SENSOR);
-		sensorGroup.start();
 		
 		NoRumAdapter noRum = new NoRumAdapter();
 		noRum.subscribe(NO_RUM);		
@@ -55,14 +55,8 @@ public class BasicArchitectureEnvironment{
 		RumActuator actuator = new RumActuator(sensors);
 		actuator.subscribe(CHANGE_RPM);
 		
-		AccumulatorImplementation impl = new AccumulatorImplementation();
-		MappedAccumulatorProcessor coll = new MappedAccumulatorProcessor(Amount.valueOf(5, SI.SECOND), impl, impl);
-		coll.subscribe(ACCUMULATOR);
-		
-//		ApplicationCollector coll = new ApplicationCollector(Amount.valueOf(5, SI.SECOND));
-//		coll.subscribe(ACCUMULATOR);
-		
-		Reporter exposer = new Reporter("Runtime: %s\nAvg throughput: %s\nnr sensor < 1 year: %s\nbased on %s messages\n", SYSTEM_RUNTIME, AVG_THROUGHPUT, NR_LESS_YEAR, NR_MESSAGES);
+		Reporter exposer = new Reporter("Runtime: %s\nAvg throughput: %s\nnr sensors total: %s\nnr sensor < 1 year: %s\nbased on %s messages\n", //
+				SYSTEM_RUNTIME, AVG_THROUGHPUT, NR_SENSORS, NR_LESS_YEAR, NR_MESSAGES);
 		exposer.subscribe(APPLICATION);
 		
 		TendencyAnalyser analyser = new TendencyAnalyser();
@@ -70,6 +64,12 @@ public class BasicArchitectureEnvironment{
 		
 		Reporter alert = new Reporter("LOG[%s]: %s: %s", SEVERITY, FIELD_LABEL, MESSAGE);
 		alert.subscribe(LOG);
+		
+		sensorGroup.start();
+		
+		AccumulatorImplementation impl = new AccumulatorImplementation();
+		MappedAccumulatorProcessor coll = new MappedAccumulatorProcessor(Amount.valueOf(5, SI.SECOND), impl, impl);
+		coll.subscribe(ACCUMULATOR);
 		
 	}
 }

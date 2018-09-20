@@ -27,7 +27,7 @@ public class ResourceInterface{
 	}
 	
 	public Double getValue() {
-		return value;
+		return this.value;
 	}
 	public void setValue(Double value) {
 		this.value = value;

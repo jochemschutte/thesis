@@ -1,4 +1,4 @@
-package model;
+package model.small;
 
 import static org.junit.Assert.assertEquals;
 
@@ -12,6 +12,7 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableMap;
 
 import bsh.EvalError;
+import model.TestTest;
 import prototype.main.RumEngine;
 import prototype.model.Component;
 import prototype.model.ModelComponent;
@@ -32,6 +33,11 @@ public class FullModel extends TestTest{
 	
 	Resource serviceTime;
 
+	@Override
+	public String getTitle() {
+		return "FullModel";
+	}
+	
 	@Override
 	public void prepare() {
 		Component network = new Component("network");
@@ -112,6 +118,7 @@ public class FullModel extends TestTest{
 		message.getVars().putAll(ImmutableMap.of("timeRunning", 9.0, "powerPercentageLeft", 29.0));
 	}
 	
+	@Ignore
 	@Test
 	public void runScenarioNormal() throws EvalError {
 		double[] timeRunning = new double[] {0.5,1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,11.0,12.0,15.0};
@@ -119,6 +126,7 @@ public class FullModel extends TestTest{
 		runForScenario(timeRunning, capacityLeft);
 	}
 	
+	@Ignore
 	@Test
 	public void runScenarioLow() throws EvalError {
 		double[] timeRunning = new double[] {0.0,0.0,0.0,1.0,1.0,2.0,2.0,2.0,3.0,3.0,4.0,4.0,4.0,5.0,5.0,6.0,6.0,6.0,7.0,7.0,8.0};

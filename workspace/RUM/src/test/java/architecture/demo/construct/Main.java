@@ -19,16 +19,20 @@ public class Main{
 		DebugLog log = new DebugLog();
 		log.subscribe("DEBUG");
 		
+		//one message per 5 seconds
+//		run(5760, 20, 5);
+		
 		// one day per second
 //		run(86400, 1, 5);
 		
-		//~11.5 days per second
-//		run(1000000, 1, 5);
+		//5 days per second
+		run(432000, 1, 5);
 		
-		//2 days per second, 3 sensors
-		run(172800, 3, 5);
+//		1 days per second, 3 sensors
+//		run(86400, 3, 5);
 		
-//		run(60*24, 300, 50);
+//		3 hours per second
+//		run(60*60*3, 20, 5);
 		
 //		runDebug(5, 10, 900000, 5);
 	}
