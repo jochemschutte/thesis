@@ -1,5 +1,6 @@
 package jscience;
 
+import java.util.HashSet;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -54,4 +55,14 @@ public class JScienceTest{
 			System.out.println(i+": " +(System.currentTimeMillis()-millis));
 		}
 	}
+	
+	@Test
+	public void testHashMultimap() {
+		HashMultimap<String, String> map = HashMultimap.create();
+		map.put("henk", null);
+		System.out.println(map);
+		map.putAll("ingrid", new HashSet<String>());
+		System.out.println(map);
+	}
+	
 }

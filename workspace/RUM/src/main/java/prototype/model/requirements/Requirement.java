@@ -1,7 +1,17 @@
 package prototype.model.requirements;
 
-public interface Requirement{
+import prototype.model.Resource;
+
+public abstract class Requirement{
+	
+	protected Resource resource;
+	
+	public Requirement(Resource resource) {
+		this.resource = resource;
+	}
 		
-	public boolean isValid(double offered, double consumed);
+	public abstract boolean isValid() throws IllegalStateException;
+	
+	public abstract boolean isResolved();
 	
 }

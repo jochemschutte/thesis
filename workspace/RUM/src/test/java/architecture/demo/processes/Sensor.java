@@ -59,11 +59,15 @@ public class Sensor extends MockKafkaProducer implements Runnable{
 		return this.currentModel;
 	}
 	
+	public double getPercentageLeft() {
+		return this.batteryPercentage;
+	}
+	
 	public void setCurrentModel(String nextModel) {
 		if(!this.currentModel.equals(nextModel)) {
 			this.currentModel = nextModel;
 			publish("DEBUG", new IOMessage(ImmutableMap.of(SEVERITY, "INFO", "LABEL", "CHANGE_RUM", MESSAGE, //
-					String.format("Sensor #%d switched to '%s. Years running: %.1f, percentage left %.1f%%'", sensorId, nextModel,yearsRunning, batteryPercentage))));
+					String.format("Sensor #%d switched to '%s'. Years running: %.1f, percentage left %.1f%%'", sensorId, nextModel,yearsRunning, batteryPercentage))));
 		}
 	}
 	
@@ -71,7 +75,7 @@ public class Sensor extends MockKafkaProducer implements Runnable{
 	public void run() {
 		long initialWait = (long)(86400000*Math.random()/ConfigurableTimer.getInstance().getSpeedFactor());
 		Map<String, String> debug = ImmutableMap.of(MESSAGE, 
-				String.format("Sensor #%s initiated. starting percentage: %.1f%%, years running: %.1f, waiting %d (simulated) seconds", sensorId, batteryPercentage, yearsRunning, initialWait/1000));
+				String.format("Sensor #%s initiated. starting percentage: %.1f%%, years running: %.1f, waiting %.1f (simulated) seconds", sensorId, batteryPercentage, yearsRunning, (double)initialWait/1000.0));
 		publish(DEBUG, new IOMessage(debug));
 		try {
 			Thread.sleep(initialWait);

@@ -20,7 +20,8 @@ public class ResourceFunction{
 		for(Map.Entry<String, Double> entry : values.entrySet()) {
 			interpreter.set(entry.getKey(), entry.getValue());
 		}
-		Object o = interpreter.eval(expression);
+		// '0+' to enforce execution as arthmatic expression
+		Object o = interpreter.eval("0+"+expression);
 		if(o instanceof Double) {
 			return (double)o;
 		}else {

@@ -29,6 +29,7 @@ public interface Fields{
 	
 	public static final String SENSOR_ID ="sensorId";
 	public static final String TIMESTAMP = "timeStamp";
+	public static final String NR_SENSORS = "nrSensors";
 	public static final String NR_LESS_YEAR = "nrLessYear";
 	public static final String SUM_THROUGHPUT = "sumThroughput";
 	public static final String AVG_THROUGHPUT = "avgThroughput"; 

@@ -11,6 +11,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.google.common.collect.ImmutableMap;
@@ -22,16 +23,18 @@ import prototype.model.RPM;
 import prototype.model.Resource;
 import prototype.model.RumMessage;
 
+@Ignore
 public class RumScenarioTester{
 
 	
-	static double percentageLeft = 61.0;
-	static double yearsRunning = 3.9;
-	static String currentModelId = "low";
+	static double percentageLeft = 78.32273171697526;
+	static double yearsRunning = 2.165083023505142;
+	static String currentModelId = "high";
 	
 	
 	@Test
 	public void run() {
+		//{timeStamp=4813937943268622336, yearsRunning=2.165083023505142, CURRENT_MODEL={"composer":"high"}, powerPercentageLeft=78.32273171697526, sensorId=2}
 		RumEngine engine = RumEngineConstructor.constructEngine();
 		Map<String, Double> vars = ImmutableMap.of(SENSOR_ID, 1.0, TIMESTAMP, 1.0, PERCENTAGE_LEFT, percentageLeft, YEARS_RUNNING, yearsRunning);
 		Set<ModelComponent> modelComponents = engine.getComponents().values().stream().filter(m -> m instanceof ModelComponent).map(c->(ModelComponent)c).collect(Collectors.toSet());
@@ -42,7 +45,7 @@ public class RumScenarioTester{
 			m.setVars(vars);
 			engine.provision(currentModel, m);
 			Resource serviceTime = engine.getResources().get(SERVICE_TIME);
-			System.out.println(model + ": "+Resource.collect(serviceTime.offered())+", "+engine.isValid());
+			System.out.println(model + ": "+Resource.collect(serviceTime.offered()));
 		}
 		Map<ModelComponent, RPM> currentModel = modelComponents.stream().collect(Collectors.toMap(c->c, c->extractRpm(engine, c.getIdentifier(), currentModelId)));
 		RumMessage m = new RumMessage();

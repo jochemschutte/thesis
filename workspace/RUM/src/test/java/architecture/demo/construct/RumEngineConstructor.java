@@ -20,16 +20,11 @@ import static architecture.demo.global.Fields.TOTAL_SERVICE_TIME_CALCULATOR;
 import static architecture.demo.global.Fields.TOTAL_SERVICE_TIME_CONSUMER;
 import static architecture.demo.global.Fields.YEARS_RUNNING;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.SetMultimap;
-
+import prototype.factory.RpmBuilder;
+import prototype.factory.RumBuilder;
 import prototype.main.RumEngine;
 import prototype.model.Component;
 import prototype.model.ModelComponent;
-import prototype.model.RPM;
 import prototype.model.Resource;
 import prototype.model.ResourceFunction;
 import prototype.model.ResourceInterface;
@@ -48,43 +43,27 @@ public class RumEngineConstructor{
 	
 	
 	public static RumEngine constructEngine() {
-		Component radio = new Component(RADIO);
-		Component battery = new Component(BATTERY);
-		ModelComponent composer = new ModelComponent(COMPOSER);
-		Component batteryLeft = new Component(BATTERY_LEFT);
-		Component serviceTimeCalculator = new Component(SERVICE_TIME_CALCULATOR);
-		Component totalServiceTimeCalculator = new Component(TOTAL_SERVICE_TIME_CALCULATOR);
-		Component totalServiceTimeConsumer = new Component(TOTAL_SERVICE_TIME_CONSUMER);
-		Component qosCalculator = new Component(QOS_CALCULATOR);
-		Set<Component> components = new HashSet<>();
-		components.add(radio);
-		components.add(battery);
-		components.add(batteryLeft);
-		components.add(serviceTimeCalculator);
-		components.add(totalServiceTimeCalculator);
-		components.add(totalServiceTimeConsumer);
-		components.add(qosCalculator);
-		components.add(composer);
+		RumBuilder builder = new RumBuilder();
 		
-		Resource initialCapacity = new Resource(INITIAL_CAPACITY, "Wh");
-		Resource capacityLeft = new Resource(CAPACITY_LEFT, "Wh");
-		Resource networkBandwidth = new Resource(NETWORK_BANDWIDTH, "B/s");
-		Resource powerUsageModelOut = new Resource(POWER_USAGE_MODEL_OUT, "mW");
-		Resource powerUsageModelIn = new Resource(POWER_USAGE_MODEL_IN, "mW");
-		Resource throughput = new Resource(THROUGHPUT, "messages/day");
-		Resource totalServiceTime = new Resource(TOTAL_SERVICE_TIME, "years");
-		Resource serviceTime = new Resource(SERVICE_TIME, "years");
-		Optimizer qos = new MinMaxOptimizer(QOS, "messages in lifetime", MinMax.MAX);
-		Set<Resource> resources = new HashSet<>();
-		resources.add(initialCapacity);
-		resources.add(capacityLeft);
-		resources.add(networkBandwidth);
-		resources.add(powerUsageModelIn);
-		resources.add(powerUsageModelOut);
-		resources.add(throughput);
-		resources.add(serviceTime);
-		resources.add(qos);
-		
+		Component radio = builder.component(RADIO);
+		Component battery = builder.component(BATTERY);
+		ModelComponent composer = builder.modelComponent(COMPOSER);
+		Component batteryLeft = builder.component(BATTERY_LEFT);
+		Component serviceTimeCalculator = builder.component(SERVICE_TIME_CALCULATOR);
+		Component totalServiceTimeCalculator = builder.component(TOTAL_SERVICE_TIME_CALCULATOR);
+		Component totalServiceTimeConsumer = builder.component(TOTAL_SERVICE_TIME_CONSUMER);
+		Component qosCalculator = builder.component(QOS_CALCULATOR);
+				
+		Resource initialCapacity = builder.resource(INITIAL_CAPACITY, "Wh");
+		Resource capacityLeft = builder.resource(CAPACITY_LEFT, "Wh");
+		Resource networkBandwidth = builder.resource(NETWORK_BANDWIDTH, "B/s");
+		Resource powerUsageModelOut = builder.resource(POWER_USAGE_MODEL_OUT, "mW");
+		Resource powerUsageModelIn = builder.resource(POWER_USAGE_MODEL_IN, "mW");
+		Resource throughput = builder.resource(THROUGHPUT, "messages/day");
+		Resource totalServiceTime = builder.resource(TOTAL_SERVICE_TIME, "years");
+		Resource serviceTime = builder.resource(SERVICE_TIME, "years");
+		Optimizer qos = builder.optimize(new MinMaxOptimizer(QOS, "messages in lifetime", MinMax.MAX));
+				
 		ResourceInterface.connect(radio, composer, networkBandwidth, Integer.toString(RADIO_MAX_BANDWIDTH), null);
 		ResourceInterface.connect(battery, composer, powerUsageModelIn, Integer.toString(MAX_POWER), null);
 		ResourceInterface.connect(battery, batteryLeft, initialCapacity, Integer.toString(INITIAL_BATTERY_CAPACITY), INITIAL_CAPACITY);
@@ -97,29 +76,12 @@ public class RumEngineConstructor{
 		new ResourceInterface(qos, qosCalculator, InterfaceType.OFFERS);
 		qosCalculator.getResourceFunctions().put(qos, new ResourceFunction(SERVICE_TIME+"*365.26*"+THROUGHPUT));
 		
-		SetMultimap<ModelComponent, RPM>models = HashMultimap.create();
-		
-		RPM low = new RPM("low");
-		low.getResourceFunctions().put(powerUsageModelIn, new ResourceFunction("0.001667"));
-		low.getResourceFunctions().put(powerUsageModelOut, new ResourceFunction("powerUsageModelIn"));
-		low.getResourceFunctions().put(throughput, new ResourceFunction("1"));
-		low.getResourceFunctions().put(networkBandwidth, new ResourceFunction("3"));
-		models.put(composer, low);
-		
-		RPM middle = new RPM("middle");
-		middle.getResourceFunctions().put(powerUsageModelIn, new ResourceFunction("0.003333"));
-		middle.getResourceFunctions().put(powerUsageModelOut, new ResourceFunction("powerUsageModelIn"));
-		middle.getResourceFunctions().put(throughput, new ResourceFunction("10"));
-		middle.getResourceFunctions().put(networkBandwidth, new ResourceFunction("10"));
-		models.put(composer, middle);
-		
-		RPM high = new RPM("high");
-		high.getResourceFunctions().put(powerUsageModelIn, new ResourceFunction("0.005556"));
-		high.getResourceFunctions().put(powerUsageModelOut, new ResourceFunction("powerUsageModelIn"));
-		high.getResourceFunctions().put(throughput, new ResourceFunction("20"));
-		high.getResourceFunctions().put(networkBandwidth, new ResourceFunction("20"));
-		models.put(composer, high);
-		
-		return new RumEngine(components, qos, models);
+		RpmBuilder rpm = builder.rpmBuilder(composer, powerUsageModelIn, powerUsageModelOut, throughput, networkBandwidth);
+		rpm.add("low", "0.001667", "powerUsageModelIn", "1", "3");
+		rpm.add("middle", "0.003333", "powerUsageModelIn", "2", "10");
+		rpm.add("high", "0.005556", "powerUsageModelIn", "5", "20");
+				
+		return builder.build();
 	}
+	
 }

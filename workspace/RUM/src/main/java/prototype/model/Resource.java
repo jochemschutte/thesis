@@ -19,7 +19,7 @@ public class Resource{
 	public Resource(String identifier, String unit) {
 		this.identifier = identifier;
 		this.unit = unit;
-		reqs.add(new OfferConsumeRequirementGTE());
+		reqs.add(new OfferConsumeRequirementGTE(this));
 	}
 
 	public String getIdentifier() {
@@ -51,11 +51,17 @@ public class Resource{
 	}
 	
 	public boolean isValid() {
-		return reqs.stream().map(r -> r.isValid(collect(offered()),collect(consumed()))).reduce(true, (a,b) -> a && b);
+		return reqs.stream().map(r -> r.isValid()).reduce(true, (a,b) -> a && b);
 	}
 	
 	public static Double collect(Collection<ResourceInterface> interfaces) {
-		return interfaces.stream().map(i->i.getValue()).reduce(0.0, (a,b)->a+b);
+		Double result = 0.0;
+		for(ResourceInterface interf : interfaces) {
+			if(interf.getValue() == null)
+				return null;
+			result += interf.getValue();
+		}
+		return result;
 	}
 	
 	@Override
@@ -65,6 +71,6 @@ public class Resource{
 
 	@Override
 	public String toString() {
-		return this.identifier;
+		return String.format("%s, offered: %f, consumed %f", this.identifier, Resource.collect(offered()), Resource.collect(consumed()));
 	}
 } 

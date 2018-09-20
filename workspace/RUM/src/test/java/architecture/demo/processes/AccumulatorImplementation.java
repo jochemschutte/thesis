@@ -4,6 +4,7 @@ import static architecture.demo.global.Fields.AVG_THROUGHPUT;
 import static architecture.demo.global.Fields.NETWORK_BANDWIDTH;
 import static architecture.demo.global.Fields.NR_LESS_YEAR;
 import static architecture.demo.global.Fields.NR_MESSAGES;
+import static architecture.demo.global.Fields.NR_SENSORS;
 import static architecture.demo.global.Fields.SENSOR_ID;
 import static architecture.demo.global.Fields.SERVICE_TIME;
 import static architecture.demo.global.Fields.SUM_THROUGHPUT;
@@ -57,6 +58,7 @@ public class AccumulatorImplementation implements MappedAccumulatorProcessor.Map
 	public Map<String, IOMessage> collect(Map<String, IOMessage> reduced) {
 		float totalThroughput = reduced.values().stream()
 				.map(v -> Float.parseFloat(v.getVars().get(SUM_THROUGHPUT))).reduce((float)0.0, (a,b)->a+b);
+		long nrSensors = reduced.size();
 		long nrMessages = reduced.values().stream()
 				.mapToLong(m -> Long.parseLong(m.getVars().get(NR_MESSAGES))).sum();
 		float avgThroughput = totalThroughput == 0 ? 0 : totalThroughput/nrMessages;
@@ -73,7 +75,7 @@ public class AccumulatorImplementation implements MappedAccumulatorProcessor.Map
 		daysRunning %= 30;
 		String timeRunning = String.format("y:%d m:%d d:%d", yearsRunning, monthsRunning, daysRunning);
 		Map<String, IOMessage> exports = new HashMap<>();
-		IOMessage message = new IOMessage(ImmutableMap.of(SYSTEM_RUNTIME, timeRunning, AVG_THROUGHPUT, avgThroughput+"", NR_LESS_YEAR, nrLessThenYear+"", NR_MESSAGES, nrMessages+""));
+		IOMessage message = new IOMessage(ImmutableMap.of(SYSTEM_RUNTIME, timeRunning, AVG_THROUGHPUT, avgThroughput+"", NR_SENSORS, nrSensors+"", NR_LESS_YEAR, nrLessThenYear+"", NR_MESSAGES, nrMessages+""));
 		exports.put(APPLICATION, message);
 		exports.put(ANALYSER, new IOMessage(ImmutableMap.of(TOTAL_USED_BANDWIDTH, totalBandwidthUsed+"")));
 		return exports;
