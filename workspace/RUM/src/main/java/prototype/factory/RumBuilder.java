@@ -13,6 +13,9 @@ import prototype.model.Component;
 import prototype.model.ModelComponent;
 import prototype.model.RPM;
 import prototype.model.Resource;
+import prototype.model.ResourceFunction;
+import prototype.model.ResourceInterface;
+import prototype.model.ResourceInterface.InterfaceType;
 import prototype.model.optimize.Optimizer;
 
 public class RumBuilder{
@@ -61,6 +64,29 @@ public class RumBuilder{
 	public Optimizer optimize(Optimizer optimizer) {
 		this.optimizer = optimizer;
 		return optimizer;
+	}
+	
+	public ResourceInterface[] connect(Component offering, Component consuming, Resource r, InterfaceType type) {
+		ResourceInterface[] result = new ResourceInterface[2];
+		result[0] = new ResourceInterface(r, offering, InterfaceType.OFFERS);
+		result[1] = new ResourceInterface(r, consuming, type);
+		return result;
+	}
+	
+	public ResourceInterface[] connect(Component offering, Component consuming, Resource r) {
+		return connect(offering, consuming, r, InterfaceType.CONSUMES);
+	}
+	
+	public ResourceInterface[] connect(Component offering, Component consuming, Resource r, ResourceFunction functionOffer, ResourceFunction functionConsumer, InterfaceType type) {
+		if(functionOffer != null)
+			offering.getResourceFunctions().put(r,  functionOffer);
+		if(functionConsumer != null)
+			consuming.getResourceFunctions().put(r, functionConsumer);
+		return connect(offering, consuming, r, type);
+	}
+	
+	public ResourceInterface[] connect(Component offering, Component consuming, Resource r, ResourceFunction functionOffer, ResourceFunction functionConsumer) {
+		return connect(offering, consuming, r, functionOffer, functionConsumer, InterfaceType.CONSUMES);
 	}
 	
 	public RumEngine build() {

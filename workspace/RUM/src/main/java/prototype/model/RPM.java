@@ -9,6 +9,8 @@ public class RPM{
 	Map<Resource, ResourceFunction> resourceFunctions = new HashMap<>();
 	
 	public RPM(String identifier) {
+		if(!identifier.matches("[A-Za-z][A-Za-z0-9_]*"))
+			throw new IllegalArgumentException(String.format("'%s' is not a valid identifier. Should match '[A-Za-z][A-Za-z0-9_]*'", identifier));
 		this.identifier = identifier;
 	}
 

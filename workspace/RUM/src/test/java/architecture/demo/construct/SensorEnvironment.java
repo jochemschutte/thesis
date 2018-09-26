@@ -9,7 +9,7 @@ import architecture.demo.processes.Sensor;
 
 public class SensorEnvironment{
 	
-	private static final int minYears = 0; 
+	private static final int minYears = 5; 
 	
 	public static Collection<Sensor> construct(int nrNodes) {
 		Collection<Sensor> result = new HashSet<>();

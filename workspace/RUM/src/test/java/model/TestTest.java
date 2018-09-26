@@ -9,6 +9,7 @@ import static org.junit.Assert.assertNotNull;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -33,9 +34,7 @@ import prototype.model.Component;
 import prototype.model.ModelComponent;
 import prototype.model.RPM;
 import prototype.model.Resource;
-import prototype.model.ResourceFunction;
 import prototype.model.ResourceInterface;
-import prototype.model.ResourceInterface.InterfaceType;
 import prototype.model.RumMessage;
 import prototype.model.optimize.Optimizer;
 import prototype.model.requirements.Requirement;
@@ -43,10 +42,10 @@ import prototype.model.requirements.Requirement;
 public abstract class TestTest{
 
 	protected RumEngine engine = null;
-	protected Set<Component> components = null;
-	protected Set<Resource> resources = null;
+	protected Collection<Component> components = null;
+	protected Collection<Resource> resources = null;
 	protected Optimizer qos = null;
-	protected HashMultimap<ModelComponent, RPM> models = null;
+	protected SetMultimap<ModelComponent, RPM> models = null;
 	
 	protected RumMessage message = null;
 	
@@ -70,29 +69,6 @@ public abstract class TestTest{
 	
 	protected abstract String getTitle();
 
-	protected ResourceInterface[] connect(Component offering, Component consuming, Resource r, InterfaceType type) {
-		ResourceInterface[] result = new ResourceInterface[2];
-		result[0] = new ResourceInterface(r, offering, InterfaceType.OFFERS);
-		result[1] = new ResourceInterface(r, consuming, type);
-		return result;
-	}
-	
-	protected ResourceInterface[] connect(Component offering, Component consuming, Resource r) {
-		return connect(offering, consuming, r, InterfaceType.CONSUMES);
-	}
-	
-	protected ResourceInterface[] connect(Component offering, Component consuming, Resource r, String functionOffer, String functionConsumer, InterfaceType type) {
-		if(functionOffer != null)
-			offering.getResourceFunctions().put(r,  new ResourceFunction(functionOffer));
-		if(functionConsumer != null)
-			consuming.getResourceFunctions().put(r, new ResourceFunction(functionConsumer));
-		return connect(offering, consuming, r, type);
-	}
-	
-	protected ResourceInterface[] connect(Component offering, Component consuming, Resource r, String functionOffer, String functionConsumer) {
-		return connect(offering, consuming, r, functionOffer, functionConsumer, InterfaceType.CONSUMES);
-	}
-	
 	protected void validatePrepare() {
 		assertNotNull(engine);
 		assertNotNull(components);

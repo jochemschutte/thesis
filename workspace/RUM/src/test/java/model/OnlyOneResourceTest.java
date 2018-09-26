@@ -87,7 +87,7 @@ public class OnlyOneResourceTest extends TestTest{
 		Optimizer o = new MinMaxOptimizer("score", "points", MinMaxOptimizer.MinMax.MAX);
 		for(Component c: cs) {
 			new ResourceInterface(o, c, InterfaceType.OFFERS);
-			c.getResourceFunctions().put(o, new ResourceFunction("resource"));
+			c.getResourceFunctions().put(o, new ResourceFunction(x->x[0], "resource"));
 		}
 		return o;
 	}
@@ -101,13 +101,13 @@ public class OnlyOneResourceTest extends TestTest{
 	private Component produceConsumer(String name, Resource r) {
 		Component c = new Component(name);
 		new ResourceInterface(r, c, InterfaceType.CONSUMES);
-		c.getResourceFunctions().put(r, new ResourceFunction("resource/4"));
+		c.getResourceFunctions().put(r, new ResourceFunction(x->x[0]/4, "resource"));
 		return c;
 	}
 	
 	private RPM produceRpm(String name, Resource r) {
 		RPM result = new RPM(name);
-		result.getResourceFunctions().put(r, new ResourceFunction("1"));
+		result.getResourceFunctions().put(r, new ResourceFunction(x->1.0));
 		return result;
 	}
 //	

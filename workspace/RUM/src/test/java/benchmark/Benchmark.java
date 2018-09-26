@@ -1,6 +1,7 @@
 package benchmark;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -26,6 +27,21 @@ public class Benchmark{
 	
 	@Ignore
 	@Test
+	public void tmp(){
+		System.out.println("\tpublic static Function<Double[], Double> getFunction(List<String> values){\n\t\tswitch(values.size()) {");
+		for(int i = 1; i <= 15; i++) {
+			System.out.print(String.format("\t\tcase %d:\n\t\t\treturn ", i));
+			String[] args = new String[i];
+			for(int j = 0; j < i; j++) {
+				args[j] = String.format("x[%d]", j);
+			}
+			System.out.println("x->" + String.join("+", args)+ ";");
+		}
+		System.out.println("\t\tdefault:\n\t\t\tthrow new IllegalStateException(String.format(\"getFunction not implemented for size %d\", values.size()));\n\t\t}\n\t}");
+	}
+	
+	@Ignore
+	@Test
 	public void singleBenchmark() {
 		int length = 4;
 		int nrComponents = 2;
@@ -38,13 +54,22 @@ public class Benchmark{
 		print(getFailChances(succChance, length));
 		long milis = System.currentTimeMillis();
 		System.out.println(engine.calculateScoresFlat(new RumMessage(), constraints));
+//		System.out.println(String.join("\n", engine.getResources().values().stream().map(r->r.toString()).collect(Collectors.toSet())));
 		System.out.println(System.currentTimeMillis()-milis);
 		milis = System.currentTimeMillis();
 		engine.provision(engine.getEmptyModel(), new RumMessage());
-		System.out.println(String.join("\n", engine.getResources().values().stream().map(r->r.toString()).collect(Collectors.toSet())));
+		
 		System.out.println(engine.calculateScoresRecursively(new RumMessage(), engine.getModels(), constraints));
-		System.out.println(String.join("\n", engine.getResources().values().stream().map(r->r.toString()).collect(Collectors.toSet())));
+//		System.out.println(String.join("\n", engine.getResources().values().stream().map(r->r.toString()).collect(Collectors.toSet())));
 		System.out.println(System.currentTimeMillis()-milis);
+	}
+	
+	@Ignore
+	@Test
+	public void runSimple() {
+		int size = 8;
+		RumEngine engine = buildEngine(expand(size,size), expand(size,size), getFailChances(0.8,size));
+		System.out.println(engine.run(new RumMessage()));
 	}
 	
 	private static void print(int[] s) {
@@ -60,9 +85,9 @@ public class Benchmark{
 	public void runBenchmark() throws IOException{
 		BufferedWriter out = new BufferedWriter(new FileWriter(new File("benchmark.csv")));
 		out.write("Length;#components;#rpms;succChance;avg flat;avg constraint;compare\n");
-		int maxNrComponents = 2;
-		int maxNrRpms = 4;
-		int maxLength = 4;
+		int maxNrComponents = 5;
+		int maxNrRpms = 5;
+		int maxLength = 5;
 		int avg = 5;
 		double[] succChances = new double[] {0.5,0.70,1};
 		int rowNr = 2;
@@ -78,18 +103,18 @@ public class Benchmark{
 						Set<Requirement> constraints = engine.getResources().values().stream().map(r->r.getRequirements()).flatMap(s->s.stream()).collect(Collectors.toSet());
 						Map<Map<ModelComponent, RPM>, Double> flatResult = null;
 						for(int k = 0; k < avg; k++) {
-							long milis = System.currentTimeMillis();
+							long nanos = System.nanoTime();
 							flatResult = engine.calculateScoresFlat(new RumMessage(), constraints);
-							avgFlat += System.currentTimeMillis()-milis;
+							avgFlat += System.nanoTime()-nanos;
 						}
 						engine.provision(engine.getEmptyModel(), new RumMessage());
 						
 						double avgCon = 0;
 						Map<Map<ModelComponent, RPM>, Double> conResult = null;
 						for(int k = 0; k < avg; k++) {
-							long milis = System.currentTimeMillis();
+							long nanos = System.nanoTime();
 							conResult = engine.calculateScoresRecursively(new RumMessage(), engine.getModels(), constraints);
-							avgCon += System.currentTimeMillis()-milis;
+							avgCon += System.nanoTime()-nanos;
 						}
 						String output = String.format("%d;%d;%d;%f;%f;%f;=E%d/F%d;=G%d>1\n", l, nrComponents, nrRpms, succChance, avgFlat/avg, avgCon/avg, rowNr, rowNr, rowNr);
 						out.write(output);
@@ -105,6 +130,7 @@ public class Benchmark{
 									System.out.println();
 								}
 							}
+							fail("Flat result not equal to constraint result");
 						}
 							
 						assertEquals(output, flatResult, conResult);

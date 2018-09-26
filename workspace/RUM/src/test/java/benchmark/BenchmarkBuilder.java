@@ -1,7 +1,9 @@
 package benchmark;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import prototype.factory.RpmBuilder;
@@ -10,6 +12,7 @@ import prototype.main.RumEngine;
 import prototype.model.Component;
 import prototype.model.ModelComponent;
 import prototype.model.Resource;
+import prototype.model.ResourceFunction;
 import prototype.model.ResourceInterface;
 import prototype.model.ResourceInterface.InterfaceType;
 import prototype.model.optimize.MinMaxOptimizer;
@@ -40,30 +43,36 @@ public class BenchmarkBuilder{
 			Resource r = builder.resource(String.format("r%d_%d", mcId, cId), "");
 			rs.add(r);
 			cId++;
-			ResourceInterface.connect(c, mc, r, "1", null);
+			builder.connect(c, mc, r, new ResourceFunction(1), null);
 		}
 		
 		List<Resource> allRs = new LinkedList<>(rs);
 		
 		if(prevMC != null) {
-			ResourceInterface.connect(prevMC, mc, prevR);
+			builder.connect(prevMC, mc, prevR);
 			allRs.add(prevR);
 		}
 		allRs.add(nextR);
 
 		RpmBuilder rpm = builder.rpmBuilder(mc, allRs.toArray(new Resource[0]));
 		for(int i = 1; i <= nrRpms; i++) {
-			List<String> values = rs.stream().map(r->Double.toString(Math.random() < chance ? 2.0 : 0.5)).collect(Collectors.toList());
+			List<ResourceFunction> values = rs.stream().map(r->Double.toString(Math.random() < chance ? 2.0 : 0.5)).map(v->new ResourceFunction(v)).collect(Collectors.toList());
 			if(prevR != null) {
-				values.add(prevR.getIdentifier());
+				values.add(new ResourceFunction(prevR.getIdentifier()));
 			}
-			values.add(String.join("+", rs.stream().map(r->r.getIdentifier()).collect(Collectors.toList())));
-			rpm.add(String.format("rpm_mc%d_%d", mcId, i), values.toArray(new String[0]));
+			values.add(new ResourceFunction(x->Arrays.stream(x).mapToDouble(y->y).sum(), rs.stream().map(y->y.getIdentifier()).toArray(String[]::new)));
+			rpm.add(String.format("rpm_mc%d_%d", mcId, i), values.toArray(new ResourceFunction[0]));
 		}
 		prevMC = mc;
 		prevR = nextR;
 		mcId++;
 	}
+	
+	public static Function<Double[], Double> getFunction(List<String> values){
+		return x->Arrays.stream(x).mapToDouble(y->y).sum();
+	}
+
+
 	
 	public RumEngine build() {
 		return builder.build();

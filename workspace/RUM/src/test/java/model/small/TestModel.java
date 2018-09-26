@@ -1,14 +1,12 @@
 package model.small;
 
-import java.util.HashSet;
-
-import com.google.common.collect.HashMultimap;
+import java.util.stream.Collectors;
 
 import model.TestTest;
-import prototype.main.RumEngine;
+import prototype.factory.RpmBuilder;
+import prototype.factory.RumBuilder;
 import prototype.model.Component;
 import prototype.model.ModelComponent;
-import prototype.model.RPM;
 import prototype.model.Resource;
 import prototype.model.ResourceFunction;
 import prototype.model.ResourceInterface;
@@ -26,38 +24,28 @@ public abstract class TestModel extends TestTest{
 	protected Resource power;
 	protected Resource bandwidth;
 	
-	protected abstract HashMultimap<ModelComponent, RPM> getModels();
+	protected abstract void buildModels(RpmBuilder cpu, RpmBuilder radio);
 	
 	@Override
 	public void prepare() {
-		Component clock = new Component("clock");
-		cpu = new ModelComponent("cpu");
-		Component battery = new Component("battery");
-		radio = new ModelComponent("radio");
-		Component serviceProvider = new Component("service provider");
-		components = new HashSet<>();
-		components.add(clock);
-		components.add(cpu);
-		components.add(battery);
-		components.add(radio);
-		components.add(serviceProvider);
+		RumBuilder b = new RumBuilder();
+		Component clock = b.component("clock");
+		cpu = b.modelComponent("cpu");
+		Component battery = b.component("battery");
+		radio = b.modelComponent("radio");
+		Component serviceProvider = b.component("service_provider");
 		
-		cycles = new Resource("cycles", "nr/s");
-		computations = new Resource("computations", "nr/s");
-		power = new Resource("power", "mW");
-		bandwidth = new Resource("bandwidth", "B/s");
-		resources = new HashSet<>();
-		resources.add(cycles);
-		resources.add(computations);
-		resources.add(power);
-		resources.add(bandwidth);
+		cycles = b.resource("cycles", "nr/s");
+		computations = b.resource("computations", "nr/s");
+		power = b.resource("power", "mW");
+		bandwidth = b.resource("bandwidth", "B/s");
 		
-		qos = new MinMaxOptimizer("qos", "QoS level", MinMax.MAX);
+		qos = b.optimize(new MinMaxOptimizer("qos", "QoS level", MinMax.MAX));
 		
-		connect(clock, cpu, cycles);
-		connect(cpu, serviceProvider, computations);
-		connect(battery, radio, power);
-		connect(radio, serviceProvider, bandwidth);
+		b.connect(clock, cpu, cycles);
+		b.connect(cpu, serviceProvider, computations);
+		b.connect(battery, radio, power);
+		b.connect(radio, serviceProvider, bandwidth);
 		new ResourceInterface(qos, serviceProvider, InterfaceType.OFFERS);
 		
 		clock.getResourceFunctions().put(cycles, new ResourceFunction("10"));
@@ -65,11 +53,17 @@ public abstract class TestModel extends TestTest{
 		//model goes here
 		serviceProvider.getResourceFunctions().put(computations, new ResourceFunction("computations"));
 		serviceProvider.getResourceFunctions().put(bandwidth, new ResourceFunction("bandwidth"));
-		serviceProvider.getResourceFunctions().put(qos, new ResourceFunction("computations*bandwidth"));
+		serviceProvider.getResourceFunctions().put(qos, new ResourceFunction(x->x[0]*x[1], "computations", "bandwidth"));
 		
-		models = getModels();
+		RpmBuilder cpuBuilder = b.rpmBuilder(cpu, cycles, computations);
+		RpmBuilder radioBuilder = b.rpmBuilder(radio, power, bandwidth);
+		buildModels(cpuBuilder, radioBuilder);
+				
+		engine = b.build();
 		
-		engine = new RumEngine(components, qos, models);
+		components = engine.getComponents().values().stream().collect(Collectors.toSet());
+		resources = engine.getResources().values().stream().collect(Collectors.toSet());
+		models = engine.getModels();
 		
 		message = new RumMessage();
 		

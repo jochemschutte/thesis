@@ -1,5 +1,6 @@
 package prototype.main;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -34,7 +35,7 @@ public class RumEngine{
 	Map<ModelComponent, RPM> currentModels;
 	RumMessage currentMessage;
 	
-	public RumEngine(Set<Component> components, Optimizer optimizer, SetMultimap<ModelComponent, RPM> models) {
+	public RumEngine(Collection<Component> components, Optimizer optimizer, SetMultimap<ModelComponent, RPM> models) {
 		topology = new TopologyResolver<Component>(components);
 		resources = components.stream().map(c -> c.getInterfaces()).flatMap(s -> s.stream()).map(ri -> ri.getResource()).distinct() //
 				.collect(Collectors.toMap(r->r.getIdentifier(), r->r));

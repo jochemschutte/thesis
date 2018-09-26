@@ -64,22 +64,23 @@ public class RumEngineConstructor{
 		Resource serviceTime = builder.resource(SERVICE_TIME, "years");
 		Optimizer qos = builder.optimize(new MinMaxOptimizer(QOS, "messages in lifetime", MinMax.MAX));
 				
-		ResourceInterface.connect(radio, composer, networkBandwidth, Integer.toString(RADIO_MAX_BANDWIDTH), null);
-		ResourceInterface.connect(battery, composer, powerUsageModelIn, Integer.toString(MAX_POWER), null);
-		ResourceInterface.connect(battery, batteryLeft, initialCapacity, Integer.toString(INITIAL_BATTERY_CAPACITY), INITIAL_CAPACITY);
-		ResourceInterface.connect(batteryLeft, serviceTimeCalculator, capacityLeft, PERCENTAGE_LEFT+"/100 * "+INITIAL_CAPACITY, CAPACITY_LEFT);
-		ResourceInterface.connect(composer, serviceTimeCalculator, powerUsageModelOut, null, POWER_USAGE_MODEL_OUT);
-		ResourceInterface.connect(serviceTimeCalculator, qosCalculator, serviceTime, "("+CAPACITY_LEFT+"/"+POWER_USAGE_MODEL_OUT+")/24/365.26", SERVICE_TIME);
-		new ResourceInterface(serviceTime, totalServiceTimeCalculator, InterfaceType.CALC,new ResourceFunction(SERVICE_TIME));
-		ResourceInterface.connect(totalServiceTimeCalculator, totalServiceTimeConsumer, totalServiceTime, SERVICE_TIME+"+"+YEARS_RUNNING, "10");
-		ResourceInterface.connect(composer, qosCalculator, throughput, null, THROUGHPUT);
+		builder.connect(radio, composer, networkBandwidth, new ResourceFunction(RADIO_MAX_BANDWIDTH), null);
+		builder.connect(battery, composer, powerUsageModelIn, new ResourceFunction(MAX_POWER), null);
+		builder.connect(battery, batteryLeft, initialCapacity, new ResourceFunction(INITIAL_BATTERY_CAPACITY), new ResourceFunction(INITIAL_CAPACITY));
+		
+		builder.connect(batteryLeft, serviceTimeCalculator, capacityLeft, new ResourceFunction(x->x[0]/100*x[1], PERCENTAGE_LEFT, INITIAL_CAPACITY), new ResourceFunction(CAPACITY_LEFT));
+		builder.connect(composer, serviceTimeCalculator, powerUsageModelOut, null, new ResourceFunction(POWER_USAGE_MODEL_OUT));
+		builder.connect(serviceTimeCalculator, qosCalculator, serviceTime, new ResourceFunction(x->(x[0]/x[1])/24/265.26, CAPACITY_LEFT, POWER_USAGE_MODEL_OUT), new ResourceFunction(SERVICE_TIME));
+		new ResourceInterface(serviceTime, totalServiceTimeCalculator, InterfaceType.CALC, new ResourceFunction(SERVICE_TIME));
+		builder.connect(totalServiceTimeCalculator, totalServiceTimeConsumer, totalServiceTime, new ResourceFunction(x->x[0]+x[1], SERVICE_TIME, YEARS_RUNNING), new ResourceFunction(10));
+		builder.connect(composer, qosCalculator, throughput, null, new ResourceFunction(THROUGHPUT));
 		new ResourceInterface(qos, qosCalculator, InterfaceType.OFFERS);
-		qosCalculator.getResourceFunctions().put(qos, new ResourceFunction(SERVICE_TIME+"*365.26*"+THROUGHPUT));
+		qosCalculator.getResourceFunctions().put(qos, new ResourceFunction(x->x[0]*265.26*x[1], SERVICE_TIME, THROUGHPUT));
 		
 		RpmBuilder rpm = builder.rpmBuilder(composer, powerUsageModelIn, powerUsageModelOut, throughput, networkBandwidth);
-		rpm.add("low", "0.001667", "powerUsageModelIn", "1", "3");
-		rpm.add("middle", "0.003333", "powerUsageModelIn", "2", "10");
-		rpm.add("high", "0.005556", "powerUsageModelIn", "5", "20");
+		rpm.add("low", new ResourceFunction(0.001667), new ResourceFunction("powerUsageModelIn"), new ResourceFunction(1), new ResourceFunction(3));
+		rpm.add("middle", new ResourceFunction(0.003333), new ResourceFunction("powerUsageModelIn"), new ResourceFunction(2), new ResourceFunction(10));
+		rpm.add("high", new ResourceFunction(0.005556), new ResourceFunction("powerUsageModelIn"), new ResourceFunction(5), new ResourceFunction(20));
 				
 		return builder.build();
 	}

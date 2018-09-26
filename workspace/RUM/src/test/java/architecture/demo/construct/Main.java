@@ -26,10 +26,10 @@ public class Main{
 //		run(86400, 1, 5);
 		
 		//5 days per second
-		run(432000, 1, 5);
+//		run(432000, 1, 5);
 		
 //		1 days per second, 3 sensors
-//		run(86400, 3, 5);
+		run(86400, 1000, 5);
 		
 //		3 hours per second
 //		run(60*60*3, 20, 5);
