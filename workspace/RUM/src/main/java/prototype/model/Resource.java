@@ -17,6 +17,8 @@ public class Resource{
 	Set<Requirement> reqs = new HashSet<>();
 	
 	public Resource(String identifier, String unit) {
+		if(!identifier.matches("[A-Za-z][A-Za-z0-9_]*"))
+			throw new IllegalArgumentException(String.format("'%s' is not a valid identifier. Should match '[A-Za-z][A-Za-z0-9_]*'", identifier));
 		this.identifier = identifier;
 		this.unit = unit;
 		reqs.add(new OfferConsumeRequirementGTE(this));

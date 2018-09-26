@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 
 import com.google.common.collect.Iterables;
 
-import bsh.EvalError;
 import prototype.graph.GraphNode;
 import prototype.model.ResourceInterface.InterfaceType;
 
@@ -21,6 +20,8 @@ public class Component extends GraphNode<Component>{
 	Set<ResourceInterface> resourcesInterfaces = new HashSet<>();
 	
 	public Component(String identifier) {
+		if(!identifier.matches("[A-Za-z][A-Za-z0-9_]*"))
+			throw new IllegalArgumentException(String.format("'%s' is not a valid identifier. Should match '[A-Za-z][A-Za-z0-9_]*'", identifier));
 		this.identifier = identifier;
 	}
 	
@@ -67,25 +68,13 @@ public class Component extends GraphNode<Component>{
 		return resourcesInterfaces;
 	}
 	
-//	public void calculateUpwards(RumMessage m) {
-//		setValuesforInterfaces(m);
-//		//TODO rekening houden met topsort
-//		Set<ResourceInterface> interfs = new HashSet<>();
-//		for(ResourceInterface ri : offers()) {
-//			interfs.addAll(ri.getResource().calcs());
-//			interfs.addAll(ri.getResource().consumed());
-//		}
-//		interfs.forEach(ri->ri.getComponent().calculateUpwards(m));
-//	}
-	
 	public void setValuesforInterfaces(RumMessage m){
 		//incoming resources
 		Map<String, Double> availableResources = new TreeMap<>();
 		Iterable<ResourceInterface> preceeding = Iterables.concat(consumes(), calcs());
 		for(ResourceInterface interf : preceeding) {
 			Double value = Resource.collect(interf.getResource().offered());
-			if(value != null)
-				availableResources.put(interf.getResource().getIdentifier(), value);
+			availableResources.put(interf.getResource().getIdentifier(), value);
 		}
 		for(ResourceInterface interf : preceeding) {
 			setValueForInterface(interf, m, availableResources);
@@ -103,13 +92,9 @@ public class Component extends GraphNode<Component>{
 	
 	public void setValueForInterface(ResourceInterface iface, RumMessage m, Map<String, Double> values) {
 		Double value = null;
-		try{
-			ResourceFunction func = getResourceFunctions().get(iface.getResource());
-			if(func != null)
-				value = func.execute(m, values);
-		}catch(EvalError e) {
-			//not all variables were known.
-		}
+		ResourceFunction func = getResourceFunctions().get(iface.getResource());
+		if(func != null)
+			value = func.execute(m, values);
 		iface.setValue(value);
 	}
 	
