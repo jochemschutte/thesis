@@ -62,6 +62,7 @@ public class FullModel extends TestTest{
 		qos = b.optimize(new MinMaxOptimizer("qos", "messages in lifetime", MinMax.MAX));
 				
 		b.connect(battery, composer, powerUsageModelIn, new ResourceFunction(x->MAX_POWER), null);
+		b.connect(network, composer, networkBandwidth, new ResourceFunction(15), null);
 		b.connect(battery, batteryLeft, initialCapacity, new ResourceFunction(x->INITIAL_BATTERY_CAPACITY), new ResourceFunction(x->x[0], "initialCapacity"));
 		b.connect(batteryLeft, serviceTimeCalculator, capacityLeft, new ResourceFunction(x->x[0]/100*x[1], "powerPercentageLeft", "initialCapacity"), new ResourceFunction(x->x[0],"capacityLeft"));
 		b.connect(composer, serviceTimeCalculator, powerUsageModelOut, null, new ResourceFunction(x->x[0], "powerUsageModelOut"));
