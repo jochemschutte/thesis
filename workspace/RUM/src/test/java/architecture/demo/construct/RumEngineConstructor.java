@@ -75,7 +75,7 @@ public class RumEngineConstructor{
 		builder.connect(totalServiceTimeCalculator, totalServiceTimeConsumer, totalServiceTime, new ResourceFunction(x->x[0]+x[1], SERVICE_TIME, YEARS_RUNNING), new ResourceFunction(10));
 		builder.connect(composer, qosCalculator, throughput, null, new ResourceFunction(THROUGHPUT));
 		new ResourceInterface(qos, qosCalculator, InterfaceType.OFFERS);
-		qosCalculator.getResourceFunctions().put(qos, new ResourceFunction(x->x[0]*265.26*x[1], SERVICE_TIME, THROUGHPUT));
+		qosCalculator.getResourceFunctions().put(qos, new ResourceFunction(x->x[0]*365*x[1], SERVICE_TIME, THROUGHPUT));
 		
 		RpmBuilder rpm = builder.rpmBuilder(composer, powerUsageModelIn, powerUsageModelOut, throughput, networkBandwidth);
 		rpm.add("low", new ResourceFunction(0.001667), new ResourceFunction("powerUsageModelIn"), new ResourceFunction(1), new ResourceFunction(3));
