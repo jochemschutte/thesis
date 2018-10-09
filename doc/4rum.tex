@@ -1,15 +1,166 @@
-\chapter{Resource Utilization Model}
-\section{Background work}
-Source: Developing Energy-Aware Software, Steven te Brinke.
-\section{Approach}
-\subsection{Problem statement}
-\subsection{Research question(s)}
-\subsection{Variability/invariability analysis}
+\newcommand{\rumid}{1}
+\chapter{Resource Distribution Model}
+\section{Requirements}
+In this section we will [discover] the requirements for the [method of] the RDM. We will achieve this by performing an commonality/variability analysis [ref]. This will [tell] us what the common [features] are which we may [assume] and the variation for which we will need to [design].
+\subsection{Commonality/variablity analysis}
+\subsubsection{Definitions}
+\begin{description}
+\item[Resource:] Any measurable/calculable parameter of a system
+\item[Component:] Any physical or hypothetical entity that can consume or produce a resource
+\item[QoS:] ...
+\end{description}
+\subsubsection{Commonalities}
+\begin{enumerate}[label=C\rumid .\arabic*]
+\item Any resource can be consumed or offered by a component
+\item A resource can be produced or consumed by multiple components
+\item Resources are scarce. I.e. the amount produced must exceed the amount consumed.
+\item \label{c:res_transf} Resources are correlated and can converted into one another.
+\end{enumerate}
+
+\subsubsection{Variabilities}
+\begin{enumerate}[label=V\rumid .\arabic*]
+\item \label{v:obvious} Obviously, we cannot predict all resources, constraints and components that might be used.
+\item \label{v:micr_macro} Resources of a system can be modelled on a micro-scale or macro-scale.
+\begin{itemize}
+\item A micro scale (e.g. a single sensor) entails concrete, palpable parameters.
+\item A macro-scale (e.g. an entire WSN application) entails accumulated, theoretical parameters
+\end{itemize}
+\item \label{v:nr_optimizer} A system can have multiple resources as QoS indicators
+\item \label{v:granularity} short term resource usage (e.g. seconds) requires a different granularity than long term resource usage (e.g. interval in days).
+\item \label{v:measure_vs_derive} Some resources are directly measurable and thus [fixed] for a certain moment of measurement. However, some resources are derived and calculated using other resource values. \cite{feature_model}
+\item \label{v:state} Most resource values differ depending on system's measured state
+\item \label{v:function} Some resource values differ depending on a specific system function
+\end{enumerate}
+
 \subsection{Requirements}
+\begin{enumerate}[label=R\rumid .\arabic*]
+\item \label{r:main} The model should represent resource distribution in a system
+\item \label{r:transform} Resources should be able to be transformed into other resources (many-to-many)
+\item \label{r:resource_types} The model should account for the fact that the value of a resource can originate from different sources. These sources are the following (accompanied with an example):
+\begin{description}
+\item[constant] a predefined value specified on development time (e.g. initial battery capacity),
+\item[measured] a value specified as observed on evaluation time (e.g. percentage of battery capacity left),
+\item[calculated] derived from measured values (e.g. runtime left),
+\item[variable] any value or a calculation depending on specific system function (e.g. power usage).
+\end{description}
+\item \label{r:optimizer} Each model should have one, and only one, resource that is associated with a heuristic optimizer function.
+\item \label{r:calculable}Given a resource distribution model, constant-valued resources and measurements, for each combination of values for variable resources, a value should be able to be evaluated for each calculated resource
+\item \label{r:solvable} Given a calculable  resource distribution model (\ref{r:calculable}), a set of resource constraints and an optimizer function; an optimal, valid appointment for each variable resource value should be able to be solved efficiently.
+\end{enumerate}
+
+\section{State-of-the-art}
+[Some] work regarding modelling resource [distribution has been performed in several studies. An elementary example of such research is the studies of [name][ref]. Through their efforts they [layed] the ground work for representing entities interconnected by shared resource. This UML-based model was one of the first examples of such a representation using formal [principals]. Another example of early research is the study performed by [name][ref]. This study focussed on modelling resource utilization in embedded systems using timed state machines. The transitions in these automata were attributed resource costs to model the consumption of resources for remaining in a state or transitioning to another. [Possible] resource consumption and performance could then be calculated and analysed. 
+A continuation of this work was performed by [lalala] et al [ref]. They [combined] the approaches of the previous authors by provisioning the modelled software/hardware components each with their own state machine. These state machines model the resources and services that are offered and required by the components. By [extracting/analysing] these component models as composite state machines, model checking tools (such as UPAAL [ref], [more?]) can be used to analyse and evaluate the performance of the system under investigation.
+%TODO voorbeelden hebben maar 1 RUM
+
 \section{Solution}
+\subsection{Solution options}
+These efforts have produced suitable methods of representing components connected by shared resources. Espesially the notation of [name 3e][ref] which is both intuitive and [descriptive]. We will therefore continue to use this notation throughout this [paper]. 
+however these models are all focussed on components that are self-aware of their resource usage and performance. Instead, we are interested in [off-site] analysis of interconnected resources and accumulated performance of the entire system. Our focus is therefore alternatively more resource-centered. It is concerened how production and consumption of a resource is interconnected, with components serving as secondary [elements] merely specifying how these resources are converted to other resources. Therefore a resoucre-centered adaptation of this framework might be more suitable for our problem.
+%TODO meer
+
+Secondly, there is the issue of how to [represent] the RUM, the model for variable behaviour of components. Previous [attempts] [refs] have used timed automata to represent behaviour cycles. This allows for automated tools to calculate a runtime schedule in [incredable] levels of granulrity. However the high level of granularity comes at the cost of efficiency. When we shorten the [time] interval the [system] requires additional time and computational resources. This might [impose] a problem on resource constraint devices or applications that require the [program] to run many times for [many] [devices/systems]. Additionally, we need to consider that a component might be able to operate according to differing RUM'S for which a valid, optimal RUM needs to be determined. In the worst [case] these RUM's [influence] each other, which implies that for each composition of models the individual models need to be re-evaluated [%TODO validate]. 
+
+An alternative approach is to model the RUM as a flat set of paramters. This is achieved by averaging the behavour otherwise modeld by timed automata. This comes at great cost of granularity, since the RUM's now only describe static, long-term behaviour. However it significantly improves the complexity of the search space, since the only exponential factors are the number of variable components and the number of RUM's for those components. For this approach timed automata is no longer a sensible technology since the element of time intervals has been eleminated. Instead the problem is pure decision [beter uitleggen, ref] which's search space can be explored with a simple brute force search. However more effectively, combinatorial problems can often be solved with constraint solvers. The problem is easily [transposed] to a constraint problem with the resources as model, resource constraints as constraints and the RUM's as variables for the variable components. With the many solution strategies described in \ref{subsec:constraint} available for different types of problems, a suitable solver must be [possible].
+
+\subsection{Solution choices}
+With careful consideration the following choices for the solution implementation have been. For modelling we chose to [adapt] the framework of [ref] by emphesizing on resources. This allows constraints to be [added] to resources, modelling the limits and requirements of the system. The components will still exist in the model, but will merely serve the function of connecting two ressources to one another. Another adaptation is the existence of multiple RUM's for a component, which allows calculation of the optimal system functionality.
+
+As for who to model the RUM, we chose to reduce the complexity of the system by modelling variable resource usage with static parameters. The strongest advocate for this choice is the fact of the focus for this research: large IoT applications. In an IoT monitoring platform the RUM [determination] process will need to be performed repeatedly for many sensor devices. Additionally, most IoT [refs!!!] devices only send and recieve data a few times per day. Therefore high granularity is not of grave importance because the feedback-control cycle is not that short. However, eventhough we do not use timed automata at runtime, they are still a valueble technology to be used when developing and testing the static parameters a RUM at develop-time. The choice for static RUM's implies constraint programming as a suitable model solver paradigm. 
+
+\section{Design}
 \subsection{Model}
-\subsection{Solving the Model}
-\section{Discussion}
+A graphic representation of the adapted metamodel can be found in figure \ref{fig:component}. To illustrate the application of this metamodel, an example of an instantiation of the model can be found in \ref{fig:rdm_cpu_radio}. In [essence] the model is a collection of \textbf{Resources} and \textbf{Components}. Each of these resources can be connected to a component by means of a \textbf{ResourceInterface} and a \textbf{ResourceFunction}. 
+\begin{figure}
+\centering
+  \includegraphics[width=0.5\linewidth]{resources/img/component.pdf}
+  \caption{Notation of an RDM component with RUM's}
+  \label{fig:component}
+\end{figure}
+\begin{figure}
+\begingroup\centering
+  \includegraphics[width=\linewidth]{resources/img/rdm_cpu_radio.pdf}\endgroup \\ \\
+  \noindent Constraints: \\
+$c_1: cycles_{clock} >= cycles_{CPU}$ \\
+$c_2: power_{power\_source} >= power_{CPU}+power_{Radio} $ \\ \\
+\noindent Optimize:\\$max(QoS)$
+\caption{Example instatiation of the RDM meta-model with a CPU and a radio}
+  \label{fig:rdm_cpu_radio}
+\end{figure}
+
+%TODO insert pics
+\subsubsection{Resource}
+A resource is an entity describing a parameter of a system. This can be a measured parameter (e.g. battery capacity left or throughput), but can also describe a derived parameter (e.g. service time left). Each resource is identified by it's name and has a unit associated with it. By aggegating the ResourceInterfaces of a resource the amount of the resource produced and consumed can be collected and analysed.
+
+\subsubsection{Component}
+Any entity producing, consuming and converting a resource is represented by a component. A component can therefore be a physical entity such as a radio module or a battery or a hypothetical entity such as a QoS calculator executing a heuristic function. A component [contains] a ResourceFunction of each Resource it is connected to.
+A [special] case of the Component is the ModelComponent. This class inherits all functionality of the ordinary Component, but its ResourceFunctions are extracted from one of its RUM's. Each RUM describes the parameters during one mode of operation of the components. This allows runtime analysis of variable behaviour as effect of different functionalities.
+
+\subsubsection{ResourceInterface}
+Resources and components are connected through resource interfaces. A ResourceInterface can be one of three types:
+\begin{description}
+\item[Offer] Indicating that the component produces an amount of the resource,
+\item[Consume] Indicating that the component consumes an amount of the resource,
+\item[Calculate] Special consume relation. This connection supplies 100\% of the offered resource, without formally consuming any amount. This relation is used to further calculate with the offered value, without it impacting the constraints of the resource. For example a QoS indicator that is ``consumed'' by a general QoS calculation.
+\end{description}
+Each interface has a value specifying the amount of the resource produced or consumed by the component. This value is repeatedly set and evaluated at runtime by executing a ResourceFunction.
+
+\subsubsection{ResourceFunction}
+The value of a ResourceInterface is determined by a ResourceFunction. This function constist of a function that takes a double array as argument and with a double as result, and an array of resource identifiers to fill the input array respectively. ResourseInterfaces can [compactly] be instantiated using lambda expressions and varargs. E.g.:
+\begin{lstlisting}[language=java, frame=single, numbers=left, tabsize=4, basicstyle=\small]
+ResourceFunction totalServiceTime = new ResourceFunction(
+	(x)->x[0]+x[1], yearsServed, yearsLeft
+);
+\end{lstlisting}
+
+To model the [gewenste] behaviour of the model we introduce a set of \textbf{Requirements} and an \textbf{Optimizer}.
+\subsubsection{Requirement}
+A resource can have any number of Requirements function as constraints that limit the possible values of [variation] of that resource. The standard built-in requirement for every resource is the \emph{OfferConsumeGTE} requirement which enforces that the amount produced needs to be greater or equal than the amount consumed. Additional requirements \emph{OfferConsumeEQ} and \emph{RangeRequirment} are supplied that respectively require the exact amount offered to be consumed and the amount offered or consumed to be within certain bounds. Finally the abstract class Requirement can be extended by a developer to specify any tailored requirement.
+\subsubsection{Optimizer}
+To [assertain] the heuristic [grade] of a RDM with a [gevulde] RUM configuration we introduce the Optimizer. The Optimizer is an extended class of Resource of which exaclty one must exist in an RDM. The optimizer takes the evaluated offered amount of the Resource and calculates a score. This score is a value on a comparative scale of which a higher value entails a more optimal solution. Supplied are the \emph{MinMaxOptimizer} which evaluates that the amount offered must have a minimal or maximal (specifiable) value and the \emph{ApproxOptimizer} which evaluates that the resource must have an amount offered as close to a specified value as possible. However, custom implementations of the Optimizer can again be made by developers.
+
+\subsubsection{RdmMessage}
+Finally, to supply the model with the state of the system under investigation, we pose the RdmMessage. The RdmMessage is provisioned using values measured from the system and injected in the model, after which the appropriate resource values are evaluated accordingly. Technically, a simple mapping from a resource name to a measured value value would do for this purpose, but this mapping is wrapped in an object to support future [expansions] of the object.
+
+\subsection{Solving the model}
+With the model well-esteblished, we can now try and solve the model. From requirement \ref{r:solvable} we find the goal of solving the model is to find a composition of RUM's such that:
+\begin{enumerate}
+\item each ModelComponent has exaclty one RUM associated with it,
+\item all resource constraints are satisfied, and
+\item the optimizer function of the optimized resource has the highest value.
+\end{enumerate}
+The first and second requirement implies constraint solvers as an applicable technology[. Since] they are effective in finding a valid solution for a constraint decision problem. However, the third requirement [implies] that we do not want to find any valid solution, but the optimal valid solution. In order to do that we need to consider \emph{every} valid solution to the problem and compare how they compare [heuristicly]. This entails a [brute force] search approach through the entire search[-]space of RUM compositions. We can however use constraint solver [paradigms] to preventively reduce the search space as we search through it.
+
+The way we do this is by employing backtrack search. In a simple brute force search we would calculate all RUM compositions and for each composition we provision the full model and evaluate it. Instead we will iteratively select a component and one of its models. We will then not provision the entire model, but inject the selected model in the chosen ModelComponent. Consequently we calculate only those variables we can resolve with the information currently represented by the model. We then evaluate the resource constraints. Given an incomplete model any constraint can have one of three statuses:
+\begin{itemize}
+\item satisfaction,
+\item failure, or
+\item uncertain
+\end{itemize}
+for every consequent assingment of unprovisioned components.
+
+If a constraint evaluates to \emph{satisfied} it will be pruned and not [evaluated] in the remainder of this [branch] of the search [tree], since we know it will always succeed. If a constraint is \emph{uncertain} we keep it, since we do not know its [state] for each and every future [state]. If even a single constraint \emph{fails} we know the remainder of this branch of the search tree will never be valid. Therefore we backtrack through the tree by partially rolling back model assignment. We then select a different model for the same component or a different component entirely and repeat the algorithm [ref to algorithm]. This way we do not re-evaluate constraints we already know the state of and do not [visit] paths we know will not satisfy the constraints. Given that we encounter unsatisfactory options early in the tree, this will eliminate large [parts] of the search tree. An example of this algorithm on the example posed in Figure \ref{fig:rdm_cpu_radio} is given in Figure \ref{fig:search_cpu_radio}. This application illustrates that using this algorithm, we eliminate a significant portion of the search tree. This is due to early constraint failure detection in the \emph{CPU=high\_cpu} banch of the tree.
+\begin{figure}
+\input{tree_cpu_radio}
+\label{fig:search_cpu_radio}
+\caption{Application of backtrack search on RDM of Figure \ref{fig:rdm_cpu_radio}}
+\end{figure}
+
+\section{Discussion/evaluation}
+why no state machine (rum\_ basis\_ 2, rum\_ basis\_ 89) To much calculation, repeatedly
+	state machines are usefull for developing rpm's
+(dis)advantages van explicit model
+
+%\subsection{discussion}
+%always possible to convert state to optimizable (hypothetical) heuristic resource [search def:heuristic]
+%short vs long term
+%	solved by explicitly focussing on long term. By choice, long rtt and long lifetime.
+%	allows collapsing states to single state (single variable)
+%	guarentees solvability
+%measure vs derive
+%	- every internal resource needs to be calculable from only eventual external, measurable resources %(transitive)
+%	- no cyclical calculations
+	
 
 
 

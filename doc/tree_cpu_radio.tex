@@ -1,0 +1,11 @@
+%\documentclass[11pt,a4paper]{article}
+%\usepackage{qtree}
+%\begin{document}
+\hrule
+\vspace{10px}
+\Tree [. {CPU=high\_cpu\\c_1 \hspace{1px} is invalid\\backtrack} [.{CPU=low\_cpu\\c_1 \hspace{1px} is valid\\prune c_1} {Radio=high\_radio\\c2 \vspace{1px} is invalid\\backtrack} [.{Radio=low\_radio\\c_2 \vspace{1px} is valid\\prune c_2} {valid composition found\\calculate optimizer score} ] ] ] \\
+
+\noindent Legend: \\
+\emph{Assignment\\Observation\\Action\\}
+\hrule
+%\end{document}
