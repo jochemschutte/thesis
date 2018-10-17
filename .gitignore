@@ -4,6 +4,8 @@ doc/*.synctex.gz
 doc/*.log
 doc/*.bbl
 doc/*.blg
+doc/*.out
+doc/*.cpt
 .metadata
 .recommenders
 .settings

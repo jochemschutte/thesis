@@ -1,0 +1,29 @@
+\begin{lstlisting}[
+caption=Algorithm for backtrack search\cite{constraint_algorithm}, 
+captionpos=b, 
+escapeinside={(*}{*)}, 
+label=alg:backtrack-search,
+]
+(*
+\hrule\vspace{4px}
+\noindent\textbf{Backtracking}\\
+\textbf{Input}: A constraint network $R$ and an ordering of the variables $d = \{x_1,...,x_n\}$.\\
+\textbf{Output}: Either a solution if one exists or a decision that the network is inconsistent.
+\begin{enumerate}
+\item (Initialize.) $cur \leftarrow 0$.
+\item (Step forward.) If $x_{cur}$ is the last variable, then all variables have value assignments;\hspace{5px}
+exit with this solution. Otherwise, $cur \leftarrow cur + 1$. Set $D'_{cur} \leftarrow D_{cur}$.
+\item (Choose a value.) Select a value $a \in D'_{cur}$ that is consistent with all previously  instantiated variables. Do this as follows:
+\begin{enumerate} 
+\item If $D'_{cur}=\emptyset$ ($x_{cur}$ is a dead-end), go to Step 3.
+\item Select $a$ from $D'_{cur}$ and remove it from $D'_{cur}$.
+\item For each constraint defined on $x_1$ through $x_{cur}$ test whether it is violated\hspace{4px}
+by $\overrightarrow{a}_{cur-1}$ and $x_{cur} = a$. If it is, go to Step 2a.
+\item Instantiate $x_{cur} \leftarrow a$ and go to Step 1.
+\end{enumerate}
+\item (Backtrack step.) If $x_{cur}$ is the first variable, exit with ``inconsistent''. Otherwise,
+set $cur \leftarrow cur-1$. Go to Step 2
+\end{enumerate}
+\hrule
+*)
+\end{lstlisting}
