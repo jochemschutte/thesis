@@ -1,0 +1,21 @@
+\begin{small}
+\vspace{8px}\hrule
+\begin{lstlisting}[
+language=Java,
+caption=MapReduce example of Figure \ref{img:mapreduce} in Spark RDD.,
+captionpos=b, 
+escapeinside={(*}{*)}, 
+columns=flexible,
+numbers=left,
+tabsize=4,
+breaklines=true,
+label=list:mapreduce_spark-search
+]
+// assumes initial RDD with lines of words = lines
+JavaRDD<String[]> wrdArr = 				lines.map(l->l.split(" "));
+JavaRDD<String> words =					wrdArr.flatMap(arr -> Arrays.toList(arr));
+JavaRDD<String, Integer> pairs =		words.mapToPair(x->(x,1));
+JavaRDD<String, Integer> counts = 		pairs.reduceByKey((a,b) -> a+b);
+Map<String, Integer> result =			counts.collectAsMap();(*\vspace{5px}\hrule*)
+\end{lstlisting}
+\end{small}
