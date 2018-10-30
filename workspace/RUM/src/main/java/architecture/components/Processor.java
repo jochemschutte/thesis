@@ -1,17 +1,10 @@
 package architecture.components;
 
 import io.message.IOMessage;
-import io.pubsub.Producer;
-import mock.kafka.MockKafkaProducer;
 
-public abstract class Processor extends Thread{
+public interface Processor{
 	
-	Producer producer = new MockKafkaProducer();
+	public void publish(String topic, IOMessage message);
+	public void setProduceTopics(Iterable<String> topics);
 	
-	public abstract void subscribe(String topic);
-	public abstract void remove(String topic);
-	
-	protected void publish(String topic, IOMessage m) {
-		producer.publish(topic,  m);
-	}
 }

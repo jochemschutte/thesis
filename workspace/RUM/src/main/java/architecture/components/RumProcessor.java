@@ -24,7 +24,7 @@ import prototype.model.RumMessage;
 
 public class RumProcessor extends SingleMessageProcessor{
 	
-	ObjectMapper mapper = new ObjectMapper();
+	private static final long serialVersionUID = -8441811495864715725L;
 	public static final String CURRENT_MODEL = "CURRENT_MODEL";
 	public static final String NEXT_MODEL = "NEXT_MODEL";
 
@@ -42,7 +42,7 @@ public class RumProcessor extends SingleMessageProcessor{
 		this.changeRumTopics = changeRumTopics;
 		this.noValidRumTopics = noValidRumTopics;
 	}
-
+	
 	public Set<RumExporter> getChangeRumMessageExporters() {
 		return changeRumMessageExporters;
 	}
@@ -84,6 +84,7 @@ public class RumProcessor extends SingleMessageProcessor{
 			}catch(NumberFormatException e) {}
 		}		
 		try {
+			ObjectMapper mapper = new ObjectMapper();
 			JsonNode root = mapper.readTree(m.getVars().get(CURRENT_MODEL));
 			Iterator<Map.Entry<String, JsonNode>> iter = root.getFields();
 			Map<ModelComponent, RPM> rpms = new HashMap<>();
@@ -108,6 +109,7 @@ public class RumProcessor extends SingleMessageProcessor{
 		IOMessage result = new IOMessage(changeRumMessageExporters.stream().collect(Collectors.toMap(e->e.getExportAs(), e->e.export(in, engine))));
 		result.getVars().put(CURRENT_MODEL, in.getVars().get(CURRENT_MODEL));
 		
+		ObjectMapper mapper = new ObjectMapper();
 		ObjectNode root = mapper.createObjectNode();
 		models.entrySet().forEach(e->root.put(e.getKey().getIdentifier(), e.getValue().getIdentifier()));
 		result.getVars().put(NEXT_MODEL, root.toString());

@@ -1,10 +1,12 @@
 package io.message;
 
+import java.io.Serializable;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class IOMessage{
+public class IOMessage implements Serializable{
 	
+	private static final long serialVersionUID = 8277862343028590547L;
 	Map<String, String> vars;
 	
 	public IOMessage() {

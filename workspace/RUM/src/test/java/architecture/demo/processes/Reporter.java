@@ -7,6 +7,7 @@ import io.message.IOMessage;
 
 public class Reporter extends SingleMessageProcessor{
 
+	private static final long serialVersionUID = -7348313219531277546L;
 	String format;
 	String[] args;
 	

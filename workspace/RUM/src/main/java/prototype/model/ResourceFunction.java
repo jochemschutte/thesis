@@ -1,12 +1,14 @@
 package prototype.model;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.function.Function;
 
-public class ResourceFunction{
-	Function<Double[], Double> function;
+public class ResourceFunction implements Serializable{
+	
+	private static final long serialVersionUID = 3923695473818970648L;
+	SerializableFunction<Double[], Double> function;
 	String[] argNames;
 	
 	public ResourceFunction(double constant) {
@@ -27,7 +29,7 @@ public class ResourceFunction{
 		}
 	}
 	
-	public ResourceFunction(Function<Double[], Double> function, String... argNames) {
+	public ResourceFunction(SerializableFunction<Double[], Double> function, String... argNames) {
 		this.function = function;
 		this.argNames = argNames;
 	}

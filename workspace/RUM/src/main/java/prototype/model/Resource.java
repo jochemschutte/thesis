@@ -1,5 +1,6 @@
 package prototype.model;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -9,8 +10,9 @@ import prototype.model.ResourceInterface.InterfaceType;
 import prototype.model.requirements.OfferConsumeRequirementGTE;
 import prototype.model.requirements.Requirement;
 
-public class Resource{
+public class Resource implements Serializable{
 	
+	private static final long serialVersionUID = 2420877264582156198L;
 	String identifier;
 	String unit;
 	Set<ResourceInterface> interfaces = new HashSet<>();

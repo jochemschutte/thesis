@@ -1,5 +1,6 @@
 package prototype.model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -13,8 +14,9 @@ import com.google.common.collect.Iterables;
 import prototype.graph.GraphNode;
 import prototype.model.ResourceInterface.InterfaceType;
 
-public class Component extends GraphNode<Component>{
+public class Component extends GraphNode<Component> implements Serializable{
 	
+	private static final long serialVersionUID = 5923833104674337682L;
 	String identifier;
 	Map<Resource,ResourceFunction> resourceFunctions = new HashMap<>();
 	Set<ResourceInterface> resourcesInterfaces = new HashSet<>();

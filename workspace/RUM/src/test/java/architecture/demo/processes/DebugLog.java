@@ -13,7 +13,7 @@ import io.message.IOMessage;
 
 public class DebugLog extends SingleMessageProcessor{
 
-	BufferedWriter out;
+	public static BufferedWriter out;
 	
 	public DebugLog() {
 		super();

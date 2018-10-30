@@ -1,5 +1,6 @@
 package architecture.components;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -19,6 +20,7 @@ import io.message.IOMessage;
 
 public class MappedAccumulatorProcessor extends AccumulatorProcessor{
 	
+	private static final long serialVersionUID = -5304644497500382937L;
 	List<MapReducer> mapReducers;
 	MapCollector collector;
 
@@ -41,7 +43,7 @@ public class MappedAccumulatorProcessor extends AccumulatorProcessor{
 		this.mapReducers = mapReducers;
 		this.collector = collector;
 	}
-
+	
 	@Override
 	public void runForRange(List<IOMessage> range) {
 		Iterator<MapReducer> mapIter = mapReducers.iterator();
@@ -54,7 +56,11 @@ public class MappedAccumulatorProcessor extends AccumulatorProcessor{
 			reduced = reduce(mapped, reducer); 
 		}
 		Map<String, IOMessage> exports = collector.collect(reduced);
-		exports.entrySet().forEach(e -> publish(e.getKey(), e.getValue()));
+		for(Map.Entry<String, IOMessage> entry: exports.entrySet()) {
+//			System.out.println(entry.getKey() + " : " + entry.getValue().getVars());
+			publish(entry.getKey(), entry.getValue());
+		}
+//		exports.entrySet().forEach(e -> publish(e.getKey(), e.getValue()));
 	}
 	
 
@@ -75,7 +81,7 @@ public class MappedAccumulatorProcessor extends AccumulatorProcessor{
 	}
 	//implementors of actual behavior
 	
-	public interface MapReducer{
+	public interface MapReducer extends Serializable{
 		public String map(IOMessage message);
 		public Comparator<IOMessage> getComparator(); 
 		public IOMessage reduce(String key, List<IOMessage> range);
@@ -83,7 +89,7 @@ public class MappedAccumulatorProcessor extends AccumulatorProcessor{
 		
 	}
 	
-	public interface MapCollector{
+	public interface MapCollector extends Serializable{
 		public Map<String, IOMessage> collect(Map<String, IOMessage> reduced);
 	}
 

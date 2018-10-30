@@ -1,9 +1,12 @@
 package io.message;
 
+import java.io.Serializable;
+
 import prototype.main.RumEngine;
 
-public abstract class RumExporter{
+public abstract class RumExporter implements Serializable{
 	
+	private static final long serialVersionUID = -8895481434366685850L;
 	private String exportAs;
 	
 	protected void setExportAs(String exportAs) {

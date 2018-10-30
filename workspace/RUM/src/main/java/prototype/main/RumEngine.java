@@ -1,5 +1,6 @@
 package prototype.main;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -22,8 +23,10 @@ import prototype.model.RumMessage;
 import prototype.model.optimize.Optimizer;
 import prototype.model.requirements.Requirement;
 
-public class RumEngine{
+public class RumEngine implements Serializable{
 	
+	private static final long serialVersionUID = 3555244378926064165L;
+
 	TopologyResolver<Component> topology;
 	
 	Map<String, Component> components;

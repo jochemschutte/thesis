@@ -7,6 +7,7 @@ import com.google.common.collect.ImmutableList;
 
 import io.message.IOMessage;
 
+@SuppressWarnings("serial")
 public abstract class HistoricProcessor extends SingleMessageProcessor{
 
 	private LinkedList<IOMessage> buffer = new LinkedList<>();

@@ -1,7 +1,11 @@
 package prototype.model;
 
-public class ResourceInterface{
+import java.io.Serializable;
+
+public class ResourceInterface implements Serializable{
 	
+	private static final long serialVersionUID = 838185819818313965L;
+
 	public enum InterfaceType {CONSUMES, OFFERS, CALC}
 	
 	Double value = null;

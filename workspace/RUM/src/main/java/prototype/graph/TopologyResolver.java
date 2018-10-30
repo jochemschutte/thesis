@@ -1,5 +1,6 @@
 package prototype.graph;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -8,7 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-public class TopologyResolver<T extends GraphNode<T>>{
+public class TopologyResolver<T extends GraphNode<T>> implements Serializable{
+	
+	private static final long serialVersionUID = -8132766395454717369L;
 	Map<GraphNode<T>, List<GraphNode<T>>> followers = new HashMap<>();
 	List<GraphNode<T>> order = new LinkedList<>();
 	

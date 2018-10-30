@@ -10,11 +10,12 @@ import static architecture.demo.global.Fields.TIMESTAMP;
 import static architecture.demo.global.Fields.YEARS_RUNNING;
 import static architecture.demo.global.Topics.DEBUG;
 import static architecture.demo.global.Topics.MESSAGE;
-import static architecture.demo.global.Topics.SENSOR;
 import static architecture.demo.global.Topics.SEVERITY;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.ObjectNode;
@@ -27,6 +28,9 @@ import io.message.IOMessage;
 import mock.kafka.MockKafkaProducer;
 
 public class Sensor extends MockKafkaProducer implements Runnable{
+	
+	public static ConcurrentLinkedQueue<IOMessage> sensorQueue = new ConcurrentLinkedQueue<>();
+	public static Map<Integer, Sensor> sensorMap = new TreeMap<>();
 	
 //	public static double PERCENTAGE_USED_PER_DAY = 0.027; //equivalent to 10 years + a bit
 	public static double PERCENTAGE_USED_PER_SEND = 0.02; //equivalent with 13.7 years on 'low'
@@ -103,7 +107,8 @@ public class Sensor extends MockKafkaProducer implements Runnable{
 				send();
 			}
 		}
-		publish(DEBUG, new IOMessage(ImmutableMap.of(SEVERITY, "INFO", "LABEL", "SENSOR_STOPPED", MESSAGE, String.format("Sensor #%d has stopped. Years running %.1f", sensorId, yearsRunning))));
+//		publish(DEBUG, new IOMessage(ImmutableMap.of(SEVERITY, "INFO", "LABEL", "SENSOR_STOPPED", MESSAGE, String.format("Sensor #%d has stopped. Years running %.1f", sensorId, yearsRunning))));
+		System.out.println(String.format("Sensor #%d has stopped. Years running %.1f", sensorId, yearsRunning));
 	}
 	
 	private void recalc() {
@@ -120,8 +125,9 @@ public class Sensor extends MockKafkaProducer implements Runnable{
 		root.put(COMPOSER, currentModel);
 		vars.put(RumProcessor.CURRENT_MODEL, root.toString());
 		vars.put(YEARS_RUNNING, Double.toString(yearsRunning));
-				
-		publish(SENSOR, new IOMessage(vars));
+		
+		Sensor.sensorQueue.add(new IOMessage(vars));				
+//		publish(SENSOR, new IOMessage(vars));
 	}
 	
 }

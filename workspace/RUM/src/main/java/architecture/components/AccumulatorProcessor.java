@@ -5,60 +5,56 @@ import static javax.measure.unit.SI.SECOND;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.measure.quantity.Duration;
 
+import org.apache.storm.task.OutputCollector;
+import org.apache.storm.task.TopologyContext;
 import org.jscience.physics.amount.Amount;
 
 import io.message.IOMessage;
-import io.pubsub.Consumer;
-import mock.kafka.MockKafkaConsumer;
 
-public abstract class AccumulatorProcessor extends Processor implements Observer{
-	
-	//<temp>
-	Consumer consumer = new MockKafkaConsumer();
-	@Override
-	public void subscribe(String topic) {consumer.subscribe(topic);}
-	@Override
-	public void remove(String topic) {consumer.remove(topic);}
-	//</temp>
-	
-	
+public abstract class AccumulatorProcessor extends SingleMessageProcessor implements Runnable{
+		
 	long millis;
-	LinkedList<IOMessage> buffer = new LinkedList<>();
-	
+	List<IOMessage> buffer = new LinkedList<>();
+	AtomicBoolean running = new AtomicBoolean(false);
+		
 	public AccumulatorProcessor(long millis) {
 		super();
 		this.millis = millis;
-		consumer.addObserver(this);
-		Timer t = new Timer();
-		t.schedule(new Cutter(), 0, millis);
 	}
 	
 	public AccumulatorProcessor(Amount<Duration> time) {
 		this(time.to(MILLI(SECOND)).getExactValue());
 	}
-			
+	
 	@Override
-	public void update(Observable obs, Object o) {
-		buffer.add((IOMessage)o);
+	public void prepare(Map conf, TopologyContext context, OutputCollector collector) {
+		super.prepare(conf, context, collector);
+		new Thread(this).start();
 	}
 	
-	public abstract void runForRange(List<IOMessage> range);
-	public abstract void sortRange(List<IOMessage> range);	
-	private class Cutter extends TimerTask{
-		
-		@Override
-		public void run() {
+	@Override
+	public void run() {
+		while(true) {
 			List<IOMessage> cut = buffer;
 			buffer = new LinkedList<>();
 			sortRange(cut);
 			runForRange(cut);
+			try {
+				Thread.sleep(millis);
+			}catch(InterruptedException e) {}
 		}
 	}
+			
+	@Override
+	public void runForMessage(IOMessage m) {
+		buffer.add(m);
+	}
+	
+	public abstract void runForRange(List<IOMessage> range);
+	public abstract void sortRange(List<IOMessage> range);	
 }

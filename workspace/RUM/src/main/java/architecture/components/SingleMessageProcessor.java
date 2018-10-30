@@ -1,37 +1,51 @@
 package architecture.components;
 
-import java.util.Observable;
-import java.util.Observer;
+import java.util.Map;
+
+import org.apache.storm.task.OutputCollector;
+import org.apache.storm.task.TopologyContext;
+import org.apache.storm.topology.OutputFieldsDeclarer;
+import org.apache.storm.topology.base.BaseRichBolt;
+import org.apache.storm.tuple.Fields;
+import org.apache.storm.tuple.Tuple;
+import org.apache.storm.tuple.Values;
 
 import io.message.IOMessage;
-import io.pubsub.Consumer;
-import mock.kafka.MockKafkaConsumer;
 
-public abstract class SingleMessageProcessor extends Processor implements Observer{
+public abstract class SingleMessageProcessor extends BaseRichBolt implements Processor{
 
-	Consumer consumer = new MockKafkaConsumer();
-	
-	public SingleMessageProcessor() {
-		super();
-		consumer.addObserver(this);
-	}
+	private static final long serialVersionUID = 1077641428863982083L;
+	private OutputCollector collector;
+	Iterable<String> produceTopics;
 	
 	@Override
-	public void update(Observable obs, Object o) {
-		runForMessage((IOMessage)o);
-	}
+	@SuppressWarnings("rawtypes")
+    public void prepare(Map conf, TopologyContext context, OutputCollector collector) {
+        this.collector = collector;
+    }
 	
 	@Override
-	public void subscribe(String topic) {
-		consumer.subscribe(topic);
+	public void execute(Tuple in) {
+		runForMessage((IOMessage)in.getValueByField("message"));
 	}
-	
-	@Override
-	public void remove(String topic) {
-		consumer.remove(topic);
-	}
-	
+		
 	public abstract void runForMessage(IOMessage m);
 	
+	@Override
+	public void publish(String topic, IOMessage message) {
+		if(collector != null) {
+			collector.emit(topic, new Values(message));
+		}
+	}
+	
+	@Override
+	public void declareOutputFields(OutputFieldsDeclarer declarer) {
+		produceTopics.forEach(t->declarer.declareStream(t, new Fields("message")));
+	}
+	
+	@Override
+	public void setProduceTopics(Iterable<String> topics) {
+		this.produceTopics = topics;
+	}
 	
 }

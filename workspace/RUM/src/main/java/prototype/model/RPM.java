@@ -1,10 +1,12 @@
 package prototype.model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RPM{
+public class RPM implements Serializable{
 	
+	private static final long serialVersionUID = -4808143849245670856L;
 	String identifier;
 	Map<Resource, ResourceFunction> resourceFunctions = new HashMap<>();
 	

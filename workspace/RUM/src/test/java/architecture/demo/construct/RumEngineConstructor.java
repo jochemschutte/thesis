@@ -20,6 +20,8 @@ import static architecture.demo.global.Fields.TOTAL_SERVICE_TIME_CALCULATOR;
 import static architecture.demo.global.Fields.TOTAL_SERVICE_TIME_CONSUMER;
 import static architecture.demo.global.Fields.YEARS_RUNNING;
 
+import java.io.Serializable;
+
 import prototype.factory.RpmBuilder;
 import prototype.factory.RumBuilder;
 import prototype.main.RumEngine;
@@ -33,9 +35,10 @@ import prototype.model.optimize.MinMaxOptimizer;
 import prototype.model.optimize.MinMaxOptimizer.MinMax;
 import prototype.model.optimize.Optimizer;
 
-public class RumEngineConstructor{
+public class RumEngineConstructor implements Serializable{
 	
 
+	private static final long serialVersionUID = -8902525068360938166L;
 	static final int RADIO_MAX_BANDWIDTH = 15; //kb/s
 	static final int INITIAL_BATTERY_CAPACITY = 200; //Wh
 	static final int MAX_POWER = 3; //W
