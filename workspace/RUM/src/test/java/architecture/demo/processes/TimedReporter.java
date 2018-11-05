@@ -8,18 +8,22 @@ import javax.measure.unit.SI;
 
 import org.jscience.physics.amount.Amount;
 
+import architecture.components.SingleMessageProcessor;
 import io.message.IOMessage;
 
-public class TimedReporter extends Reporter{
+public class TimedReporter extends SingleMessageProcessor{
 
 	IOMessage current;
+	String format;
+	String[] vars;
 	
 	public TimedReporter(Amount<Duration> time, String format, String... vars) {
 		this(time.to(SI.MILLI(SI.SECOND)).getExactValue(), format, vars);
 	}
 	
 	public TimedReporter(long timeMillis, String format, String... vars) {
-		super(format, vars);
+		this.format = format;
+		this.vars = vars;
 		Timer t = new Timer();
 		t.schedule(new Printer(), 0, timeMillis);
 	}
@@ -34,9 +38,9 @@ public class TimedReporter extends Reporter{
 		@Override
 		public void run() {
 			if(current != null)
-				print(current);
+				System.out.println(current);
 			else{
-				print("No message queued.\n");
+				System.out.println("No message queued.\n");
 			}
 		}
 		

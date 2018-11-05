@@ -4,18 +4,24 @@ import static architecture.demo.global.Fields.AVG_THROUGHPUT;
 import static architecture.demo.global.Fields.NR_LESS_YEAR;
 import static architecture.demo.global.Fields.NR_MESSAGES;
 import static architecture.demo.global.Fields.NR_SENSORS;
+import static architecture.demo.global.Fields.QOS;
 import static architecture.demo.global.Fields.SENSOR_ID;
 import static architecture.demo.global.Fields.SYSTEM_RUNTIME;
+import static architecture.demo.global.Fields.YEARS_RUNNING;
 import static architecture.demo.global.Topics.ACCUMULATOR;
 import static architecture.demo.global.Topics.ANALYSER;
 import static architecture.demo.global.Topics.APPLICATION;
 import static architecture.demo.global.Topics.CHANGE_RPM;
+import static architecture.demo.global.Topics.DEBUG;
 import static architecture.demo.global.Topics.FIELD_LABEL;
 import static architecture.demo.global.Topics.LOG;
 import static architecture.demo.global.Topics.MESSAGE;
 import static architecture.demo.global.Topics.NO_RUM;
 import static architecture.demo.global.Topics.SENSOR;
 import static architecture.demo.global.Topics.SEVERITY;
+
+import java.io.File;
+import java.io.IOException;
 
 import javax.measure.unit.SI;
 
@@ -26,6 +32,8 @@ import architecture.components.MappedAccumulatorProcessor;
 import architecture.components.RumProcessor;
 import architecture.demo.processes.AccumulatorImplementation;
 import architecture.demo.processes.Dumper;
+import architecture.demo.processes.ExternalDebugLog;
+import architecture.demo.processes.ExternalPrinter;
 import architecture.demo.processes.NoRumAdapter;
 import architecture.demo.processes.Reporter;
 import architecture.demo.processes.RumActuator;
@@ -35,10 +43,15 @@ import architecture.demo.processes.TendencyAnalyser;
 import architecture.factory.TopicTopologyBuilder;
 
 public class BasicArchitectureEnvironment{
-		
-	public static final String DUMP = "DUMP";
+
+	public static final String KAFKA_HOST = "localhost:9092";
 	
-	public static TopologyBuilder construct(int nrSensorProcessors) {
+	public static TopologyBuilder construct(int nrSensorProcessors) throws IOException{
+		
+		ExternalPrinter printer = new ExternalPrinter("report", "externalPrinter", KAFKA_HOST);
+		ExternalDebugLog log = new ExternalDebugLog(DEBUG, "externalDebugLog", KAFKA_HOST, new File("log/log.txt"));
+		new Thread(printer).start();
+		new Thread(log).start();
 		
 		TopicTopologyBuilder b = new TopicTopologyBuilder();
 		
@@ -58,10 +71,10 @@ public class BasicArchitectureEnvironment{
 		b.addProcessor(actuator)
 				.setName("RumActuator")
 				.subscribeAsConsumer(CHANGE_RPM);
-		
-		Reporter changeRum = new Reporter("Sensor #%s changed to '%s'", SENSOR_ID, RumProcessor.NEXT_MODEL);
+//		Reporter changeRum = new Reporter("report", "ChangeRumReporter", KAFKA_HOST, "Sensor #%s changed to '%s.", SENSOR_ID, RumProcessor.NEXT_MODEL);
+		Reporter changeRum = new Reporter("report", "ChangeRumReporter", KAFKA_HOST, "Sensor #%s changed to '%s. Years: %s, QoS: %s	'", SENSOR_ID, RumProcessor.NEXT_MODEL, YEARS_RUNNING, QOS);
 		b.addProcessor(changeRum)
-				.setName("ChangeRum")
+				.setName("ChangeRumReporter")
 				.subscribeAsConsumer(CHANGE_RPM);
 		
 		NoRumAdapter noRum = new NoRumAdapter();
@@ -86,12 +99,12 @@ public class BasicArchitectureEnvironment{
 				.declareAsProducer(LOG)//
 				.subscribeAsConsumer(ANALYSER);
 		
-		Reporter alert = new Reporter("LOG[%s]: %s: %s", SEVERITY, FIELD_LABEL, MESSAGE);
+		Reporter alert = new Reporter("report", "AlertReporter", KAFKA_HOST,"LOG[%s]: %s: %s", SEVERITY, FIELD_LABEL, MESSAGE);
 		b.addProcessor(alert)//
 				.setName("Alert")//
 				.subscribeAsConsumer(LOG);
 		
-		Reporter exposer = new Reporter("Runtime: %s\nAvg throughput: %s\nnr sensors total: %s\nnr sensor < 1 year: %s\nbased on %s messages\n", //
+		Reporter exposer = new Reporter("report", "StatusReporter", KAFKA_HOST, "Runtime: %s\nAvg throughput: %s\nnr sensors total: %s\nnr sensor < 1 year: %s\nbased on %s messages\n", //
 				SYSTEM_RUNTIME, AVG_THROUGHPUT, NR_SENSORS, NR_LESS_YEAR, NR_MESSAGES);
 		b.addProcessor(exposer)//
 				.setName("Exposer")//
@@ -102,7 +115,7 @@ public class BasicArchitectureEnvironment{
 		b.addProcessor(dump)
 				.setName("Dumper")
 				.setParallelHint(1)
-				.subscribeAsConsumer(APPLICATION);
+				.subscribeAsConsumer(ACCUMULATOR);
 		
 		return b.build();
 	}

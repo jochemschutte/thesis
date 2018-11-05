@@ -2,6 +2,7 @@ package architecture.demo.processes;
 
 import static architecture.demo.global.Fields.NETWORK_BANDWIDTH;
 import static architecture.demo.global.Fields.PERCENTAGE_LEFT;
+import static architecture.demo.global.Fields.QOS;
 import static architecture.demo.global.Fields.SENSOR_ID;
 import static architecture.demo.global.Fields.SERVICE_TIME;
 import static architecture.demo.global.Fields.THROUGHPUT;
@@ -26,6 +27,8 @@ public class SingleSensorProcessor{
 		RumProcessor result = new RumProcessor(RumEngineConstructor.constructEngine(), ImmutableSet.of(CHANGE_RPM), ImmutableSet.of(NO_RUM));
 		result.getChangeRumMessageExporters().add(new MessageExporter(SENSOR_ID));
 		result.getChangeRumMessageExporters().add(new MessageExporter(TIMESTAMP));
+		result.getChangeRumMessageExporters().add(new MessageExporter(YEARS_RUNNING));
+		result.getChangeRumMessageExporters().add(new ResourceExporter(QOS, InterfaceType.OFFERS));
 		
 		result.getNoValidRumExporters().add(new MessageExporter(SENSOR_ID));
 		result.getNoValidRumExporters().add(new MessageExporter(TIMESTAMP));

@@ -9,12 +9,14 @@ import architecture.demo.processes.Sensor;
 
 public class SensorEnvironment{
 	
-	private static final int minYears = 5; 
+	private static final int minYears = 0; 
 	
 	public static Collection<Sensor> construct(int nrNodes) {
 		Collection<Sensor> result = new HashSet<>();
 		for(int i = 0; i < nrNodes; i++) {
-			double runtimeLeft = Math.random()*(10-minYears)+minYears;
+//			double runtimeLeft = Math.random()*(10-minYears)+minYears;
+			double runtimeLeft = 1.0;
+			
 			Sensor s = new Sensor(i+1, 100.0*runtimeLeft/10, 0.2, (Math.random()-0.5)/5, 10-runtimeLeft, MODEL_HIGH);
 			result.add(s);
 		}

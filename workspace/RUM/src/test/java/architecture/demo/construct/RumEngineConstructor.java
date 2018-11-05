@@ -73,6 +73,7 @@ public class RumEngineConstructor implements Serializable{
 		
 		builder.connect(batteryLeft, serviceTimeCalculator, capacityLeft, new ResourceFunction(x->x[0]/100*x[1], PERCENTAGE_LEFT, INITIAL_CAPACITY), new ResourceFunction(CAPACITY_LEFT));
 		builder.connect(composer, serviceTimeCalculator, powerUsageModelOut, null, new ResourceFunction(POWER_USAGE_MODEL_OUT));
+		//TODO verbruik opnieuw berekenen
 		builder.connect(serviceTimeCalculator, qosCalculator, serviceTime, new ResourceFunction(x->(x[0]/x[1])/24/265.26, CAPACITY_LEFT, POWER_USAGE_MODEL_OUT), new ResourceFunction(SERVICE_TIME));
 		new ResourceInterface(serviceTime, totalServiceTimeCalculator, InterfaceType.CALC, new ResourceFunction(SERVICE_TIME));
 		builder.connect(totalServiceTimeCalculator, totalServiceTimeConsumer, totalServiceTime, new ResourceFunction(x->x[0]+x[1], SERVICE_TIME, YEARS_RUNNING), new ResourceFunction(10));
@@ -81,7 +82,7 @@ public class RumEngineConstructor implements Serializable{
 		qosCalculator.getResourceFunctions().put(qos, new ResourceFunction(x->x[0]*365*x[1], SERVICE_TIME, THROUGHPUT));
 		
 		RpmBuilder rpm = builder.rpmBuilder(composer, powerUsageModelIn, powerUsageModelOut, throughput, networkBandwidth);
-		rpm.add("low", new ResourceFunction(0.001667), new ResourceFunction("powerUsageModelIn"), new ResourceFunction(1), new ResourceFunction(3));
+		rpm.add("low", new ResourceFunction(0.002), new ResourceFunction("powerUsageModelIn"), new ResourceFunction(1), new ResourceFunction(3));
 		rpm.add("middle", new ResourceFunction(0.003333), new ResourceFunction("powerUsageModelIn"), new ResourceFunction(2), new ResourceFunction(10));
 		rpm.add("high", new ResourceFunction(0.005556), new ResourceFunction("powerUsageModelIn"), new ResourceFunction(5), new ResourceFunction(20));
 				

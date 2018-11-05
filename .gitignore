@@ -12,3 +12,4 @@ doc/*.cpt
 target
 .classpath
 .project
+workspace/

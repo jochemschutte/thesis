@@ -1,7 +1,9 @@
 package architecture.demo.construct;
 
 import static architecture.demo.global.Fields.MODEL_HIGH;
+import static architecture.demo.global.Topics.DEBUG;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
@@ -15,6 +17,7 @@ import org.apache.storm.utils.Utils;
 import com.google.common.collect.ImmutableList;
 
 import architecture.demo.global.ConfigurableTimer;
+import architecture.demo.helpers.TopicFlusher;
 import architecture.demo.processes.Sensor;
 
 public class Main{
@@ -30,10 +33,10 @@ public class Main{
 //		run(86400, 1, 5);
 		
 		//5 days per second
-//		run(432000, 1, 5);
+		run(432000, 1, 5);
 		
 //		1 days per second, 3 sensors
-		run(86400, 1000, 5);
+//		run(86400, 1000, 5);
 		
 //		3 hours per second
 //		run(60*60*3, 20, 5);
@@ -42,23 +45,29 @@ public class Main{
 	}
 	
 	private static void run(long speedfactor, int nrSensors, int nrSensorAnalysers) {
-		if(running.getAndSet(true)) 
-			throw new IllegalStateException("Simulator was initiated multiple times (comment a run-call)");
-		ConfigurableTimer.setInstance(new ConfigurableTimer(speedfactor));
-		Collection<Sensor> sensors = SensorEnvironment.construct(nrSensors);
-		Sensor.sensorMap = sensors.stream().collect(Collectors.toMap(s->s.getSensorId(), s->s));
-		TopologyBuilder topBuilder = BasicArchitectureEnvironment.construct(nrSensorAnalysers);
-
-		Config conf = new Config();
-		conf.setDebug(false);
-		conf.setNumWorkers(2);
-
-		LocalCluster cluster = new LocalCluster();
-		SensorEnvironment.start(sensors);
-		cluster.submitTopology("test", conf, topBuilder.createTopology());
-		Utils.sleep(1000000);
-		cluster.killTopology("test");
-		cluster.shutdown();
+		try {
+			if(running.getAndSet(true)) 
+				throw new IllegalStateException("Simulator was initiated multiple times (comment a run-call)");
+			int flushed = new TopicFlusher("flush", BasicArchitectureEnvironment.KAFKA_HOST, DEBUG, "report").flush();
+			System.out.println(String.format("Flushed %d messages", flushed));
+			ConfigurableTimer.setInstance(new ConfigurableTimer(speedfactor));
+			Collection<Sensor> sensors = SensorEnvironment.construct(nrSensors);
+			Sensor.sensorMap = sensors.stream().collect(Collectors.toMap(s->s.getSensorId(), s->s));
+			TopologyBuilder topBuilder = BasicArchitectureEnvironment.construct(nrSensorAnalysers);
+	
+			Config conf = new Config();
+			conf.setDebug(false);
+			conf.setNumWorkers(2);
+	
+			LocalCluster cluster = new LocalCluster();
+			SensorEnvironment.start(sensors);
+			cluster.submitTopology("test", conf, topBuilder.createTopology());
+			Utils.sleep(1000000);
+			cluster.killTopology("test");
+			cluster.shutdown();
+		}catch(IOException e) {
+			throw new RuntimeException(e);
+		}
 		
 	}
 	
@@ -73,7 +82,11 @@ public class Main{
 		Sensor s = new Sensor(1, percentageLeft, 0.2, (Math.random()-0.5)/5, yearsRunning, MODEL_HIGH);
 		Sensor.sensorMap = ImmutableMap.of(s.getSensorId(), s);
 		
-		BasicArchitectureEnvironment.construct(nrProcessors);
-		SensorEnvironment.start(ImmutableList.of(s));
+		try{
+			BasicArchitectureEnvironment.construct(nrProcessors);
+			SensorEnvironment.start(ImmutableList.of(s));
+		}catch(IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 }
