@@ -1,7 +1,48 @@
-\chapter{Backgound}
+\chapter{Background}
 \section{Sensor networks/IoT}
-\section{Micro-services}
-\section{Variety/commonality analysis}
-\section{Design Science Methodology}
-\section{Resource [monitoring] en qos} 
-more to add as needed.
+\section{Resource monitoring and QoS} 
+Existing platforms?
+\section{Quality of Information}
+\label{sec:back:qoi}
+lalalala\cite{qoi_definition}
+\section{Commonality/variability analysis}
+\label{sec:back:cv_analysis}
+\section{Constraint programming and solvers}
+\label{sec:back:constraint}
+%\section{Design Science Methodology}
+\section{Example case}
+\label{sec:back:example_case}
+Throughout this [thesis] we will demonstrate our solutions by applying them to a hypothetical case. Though this case may sometimes seem oversimplified and nonsensical, it does provide an elementary example to illustrate all facets of our solutions without overcomplicating the case. This case is expressly not intended to demonstrate the capabilities or utility of our proposed solution. For that purpose, an application to a more complex real-world case will be performed in section \ref{ch:validation}. 
+
+The case we propose encompasses an enormous network of low power devices sensing for meteorologically anomalous events. These sensors perform measurements on a regular interval and transmit the measurements to a cell tower to be forward to a back-end application for further processing. For the best results we want devices to measure and transmit as many as possible, however since these sensors are not very powerful and employ a limited power supply (e.g. battery) the will require pacing.
+%TODO ttl
+
+The behaviour of the sensors is typified by two parameters: the sensing interval and transmission interval. Intuitively, it can be stated that shortening either or both of the intervals will result in more fine grained reporting, but will increase the power consumption of the device. Additionally, over time several types of sensors have been deployed with different power sources. Therefore the amount of electrical power a sensor can use during a given time needs to be restrained in accordance with the specification of its power source and expected life time. Finally, sensors in areas of high interest will require a shorter polling interval, as to gain the most precise information. However, given that the sensor performs the adequate amount of measurements and does not consume more power than it is specified to use, it should measure and report as much as possible.
+
+As for monitoring we are most interested in the measurement rate averaged over all sensors. Additionally we are required to pro-actively monitor the trend of the total bandwidth/throughput of our sensor application. Since a constant rise in data rates may ultimately violate the data consumption limits agreed upon with network service providers.
+
+To summarize, a sensor must:
+\begin{itemize}
+\nospace
+\item not consume more power then it is allowed according to its battery specification,
+\item measure at least as much as is specified according to the area of interest it is in, and
+\item generally try to measure and report as much as is allowed by the previous two requirements.
+\end{itemize}
+Additionally we are required to provide the following pieces of information:
+\begin{itemize}
+\nospace
+\item The average polling rate, and
+\item whether the data rate of our sensor application rises consistently during a certain amount of time.
+\end{itemize}
+
+In order for the server to determine the intended behaviour of the device and calculate the level of service provided by the application we state the following data to be provided to our application:
+\begin{itemize}
+\nospace
+\item the required measurement rate,
+\item the maximum power provided by the power source,
+\item the measurement rate of the sensor device, and
+\item the bandwidth used by the sensor 
+\end{itemize}
+Each of these datapoints stipulates the behaviour of a single sensor at a certain instant of time. Notice that some datapoints are normally inferred from raw basic data by auxiliary processes (e.g. required measurement rate). For simplification of our demonstrations we have omitted these processes and these parameters are assumed known as a message enters our monitoring application.
+
+

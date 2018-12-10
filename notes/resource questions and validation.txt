@@ -1,0 +1,64 @@
+1. introduction
+	research questions
+	1. How can we device a platform that enables processing sensor device monitoring data, such that:
+		a. adoptation and implementation of the platform requires low effort.
+		b. it can process huge volumes of input data, and
+	2. How can we model and calculate the QoS of a system for the purpose of
+		a. representing the state of the system
+		b. calculating the optimal mannor of operation for the system
+	
+2. background
+	existing platforms
+	microservice architecture (c4)
+	Quality of Information (c4)
+	Variety/commonallity analysis (c3,c4)
+	development method (design science methodology) (c3,c4)
+	
+3. architecture
+	Draft chapter submitted
+
+4. Resource Distribution Model
+	Draft chapter submitted
+
+5. Proof of concept: Nedap
+	Prototype implementation for (simulation of) Nedap Identification Systems' parking sensor WSN application.
+	simulation is based on actual sensor data and sensor behaviour
+	some features may be added to simulation environment which are not present in Nedap application (eg. sensor behaviour configuration by automated feedback channels). This ensures validation of those additional features.
+	
+	Evaluated on:
+	1. fitness of the model and the architecture by ease of implementation
+		a. Lines of code and development time required
+		b. Answers research question 1a & 1b
+	2. scalablity and capacity by subjecting the implementation to a large volume of data 
+		a. Show no bottleneck occurs (are avoidable)
+		b. Measure timeliness of the sistem, i.e. information  that enters the platform is processed and returned in a timely manner, eighter real-time or on timed interval
+		Answers research question 2a
+	
+	research question 2b is not validated in this chapter as solvability is provided by the design of the model and the solver
+
+6. conclusions/discussion
+
+
+---------------------PLANNING---------------------
+
+
+
+
+
+
+TODO 
+current state?
+	internal
+	external
+get data
+	behaviour
+	data
+get requirements
+	sensor requirements
+	visualization
+	alerts
+	
+??????
+where to put development cycles
+where to describe example case
+are rdd's in window retained or recalculated?

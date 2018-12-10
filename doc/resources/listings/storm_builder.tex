@@ -1,0 +1,16 @@
+\begin{small}
+\vspace{8px}\hrule
+\begin{lstlisting}[
+language=java, 
+caption={Declaration of a component and communication channels}, 
+label={list:topologybuilder}, 
+escapeinside={(*}{*)}, 
+captionpos=b,
+numbers=left,
+tabsize=4
+]
+topologyBuilder.declareBolt(new UserDefinedProcessor("pname"))
+	.subscribeAsConsumer("sensor_input_channel")
+	.declareAsProducer("debug_channel", "output_channel");(*\vspace{5px}\hrule*)
+\end{lstlisting}
+\end{small}
