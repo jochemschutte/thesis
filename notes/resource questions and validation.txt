@@ -8,7 +8,7 @@
 		b. calculating the optimal mannor of operation for the system
 	
 2. background
-	existing platforms
+	existing platforms and deficiencies
 	microservice architecture (c4)
 	Quality of Information (c4)
 	Variety/commonallity analysis (c3,c4)
@@ -61,4 +61,3 @@ get requirements
 ??????
 where to put development cycles
 where to describe example case
-are rdd's in window retained or recalculated?

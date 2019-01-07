@@ -1,21 +1,68 @@
 \chapter{Background}
-\section{Sensor networks/IoT}
-\section{Resource monitoring and QoS} 
+\section{Wireless Sensor networks}
+\section{Resource monitoring and Quality of Service} 
 Existing platforms?
-\section{Quality of Information}
+\section{Quality of Information of WSN data}
 \label{sec:back:qoi}
-lalalala\cite{qoi_definition}
+Aside from Quality of Service, in WSNs and IoT applications we find the concept of Quality of Information (QoI). QoI [describes] parameters depicting quality attributes of information presented by and derived from as system. It is especially [applicable] to WSNs as they present raw low-level which is then highly processed by subsequent applications. We will therefore employ the concept of QoI to validate and evaluate the processing architecture presented in chapter \ref{ch:architecture}.
+
+%TODO cite or parafrase
+\cite{qoi_definition} identifies the following attributes describing Quality of Information.
+\begin{description}
+\nospace
+\item[Accuracy] The degree of correctness which provides the level of detail in the deployed network. It is the value which is the close imitation of the real world value.
+\item[Precision] The degree of reproducibility of measured values which may or may not be close (accurate) to real world value.
+\item[Completeness] The characteristic of information which provides all required facts for user during the construction of information.
+\item[Timeliness] An indicator for the time needed when the first data sample is generated in the network till the information reaches the target application for decision making.
+\item[Throughput] The maximum information rate at which information is provided to the user after raw data collection.
+\item[Reliability] The characteristic of information, in which information is free from change or no variation of information from the source to the end application.
+\item[Usability] The ease of use of information that is available after raw data collection has undergone processing and can be applied to the application based on user's evolvable requirements.
+\item[Certainty] The characteristic of information from the source to the sink with desired level
+of confidence helping the user for decision making.
+\item[Tunability] The characteristic of information, where the information can be modified and undergo processing based on user's evolvable requirements.
+\item[Affordability] The characteristic of information to know the cost for measuring, collecting and
+transporting the data/information. It is the expensiveness of information. 
+\item[Reusability] The characteristic of information, where the information is reusable during its lifetime or as long as it is relevant.
+\end{description}
+\section{Constraint programming and solving paradigms}
+\label{sec:back:constraint}
+In chapter \ref{ch:rdm} we will visit the concept of constraint programming and solvers. The concept of constraint programming encompasses modelling a problem by means of a collection of correlated variables and associated value domains. The relations between variables are captured in a list of constraints. The problem is then solved by finding assignments for each variable with respect to their domains which conforms with the specified constraints. 
+
+An example of a problem modelled as constraint problem is an automatic sudoku solver. The model would be a list or matrix of integer variables, with each entry having a domain $\{V_i|1\leq V_i\leq 9\}$. The constraint we would have is $V_1 \neq V_2$ for every combination of entries $(V_1,V_2)$ in the same row, column or 3-by-3 grid .
+
+Several methods exist in order to solve a combinatorial constraint problem. The first and simplest is to perform a brute force search over the solution space. This would produce the cartesian product of the domains of all variables ($\prod_{i\in I} D_i$) and test them against the constraints. Candidate solutions are rejected until a valid composition of variable assignments is found. This is however a very inefficient procedure as it has to search though the entire search space without optimization. For large combinatorial problems this search space grows exponentially. For our sudoku example for instance we find that if 20 values are predetermined, then our solution space has a size of $9^{61}(\approx 1,6\cdot 10^{58})$.
+
+A more efficient search algorithm is presented by backtrack search. Whereas the brute force approach assigns every variable a value and then checks its validity, the backtrack search algorithm operates on a subset of the variables assigned. By incrementally assigning values to variables it performs a systematic Depth First Search through the search space. If a partial assignment is determined to violate the set of constraints, the algorithm will reject the entire remainder of the search tree. In this manner the algorithm optimizes failing variable assignments by attempting to identify them earlier. For the example of the sudoku solver this entails that an assignment of a 3 to a position adjacent to another square with a 3 will immediately halt the exploration of that branch of the search tree, without the need to consider subsequent variable assignments. It will instead backtrack through the tree by rolling back assignments and attempt a different assignment.
+
+The backtrack search algorithm can be improved upon further by implementing constraint propagation. This technique attempts to prune invalid variable values from the domain before they are assigned by the backtrack search algorthm. For example if a square in the sudoku is assigned a three, then the effect of this assingment will be propegated by pruning the number 3 from the domains of every entry in the same row, column or 3-by-3 grid. This eliminastes inconsistent options that would violate the constraints befere they would be assigned. Additionally, the concept of local inconsistency can be extended to variable domains without reequiring any assingment. For example if we have two variables $V_1$ and $V_2$ with domains $D_1=\{1,2,3\}$ and $D_2=\{2,3,4\}$ and the constraint $V_1 \geq V_2$, then the values 1 and 4 can be pruned from $D_1$ and $D_2$ respectively since they are inconsistent with any of the values in the oppoising domain and can therefore never validate the constraint. \cite{constraint_general, constraint_algorithm}
 \section{Commonality/variability analysis}
 \label{sec:back:cv_analysis}
-\section{Constraint programming and solvers}
-\label{sec:back:constraint}
-%\section{Design Science Methodology}
+In order to design for our problem domain it will require conceptualization. We will conceptualize the problem domain(s) by means of a commonality/variability analysis (C/V analysis). Whereas this analysis is [usually] performed during the process of system decomposition in product line engineering, it can also be employed to identify common and varying concepts in a problem domain. \cite{cva_problem_domain}.  This analysis identifies the common concepts - or invariants - that may be assumed fixed and may be depended upon and the variations in the problem domain which will need to be [captivated] and accounted for by our solution.
+
+\cite{cv_analysis} describes the process of a commonality/variability analysis in five steps.
+
+\begin{enumerate}
+\nospace
+\item Establish the scope: the collection of objects
+under consideration.
+\item Identify the commonalities and variabilities.
+\item Bound the variabilities by placing specific on each variability.
+\item Exploit the commonalities.
+\item Accommodate the variabilities.
+\end{enumerate}
+
+In our conceptualization of the problem domain we will mostly focus on step 2 in which we will provide a list of common definitions, shared commonalities and variabilities. Also, in our approach we will combine steps 4 and 5 by formulating a list of requirements for our solution based on the identified commonalities and accounting for the found variabilities. As the list of requirements depends on invariants and accommodates variabilities it will allow us to design automated solutions.
+
+
+
+\section{Design Science Methodology}
+\label{sec:back:dsm}
+%TODO write
 \section{Example case}
-\label{sec:back:example_case}
+\label{sec:example_case}
 Throughout this [thesis] we will demonstrate our solutions by applying them to a hypothetical case. Though this case may sometimes seem oversimplified and nonsensical, it does provide an elementary example to illustrate all facets of our solutions without overcomplicating the case. This case is expressly not intended to demonstrate the capabilities or utility of our proposed solution. For that purpose, an application to a more complex real-world case will be performed in section \ref{ch:validation}. 
 
 The case we propose encompasses an enormous network of low power devices sensing for meteorologically anomalous events. These sensors perform measurements on a regular interval and transmit the measurements to a cell tower to be forward to a back-end application for further processing. For the best results we want devices to measure and transmit as many as possible, however since these sensors are not very powerful and employ a limited power supply (e.g. battery) the will require pacing.
-%TODO ttl
 
 The behaviour of the sensors is typified by two parameters: the sensing interval and transmission interval. Intuitively, it can be stated that shortening either or both of the intervals will result in more fine grained reporting, but will increase the power consumption of the device. Additionally, over time several types of sensors have been deployed with different power sources. Therefore the amount of electrical power a sensor can use during a given time needs to be restrained in accordance with the specification of its power source and expected life time. Finally, sensors in areas of high interest will require a shorter polling interval, as to gain the most precise information. However, given that the sensor performs the adequate amount of measurements and does not consume more power than it is specified to use, it should measure and report as much as possible.
 
@@ -43,6 +90,6 @@ In order for the server to determine the intended behaviour of the device and ca
 \item the measurement rate of the sensor device, and
 \item the bandwidth used by the sensor 
 \end{itemize}
-Each of these datapoints stipulates the behaviour of a single sensor at a certain instant of time. Notice that some datapoints are normally inferred from raw basic data by auxiliary processes (e.g. required measurement rate). For simplification of our demonstrations we have omitted these processes and these parameters are assumed known as a message enters our monitoring application.
+Each of these data points stipulates the behaviour of a single sensor at a certain instant of time. Notice that some data points are normally inferred from raw basic data by auxiliary processes (e.g. required measurement rate). For simplification of our demonstrations we have omitted these processes and these parameters are assumed known as a message enters our monitoring application.
 
 

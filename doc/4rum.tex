@@ -10,6 +10,7 @@
 
 \newcommand{\rdmid}{2}
 \chapter{Resource Distribution Model}
+\label{ch:rdm}
 \section{Objective of the model}
 The aim of the Resource Distribution Model (RDM) is to comprehend the distribution, conversion and requirements of resource parameters in a system. The suggested target usage of these models is to allow automated analysis and optimization of the system under investigation. Therefore we require a detailed model with explicitly defined entities and relations. Only then can the model be employed by automated tools and algorithms.
 
@@ -18,12 +19,7 @@ This will be performed by first exploring the problem domain. With the definitio
 
 \section{Conceptualization of the problem domain}
 \label{sec:cv_analysis}
-In this section we will investigate problem domain in order to eventually determine the requirements for the model. We will achieve this by performing a commonality/variability analysis (C/V analysis) \cite{var_invar} of the problem domain. This analysis consists of three concepts:
-\begin{itemize}
-\item The definitions that will be used in the analysis and the remainder of this chapter, 
-\item the common features of of all elements in the problem domain which we may assume as established concepts, and 
-\item the variations that occur between aspects of the problem domain for which we will need to account for in our proposed modelling technique. Each point of variance needs to be accounted for in the requirements to be established.
-\end{itemize}
+In this section we will investigate problem domain in order to eventually determine the requirements for the model. Again, we will achieve this by performaing a commonality/variablility analysis (section \ref{sec:back:cv_analysis}) of the problem domain, determining the definitions, common features and variations in our problem domain.
 
 \subsubsection{Definitions}
 We will first establish some terms we will be using throughout the C/V analysis and the remainder of this chapter. 
@@ -189,7 +185,7 @@ Each interface has a value specifying the amount of the resource produced or con
 \subsubsection{Component}
 Any entity producing, consuming and converting a resource is represented by a component. A component can therefore be a physical entity such as a radio module or a battery or a hypothetical entity such as a QoS calculator executing a heuristic function. A component possesses a ResourceFunction of each Resource it is connected to.
 
-A special case of the Component is the ModelComponent. This class inherits all functionality of the ordinary Component, but its ResourceFunctions are extracted from one of its RUM's. Each RUM describes the parameters during one mode of operation of the components. This allows runtime analysis of variable behaviour as effect of different functionalities.
+A special subtype of the Component is the ModelComponent. This class inherits all functionality of the ordinary Component, but its ResourceFunctions are extracted from one of its RUM's. Each RUM describes the parameters during one mode of operation of the components. This allows runtime analysis of variable behaviour as effect of different functionalities.
 
 \subsubsection{ResourceFunction}
 The value of a ResourceInterface is determined by a ResourceFunction. It consists of a function that takes a double array as argument and has a double as result, and an array of resource identifiers. Runtime solvers or engines will then fill the input array according to the resource identifiers in order to execute the function. ResourseInterfaces can be compactly instantiated using lambda expressions and VarArgs. E.g.:
@@ -210,15 +206,15 @@ Finally, to supply the model with the state of the system under investigation, w
 
 
 \subsection{Demonstration by example case}
-To illustrate the application of this meta-model, an example of an instantiation of the model can be found in figure \ref{fig:rdm_cpu_radio}. This instantiation is based on the example case described in section \ref{sec:back:example_case}. In this depiction we can see the power supply (battery) which emits a resource `power', measured in milliwatts. The actual value of this variable is instantiated based on the input message (illustrated by dotted arrow) since, as described earlier, specifications of power supplies vary in our example case. This power is consequently consumed by the device's CPU and radio module. This entails an implied resource constraint $c_1$, which enforces that the joint power consumption of the CPU and radio may not exceed the power produced by the power supply. Both the CPU and Radio can run on a high or low performance model, with the high models having aggravating consequences for the power consumption and the offered number of measurements and throughput respectively. The amount of measurements per second offered by the CPU is subsequently consumed in full by the \emph{Measurement requester}. This component simulates a resource request on the sensor devices and imposes a requisite on the minimum amount of measurements performed and offered by the CPU, as formulated by constraint $c_2$. The request value is based on a parameter supplied by the input message. Finally both the amount of measurement and bandwidth provided are supplied to the \emph{QoS calculator} which uses the information to calculate a singular value depicting the level of QoS provided by the model instantiation. This value is used to determine the optimal variable composition given a validated set of competing models. In closing, emphasis should be given to the interfaces of the QoS calculator. These interfaces are not regular \emph{consume} relations but \emph{calculate} relations. This entails that the QoS calculator has full knowledge of the amounts offered, without affecting the consumption of those resources. This ensures that the behaviour of the QoS calculator has no influence on the validity of the model by impacting constraint $c_2$.
+To illustrate the application of this meta-model, an example of an instantiation of the model can be found in figure \ref{fig:rdm_cpu_radio}. This instantiation is based on the example case described in section \ref{sec:example_case}. In this depiction we can see the power supply (battery) which emits a resource `power', measured in milliwatts. The actual value of this variable is instantiated based on the input message (illustrated by dotted arrow) since, as described earlier, specifications of power supplies vary in our example case. This power is consequently consumed by the device's CPU and radio module. This entails an implied resource constraint $c_1$, which enforces that the joint power consumption of the CPU and radio may not exceed the power produced by the power supply. Both the CPU and Radio can run on a high or low performance model, with the high models having aggravating consequences for the power consumption and the offered number of measurements and throughput respectively. The amount of measurements per second offered by the CPU is subsequently consumed in full by the \emph{Measurement requester}. This component simulates a resource request on the sensor devices and imposes a requisite on the minimum amount of measurements performed and offered by the CPU, as formulated by constraint $c_2$. The request value is based on a parameter supplied by the input message. Finally both the amount of measurements and bandwidth provided are supplied to the \emph{QoS calculator} which uses the information to calculate a singular value depicting the level of QoS provided by the model instantiation. This value is used to determine the optimal variable composition given a validated set of competing models. In closing, emphasis should be given to the interfaces of the QoS calculator. These interfaces are not regular \emph{consume} relations but \emph{calculate} relations. This entails that the QoS calculator has full knowledge of the amounts offered, without affecting the consumption of those resources. This ensures that the behaviour of the QoS calculator has no influence on the validity of the model by impacting constraint $c_2$.
 
 \begin{figure}
 \hrule
 \begingroup\centering
   \includegraphics[width=\linewidth]{resources/img/rdm_cpu_radio.pdf}\endgroup \\ \\
   \noindent Constraints: \\
-$c_1: power_{power\_supply} >= power_{CPU}+power_{radio} $ \\ \\
-$c_2: measuremnts_{CPU} >= measurements_{measurement\_requester}$ \\
+$c_1: power_{power\_supply} >= power_{CPU}+power_{radio} $ \\ 
+$c_2: measuremnts_{CPU} >= measurements_{measurement\_requester}$ \\ \\
 \noindent Optimize:\\$max(QoS)$\\
 \hrule
 \caption{Example instantiation of the RDM meta-model according to the example case}
@@ -248,6 +244,8 @@ If a constraint evaluates to \emph{satisfied} it will be pruned from the constra
 
 Given that we encounter unsatisfactory options early in the tree, this will possibly eliminate large parts of the search tree. An example of the application of this algorithm on the example previously posed (Figure \ref{fig:rdm_cpu_radio}) is given in Figure \ref{fig:search_cpu_radio}. This example is executed based on an RdmMessage with values $\{measureRateRequired=8,\ powerBySpecification=16\}$. This application demonstrates that using this algorithm, we eliminate a significant portion of the search tree. This is due to early constraint failure detection in the \emph{CPU=high\_cpu} banch of the tree.
 
+%TODO brute force for low nr of models
+
 \input{resources/listings/backtrack-search}
 %label=alg:backtrack-search
 
@@ -274,6 +272,7 @@ The Choco Solver is a powerful solver which not only employs backtrack search, b
 Another examined library is the OptaPlanner. The OptaPlanner is a modelling framework for constraint problems and excels in use cases involving planning and resource allocation. It also enables object injection which would be greatly suitable for injecting our RUM's into components. However the OptaPlanner is strictly a constraint modelling framework and does not employ advanced solving techniques developed in the field of constraint programming. It performs a brute force depth-first search over the search space (Cartesian product of all RUM compositions) running a single code block which evaluates all constraints. It consequently can not reduce the search space by eliminating failing branches and redundant constraints. Therefore it lacks the means to solve the problem efficiently
 
 Finally, the implementation of backtrack search does not differ much from the implementation of depth-first search. Additionally, developing our own solver allows us to incorporate domain knowledge into our custom search algorithm, further reducing the runtime required. This reduces the comparative benefit of employing a constraint solver library and eventually led us to develop our own solver implementation.
+%TODO ref to 'general' paper
 
 \subsubsection{Constraint propagation}
 %TODO actually mention propagation

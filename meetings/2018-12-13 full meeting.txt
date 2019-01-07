@@ -1,0 +1,42 @@
+1.introduction
+questions anders
+
+domain (scope & stakeholders)
+challenges
+state of art
+research questions
+motivatie
+
+criteria vaststellen om te valideren
+
+background
+make headings explicit
+
+wsn&iot
+
+qos & qoi
+
+management methods
+solvers
+
+
+
+methods
+	cv
+	design methodology
+	
+3 architecture
+weg van term architecture. Architecture is niet nieuw 
+validatie/verifiatie van keuzes
+linken naar verdere validatie in ch5
+
+4.rdm
+linken naar vorige hoofdstuk
+design decisions aparte sectie (niet throughout the chapter)(ook voor 3)
+verifieer applicability
+
+5.validation
+why is it representative
+
+6.conclusions
+what niet gevalideerd, why?
