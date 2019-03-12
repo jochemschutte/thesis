@@ -1,12 +1,164 @@
+\newcommand{\idsystems}{\nedap Identification Services }
+\newcommand{\nedap}{Nedap }
+\newcommand{\ublox}{u-blox }
+\newcommand{\sensit}{SENSIT }
 \chapter{Proof of concept by case study}
 \label{ch:validation}
-\section{Claims}
-what claims to validate and requirements implied by those claims
 \section{Case study}
 \subsection{Background}
-Information of Nedap N.V. and product under investigation (SENSIT)
-\subsection{Description}
-Description of the case \\
-Justification of the case with regards to the claims
+\subsubsection*{Nedap - Identification Systems}
+[TODO]\\
+company
+	andere marktgroepen/producten
+marktgroep
+\subsubsection*{\sensit [smart parking] application}
+The \sensit \idsystems smart parking application is devised to monitor parking lots and garages. It employ a huge amount (up to thousands) of affordable LPWA sensor nodes. Each individual parking spot is equipped with one of these sensors to determine its occupation. To determine changes in occupation, each sensor is equipped with an infra-red and magnetic induction sensor. Should a change in occupation be detected, a message containing the measured sensor deltas is sent to the back-end application. This granular approach to smart parking allows the \sensit application to monitor and visualise the occupation of individual parking spaces in a lot, garage or even across cities.
+
+In order to communicate with the back-end the sensors employ wireless technology. Previously, the sensors were connected to sinks using a proprietary network of relay nodes. However the recent proliforation of large scale cellular IoT networks has caused \nedap to shift towards these technologies. This allows large numbers of sensors to a single cell tower, without the need of deploying a [complicated] network of relay nodes for new sensor deployments. Additionally the effort in managing and maintianing the network is outsource to professional operators. To connect the sensors to the internet, \emph{Narrow-band Internet of Things} technology was determined to be most suitable. New \sensit sensors are therefore equipped with \ublox \cite{web:ublox} NB-IoT radio modules to connect them to operated cell networks.
+
+\subsection{Context of the Case Study}
+In this section we will describe and scope the context of the QoS monitoring application to be developed. We will first describe the input for the application in terms of sensor data emitted by the WSN application under investigation. Consequently, the characteristics of the outcomes of the application to be prototyped will be discussed. 
+
+\subsubsection{Sensor data signature}
+The sensor devices send a message with key point information (KPI) data with every data message it sends. Alternatively it will send one of these messages periodically if no data messages are sent for [time period]. This entails that a typical sensor sends between 10 and 50 KPI information messages on average per day, with some outliers for more active sensors which can reach up to 250 messages per day on a regular basis.
+
+The data sent by the sensor contains some typical networking data points, such as source IP address, source port, source device ID, message sequence number and a timestamp. Additionally the message contains a hexadecimally encoded string describing the KPI's collected by the \ublox radio module. The data collected by the \ublox module contains mostly data points depicting the signalling functions of the radio module. Such KPI's include the signal-to-noise ratio, signal quality (RSSI), Extended Coverage Level (ECL)  and more. Additionally the KPI information includes some physical attributes of the radio module. Attributes such as the module's uptime, number of restarts and temperature. 
+
+%TODO recalc nr byts!!!!
+The ordinary networking data [plus] the \ublox KPI data are contains within [512] bytes of data (\nicefrac{1}{2} KiB). Considering the messaging rate of a typical sensor we yield an imposed per sensor footprint on bandwidth of 5-25 KiB/day for the majority of sensors, with outliers of 125 KiB/day for extremely active sensors.
+
+At this moment only a few nodes equipped with the NB-IoT technology have been deployed. Therefore a large scale test bed for the to be prototyped monitoring application does not exist. Threfore a simulated sensor environment has been devised to test the prototype application for contemporary and near-future smart parking applications. This simulation is based on data signatures and values observed over a half year period emitted by the few nodes that have been deployed.
+
+\subsubsection{QoS monitoring needs}
+In collaboration with \idsystems a list of requirements for the outcomes of the prototype was compiled. These consequences are to be effected by the prototype application, based on input from (simulated) sensors. However, the actual implementation of the prototype is secondary to this chapter, since the primary goal is to evaluate choices made for the underlying development platform. Therefore a comprehensive, formalized requirements document has not been included in this thesis. We will however shortly describe the features required of the monitoring application to be developed in order to contextualize the implementation efforts of the prototype.
+%TODO appendix? 
+
+The consequences the application must effect are classified into three categories. The first is sensor feedback. This entails commands sent to sensors to alter its execution strategy, based on observations made in the monitoring application. This can be based on individual sensor data, historic sensor data or higher level data snapshots (e.g. sink level). An example of such feedbacks are to decrease data rates to guarantee a predetermined minimum sensor lifetime or due to poor cell connectivity. This functionality is currently not present in the \nedap sensors, but is intended in the future. Therefore it will be implemented into the simulation environment to test the command \& control capabilities of the platform.
+
+The second type of effect to be caused by the application is instant alerting. The primary use case for this kind of consequence is when physical maintenance is imminently required in the application or its network. Detectable causes of when this might be warranted have been deliberated with \idsystems and examples include:
+\begin{itemize}
+\nospace
+\item a long term drop in coverage level which might indicate permanent obstruction of signal
+\item extremely high temperature readings indicating an electrical malfunction
+\item unusually long periods of inactivity or, conversely, extreme data bursts indicate a rouge node not executing according to a correct strategy.
+\item calculations estimating node lifetime determining a node needs replacing.
+\end{itemize}
+
+The last type of consequence is reporting. The goal of this is to inform technicians, managers or clients on the general operation of the WSN application. This comprises two types of reporting. The first is \emph{periodical reporting}. Periodical reporting will primarily focus on business goals such as long term performance metrics, compliance to service level agreements of both service providers and clients, and prospected short-term maintenance costs. The other type of reporting is \emph{real-time reporting}. This is useful to technicians monitoring the performance of an application during its runtime. Use cases include monitoring the number of incoming events, latencies of sensor devices and sinks, environmental conditions (such as weather and temperature) and which sensor strategies currently are deployed. Notice that the real-time aspect of this type of reporting does not require events to be reported instantaneously since for such statistics a per second or minute update suffices.
+
+\section{Validation methodology}
+With the application, case and its context clear, we will turn our focus to detailing the validation study. Before executing our validation study, in this section we will first depict the taken process. We will begin by clearly stating the claims we aim to confirm and the bounds of our scope. Following that we will describe the intended method of testing those claims specifically, by detailing the quantified criteria the platform implementation must adhere to. We must note that these criteria will only cover the scope of the validation study, not the functional requirements of the implementation for the case. As mentioned before, though important for the outcome of the product for the company, for this validation study they are ancillary.
+
+With the goals clearly stated, parametrized and quantified, we will design and implement a prototype monitoring application built upon our developed software platform, tailored to the QoS monitoring needs of \idsystems. As mentioned before the actual implementation details are secondary for validation purposes of this chapter. Therefore we will only touch upon it shortly without going into great detail. We will however give a short summary of the developed prototype to provide a context to the validation efforts. During and after the development process we will measure the relevant parameters required to evaluate the determined validation criteria.
+
+We will conclude this chapter by stating, analysing and deliberating the parameters obtained by measuring and observing the development process, and results of the execution of different test scenarios. These results will be compared with the previously determined criteria of the validation study. If these criteria are met, this will validate the claims they are meant to affirm. We will conclude by discussing the process and results in order to deliberate the limitations and lessons learned regarding the proposed development platform.
+	
+\section{Criteria of the Case Study}
+\subsection{Claims}
+In this section we will state the claims regarding the proposed platform we aim to validate. These claims will be closely related to some of the research questions stated in Section \ref{sec:goal}.
+
+the first claim regarding our platform is that the appropriate level of abstraction was chosen. This implies an adequate trade-off between the ease of implementation of the platform and the flexibility of its components. We claim that we have chosen our level of abstraction in such a manner that our collection of components can be adapted to suit a plethora of purposes and target applications. Conversely, the level of abstraction is not that high-level that every implementation requires unnecessarily large development efforts because similar procedures require repeated implementation. This claim mirrors the research question \ref{rq:abstraction}, which asks "What is the appropriate level of abstraction for a WSN monitoring platform [...]". 
+
+The second claim that requires validation is regarding the scalability of the platform. As mentioned numerous times before the extreme scale of WSN applications requires (auxiliary) back-end processes that are at least as scalable as the application they observe, as is captivated in research question \ref{rq:desing_scale}. Our claim is that our platform offers the tools to design a fully scalable WSN monitoring application. In order to validate the scalability of the platform and its implementation, possible congestion points will need to be identified and stress-tested in order to show that proper configuration of the component(s) will alleviate any scalability issue. This will be validated by means of two methods, which will be detailed in section \ref{sec:val:method}.
+
+
+%relate to research questions
+%	(RQ2 how to)
+%	RQ3 level of abstraction
+%	RQ5 overcome scalability issues
+%easy to develop (RQ3)
+%	%TODO harde eis
+%	harde eis moeilijk lack of examples
+%	measured in lines of code per 
+%scalable (RQ5)
+%	event burst
+%		eis: backup processed within X seconds
+%	some-many-huge ('on the fly')
+%		measure latency
+%		%TODO eis stellen
+%	introduce 'single point of failure' -> no bottleneck
+%		%TODO voorwaarden (nr sensors, nr machines)
+%		measure congestion
+\subsection{Bounds}
+Before considering into how we aim to validate the stated claims, the bounds and limitations of this validation study will need to be stated. The first glaring limitation of this study is that  it is extremely limited in scope. The platform will only be implemented for a specific WSN application and this study will therefore not state the platform to be appropriate for the entire set of WSN applications that was determined in Section \ref{sec:back:context} of Chapter \ref{ch:back}. Instead, this study will at most affirm the platform as a proof-of-concept for WSN application QoS monitoring.
+
+The second limitation worthy of notion is that,aside from only regarding a single WSN application, it will also run on a simulation of that application. As mentioned before, this is because the NB-IoT incorporated sensor devices of the SENSIT application have only recently started deployment. As a consequence a test bed of significant scale is presently not available. However by simulating a full future deployment of the application we are able to easily adapt the application under investigation, in terms of both scale and functionality, which allows us to not only test for intended regular behaviour but also for extreme and niche conditions. Additionally our simulated environment allows for easy temporal manipulation, which enables us to speed up, halt and repeat simulations.
+
+%only one case. Partial validation, proof of concept
+%simulated environmant (based on acutal data signatures and data rates)
+%	current state of sensit not a scale challenge
+%	simulation can fast forward
+\section{Method}
+\label{sec:val:method}
+\subsection{General approach} 
+As stated before, the first claim to validate is weather the level of platform and model abstraction was appropriate. In order to validate this claim we will quantify the development effort required to adapt the designed platform to the case. From a business perspective, the most interesting parameter to express the adoption effort is the time required to develop an application based on the proposed technology (for example measured in FTE$\cdot$weeks). However this parameter is extremely subjective as it heavily depends on the level of skill of the developer and its familiarity with the technology. We will therefore not only measure the time required but also the number of lines of code required to devise a monitoring application built by integration of our platform. 
+%[Ideally, this will be compared to the amount of code required for a [regualar], monolithic application].
+
+Our method of confirming the scalability of the platform is twofold. First, we will flood the system with events. If our claim of scalability is correct this will not cause a build-up of message anywhere in the topology of the application. Should such a congestion occur this should be able to be alleviated by scaling the deployment configuration of the components, i.e. the number of tasks and workers per component, without requiring a change in the topology or the internals of the components themselves. The second method we will employ to test the scalability of the system is by initially configuring the simulation in for real-world deployment. We will then deliberately trigger an event shower in the sensor simulation. It is expected that the platform will experience a sudden influx of input messages. Should such an event occur, the platform is not expected to hold its ordinary timing constraints. However, the platform is expected to eventually return to its normal execution, i.e. within the bounds typical of ordinary execution. The platform will pass this test if it is able to process the batch of messages caused by the sudden influx and return to ordinary execution within a certain amount of time.
+
+%TODO requirements -> validation criteria?
+\subsection{Validation criteria}
+Before starting the implementation, the criteria the monitoring application and its development process must adhere to must be stated. Fulfilment of these criteria affirms the belief in the claims stated in Section \ref{sec:val:claims}. The criteria will be divided into functional requirements and non-functional requirements. The functional requirements describe features and conditions that must hold for the developed monitoring application, but cannot be quantified or measured. It either holds or it does not. The non-functional requirements however are quantified and measurable.
+
+Again we re-iterate, these criteria and requirements only relate to the validation study, not the requirements of the actual monitoring application prototype that will be designed and developed. Reason for this is that the aim is to evaluate the development platform, not this particular instance of the platform.
+
+\subsubsection*{Functional requirements}
+Intuitively, the primary criterium is that an instantiation of the proposed platform should be possible in accordance with the needs and wants of \idsystems . This seems an obvious and trivial demand, but without stating it, any subsequent criterium is pointless. More specifically, the platform should enable an instantiation which enables iterative and consequent enrichment and accumulation of information. At multiple stages of the consequential iteration the application should be able to generate outputs such as alerts and reports for auxiliary processes and systems. 
+
+\subsubsection*{Non-functional requirements} Though the platform should enable an instantiation according to the needs of \idsystems, it should do so with minimal development effort. We will express these efforts in the time needed for the implementation and the lines of code required.
+%TODO parameterize
+
+Aside from the usability criterium we find the scalability required of the platform. We will formalize this requirement with two criteria. The first regards the general scalability of the platform. It requires the application to be able to cope with fantastic amounts of input data by only reconfiguring the worker tasks of the application, without changing the topological order of those components. Secondly, the implementation should be able to cope with fluctuating data signatures. For this the following criterium was formulated. The platform implementation should return to normal execution parameters within a certain amount of time after experiencing an increased input load.
+
+\subsubsection{Criterium parameters}
+While the functional criteria pose a binary decision on pass or fail, the non-functional criteria require quantification in order to determine weather they hold for the platform implementation. These parameters are based upon contemporary and near-future use cases and have been determined in collaboration with industry experts of \nedap. For the usability requirement it was determined that the implementation should be able to be designed and devised within one FTE$\cdot$week, i.e. one 40-hour work week. As an absolute upper bound on the amount of code proved to be difficult to determine before-hand, it was defined as "the amount of code required for calculating the QoS parameters in a monolithic application, plus at most 4 lines of code for every component in the platform topology". The parameter of 4 lines of code per component originates in assertion made in Chapter \ref{ch:architecture}.
+
+For the scale of the input signature for the monitoring application, the realistic near-future scale of the sensor application was determined to be [TODO:invullen] devices. For the fantastical size of future applications we have taken an increased factor of $\times$10, i.e. [TODO:invullen] devices. Finally, for the increased signature of the temporary event shower to be processed we have chosen a factor of $\times$100 of the realistic data signature. This burst is supposed to be processed within [TODO:invullen] seconds, after which the application should return to regular execution parameters.
+
+\subsubsection{Summary of criteria}
+The concrete criteria formulated in this section are as follows:
+\begin{enumerate}
+\nospace
+\item An instantiation of the proposed platform should be possible in accordance with the needs and wants of \idsystems.
+\item The platform should enable an instantiation which enables iterative and consequent enrichment and accumulation of information.
+\item The platform should be able to output consequences at multiple stages of computation.
+\item The instantiation of the platform should take no longer to be developed than one FTE$\cdot$ week (40 hours).
+\item The instantiation of the platform should require 
+\begin{itemize}
+\item no more calculation code than it would in a monolithic system, and
+\item at most 4 lines of code per component to build the topology.
+\end{itemize}
+\item A realistic deployment of the instantiated application should be able to handle an input of [number] devices.
+\item A reconfiguration of the realistic deployment should be able to handle [10x number] of input devices, without changing the topological order of the components.
+\item An event burst of factor 100 should be processed within [number] seconds.
+\end{enumerate}
+
+
+%functional
+%	features
+%	not measurable, just attainable
+%	- multilevel reporting
+%	- enrichment through platform
+%non-functional
+%	scale 
+%		x sensors
+%	ease-of-implementation
+%		1 fte week
+%	measurable
+%	validation criteria
+	
+\section{Design and Implementation}
+[FROM HERE TODO]
+
+\subsection{Design}
 \subsection{Implementation}
+\subsection{Equipment}
+\section{Results}
 \section{Evaluation}
+\subsection{Evaluation of Requirement criteria and Claims}
+\subsection{Discussion}
+no validation of intuitiveness 
+	only applicablility
+	needs test persons
+more broad validation needed
+	to validate estimated lines of code per input unit (datapoints, results, etc)

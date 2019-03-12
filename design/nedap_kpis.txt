@@ -1,0 +1,111 @@
+prev sequence
+this sequence
+	missed msgs
+temperature between -10 & 30
+prev restarts
+restarts (< 5)
+timestamp
+prev timestamp 
+timestamp recieved
+ecl 
+node_id
+cell_id
+
+
+
+
+model
+	sensor
+		budget
+		messages sent (within current budget window)
+		bandwidth??
+		temperature
+		restarts
+		active time
+		ecl		
+	cell
+		datarates (verg. sla)
+		sla params (aux)??
+		ECL counts
+		latency
+	application
+		latency
+		bandwidth??
+		message drop (accuracy)	
+	
+consequences
+	feedback
+		single sensor
+			edit budget
+		cell
+			reduce collective budget
+		disable
+			too active
+	live dashboard
+		nr events
+		nr strategy
+	alert
+		node extremely near death
+		abnormal parameters
+			high restarts
+			high temp
+		high nr message missed (%/time, do reset after alert)
+		long ecl disruption (windowed (acc), snapshots with perc.)
+	report
+		bandwidth per cell
+		messages per cell
+		durations per cell
+		budget per cell
+		timing 
+			avg
+			dev
+			max/min
+
+raw
+	node_id
+	timestamp
+	kpi_string
+	message_uuid
+	sequence_number (message_number)
+translated
+	cell_id
+	ecl
+	active time
+	restarts
+enriched
+	temperature
+	average send interval
+	(per maand?)
+	total budget
+	messages sent/budget used
+	last message sequencenr recieved
+post-model
+	budget/dag
+	nr messages left for month
+
+	
+mo
+2/3 hours specs/design
+di
+6/7 hours design
+wo
+4 hours design (db)
+3 hours prog (componenten)
+8 hours prog
+vr
+3 hours prog (components)
+mon
+6 hours des/prog (sensor model)
+2 hours prog (sensor model+components)
+di
+4 hours (nuancer prog)
+4 hours (topology+ testing)
+
+			
+to sql -> calc dayly
+to sql -> calc hourly -> report dayly
+to kafka -> calc hour -> report dayly
+
+
+			
+qui expecto sic nobis eius hic pro gaudia vos, veni domum ex frigus festum

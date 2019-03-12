@@ -1,0 +1,102 @@
+
+
+TODO 
+get data
+	behaviour
+	data format
+currently
+	sensor scales
+		actual
+		stress test
+	internal techniques
+	external reporting
+	elastic search working?
+		visualization working?
+get requirements
+	sensor requirements
+	mid level
+	application level
+	feedbacks
+consequences
+	visualization
+		now
+		wanted
+	alerts
+	
+	
+
+	
+uitbreidingen
+first replay of sensors
+scale up in size
+scale up in feature
+	
+
+
+needs
+	servers
+		java8
+		nimbus
+		zookeeper		(outside)
+		apache kafka	(outside)
+		apache storm
+		apache spark
+		
+scenarios
+	actual
+	actual (extended)
+	event shower (broken node/cell)
+	
+deviations
+	scale
+	(energy level?)
+	feedback
+
+
+wants
+	feedback
+		credits (budget/time) (network devices over sensor)
+	alert
+		long-term ecl distruption
+		node dood
+		node bijna dood
+		abnormal behavior
+		sla near breach
+	report
+		sla complience
+		application delta (deteriation)
+	live statistics
+		live nodes
+		nr messages
+		throughput (data usage)
+		delays
+
+sent:
+	background layout+example case
+	C3 architecture
+		
+DONE:
+	analyse sensordata
+	value replicators
+	pattern replicators
+
+		
+plan
+	requirements/needs van nedap
+	deviations vaststellen
+	scope definieren
+	case & scope beschrijven
+		
+		
+GJ
+	no energy level
+Martijn
+	burst
+	longterm ECL disruption
+	event shower/burst
+	
+	Properties auth = new Properties();
+		auth.put("user", "jochem");
+		auth.put("password", "sql_pass_42");
+		return DriverManager.getConnection("jdbc:mysql://localhost:3306/sensit_messagelog", auth);
+	 

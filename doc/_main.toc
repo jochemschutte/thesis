@@ -1,0 +1,97 @@
+\contentsline {chapter}{\numberline {1}Introduction}{3}{chapter.1}
+\contentsline {section}{\numberline {1.1}Domain overview}{3}{section.1.1}
+\contentsline {section}{\numberline {1.2}Current State of the Art}{4}{section.1.2}
+\contentsline {subsection}{\numberline {1.2.1}Challenges in monitoring QoS in IoTs and WSNs}{4}{subsection.1.2.1}
+\contentsline {subsubsection}{Technical limitations}{4}{subsubsection*.2}
+\contentsline {subsubsection}{IoT QoS is different}{5}{subsubsection*.3}
+\contentsline {subsubsection}{Movement to operated cell network}{5}{subsubsection*.4}
+\contentsline {subsubsection}{Summation}{6}{subsubsection*.5}
+\contentsline {subsection}{\numberline {1.2.2}Deficiencies in current State of Art}{6}{subsection.1.2.2}
+\contentsline {section}{\numberline {1.3}Goal}{7}{section.1.3}
+\contentsline {subsection}{\numberline {1.3.1}Research questions}{7}{subsection.1.3.1}
+\contentsline {section}{\numberline {1.4}Approach}{8}{section.1.4}
+\contentsline {section}{\numberline {1.5}Organisation of thesis}{9}{section.1.5}
+\contentsline {chapter}{\numberline {2}Background}{10}{chapter.2}
+\contentsline {section}{\numberline {2.1}Context of the project}{10}{section.2.1}
+\contentsline {section}{\numberline {2.2}Micro-service architecture}{13}{section.2.2}
+\contentsline {section}{\numberline {2.3}Quality of Service \& Quality of Information}{13}{section.2.3}
+\contentsline {subsection}{\numberline {2.3.1}Quality of Service in WSN}{13}{subsection.2.3.1}
+\contentsline {subsection}{\numberline {2.3.2}WSN energy conservation methods}{13}{subsection.2.3.2}
+\contentsline {subsection}{\numberline {2.3.3}Quality of Information of WSN data}{13}{subsection.2.3.3}
+\contentsline {section}{\numberline {2.4}Constraint programming and solving paradigms}{14}{section.2.4}
+\contentsline {section}{\numberline {2.5}Design Methods}{15}{section.2.5}
+\contentsline {subsection}{\numberline {2.5.1}Commonality/variability analysis}{15}{subsection.2.5.1}
+\contentsline {subsection}{\numberline {2.5.2}Design Science Methodology}{16}{subsection.2.5.2}
+\contentsline {section}{\numberline {2.6}Example case}{16}{section.2.6}
+\contentsline {chapter}{\numberline {3}Design of IoT monitoring platform architecture}{18}{chapter.3}
+\contentsline {section}{\numberline {3.1}Goal}{18}{section.3.1}
+\contentsline {section}{\numberline {3.2}Conceptualization of the problem domain}{18}{section.3.2}
+\contentsline {section}{\numberline {3.3}Requirements for the proposed software platform}{20}{section.3.3}
+\contentsline {section}{\numberline {3.4}Exploration of the solution domain}{21}{section.3.4}
+\contentsline {subsection}{\numberline {3.4.1}Architecture basis and execution platform}{22}{subsection.3.4.1}
+\contentsline {subsection}{\numberline {3.4.2}Message brokers}{23}{subsection.3.4.2}
+\contentsline {subsection}{\numberline {3.4.3}Distributed computing}{25}{subsection.3.4.3}
+\contentsline {subsubsection}{MapReduce}{25}{subsubsection*.6}
+\contentsline {subsubsection}{Apache Spark (Streaming)}{25}{subsubsection*.7}
+\contentsline {subsection}{\numberline {3.4.4}Solution decision}{27}{subsection.3.4.4}
+\contentsline {section}{\numberline {3.5}Design of the software platform}{28}{section.3.5}
+\contentsline {subsection}{\numberline {3.5.1}Micro-component architecture}{28}{subsection.3.5.1}
+\contentsline {subsection}{\numberline {3.5.2}Scaffolds for micro-services}{30}{subsection.3.5.2}
+\contentsline {subsubsection}{DatabaseBufferedProcessor}{32}{subsubsection*.8}
+\contentsline {subsubsection}{DistributedAccumulatorProcessor}{32}{subsubsection*.9}
+\contentsline {subsection}{\numberline {3.5.3}Demonstration by example topology}{33}{subsection.3.5.3}
+\contentsline {section}{\numberline {3.6}Discussion of the proposed software platform}{36}{section.3.6}
+\contentsline {chapter}{\numberline {4}Resource Distribution Model}{39}{chapter.4}
+\contentsline {section}{\numberline {4.1}Objective of the model}{39}{section.4.1}
+\contentsline {section}{\numberline {4.2}Conceptualization of the problem domain}{39}{section.4.2}
+\contentsline {subsubsection}{Definitions}{39}{subsubsection*.10}
+\contentsline {subsubsection}{Commonalities}{40}{subsubsection*.11}
+\contentsline {subsubsection}{Variabilities}{40}{subsubsection*.12}
+\contentsline {section}{\numberline {4.3}Requirements for the proposed model}{40}{section.4.3}
+\contentsline {subsection}{\numberline {4.3.1}Requirements}{41}{subsection.4.3.1}
+\contentsline {subsection}{\numberline {4.3.2}Justification of identified requirements}{41}{subsection.4.3.2}
+\contentsline {section}{\numberline {4.4}State of the art of the solution domain}{41}{section.4.4}
+\contentsline {subsection}{\numberline {4.4.1}State of the art}{42}{subsection.4.4.1}
+\contentsline {subsection}{\numberline {4.4.2}Evaluation of the solution domain}{42}{subsection.4.4.2}
+\contentsline {subsection}{\numberline {4.4.3}Choices of employed solutions}{43}{subsection.4.4.3}
+\contentsline {section}{\numberline {4.5}Design of the Resource Distribution Model}{44}{section.4.5}
+\contentsline {subsection}{\numberline {4.5.1}The model}{44}{subsection.4.5.1}
+\contentsline {subsubsection}{Resource}{44}{subsubsection*.13}
+\contentsline {subsubsection}{ResourceInterface}{44}{subsubsection*.14}
+\contentsline {subsubsection}{Component}{45}{subsubsection*.15}
+\contentsline {subsubsection}{ResourceFunction}{45}{subsubsection*.16}
+\contentsline {subsubsection}{Requirement}{46}{subsubsection*.17}
+\contentsline {subsubsection}{Optimizer}{46}{subsubsection*.18}
+\contentsline {subsubsection}{RdmMessage}{46}{subsubsection*.19}
+\contentsline {subsection}{\numberline {4.5.2}Demonstration by example case}{46}{subsection.4.5.2}
+\contentsline {subsection}{\numberline {4.5.3}Computing an optimal model assignment}{47}{subsection.4.5.3}
+\contentsline {section}{\numberline {4.6}Discussion of the proposed model}{51}{section.4.6}
+\contentsline {subsubsection}{Static model}{51}{subsubsection*.20}
+\contentsline {subsubsection}{Solver libraries}{51}{subsubsection*.21}
+\contentsline {subsubsection}{Constraint propagation}{52}{subsubsection*.22}
+\contentsline {chapter}{\numberline {5}Proof of concept by case study}{54}{chapter.5}
+\contentsline {section}{\numberline {5.1}Case study}{54}{section.5.1}
+\contentsline {subsection}{\numberline {5.1.1}Background}{54}{subsection.5.1.1}
+\contentsline {subsection}{\numberline {5.1.2}Context of the Case Study}{54}{subsection.5.1.2}
+\contentsline {subsubsection}{Sensor data signature}{55}{subsubsection*.23}
+\contentsline {subsubsection}{QoS monitoring needs}{55}{subsubsection*.24}
+\contentsline {section}{\numberline {5.2}Validation methodology}{56}{section.5.2}
+\contentsline {section}{\numberline {5.3}Criteria of the Case Study}{57}{section.5.3}
+\contentsline {subsection}{\numberline {5.3.1}Claims}{57}{subsection.5.3.1}
+\contentsline {subsection}{\numberline {5.3.2}Bounds}{57}{subsection.5.3.2}
+\contentsline {section}{\numberline {5.4}Method}{58}{section.5.4}
+\contentsline {subsection}{\numberline {5.4.1}General approach}{58}{subsection.5.4.1}
+\contentsline {subsection}{\numberline {5.4.2}Validation criteria}{58}{subsection.5.4.2}
+\contentsline {subsubsection}{Criterium parameters}{59}{subsubsection*.25}
+\contentsline {subsubsection}{Summary of criteria}{60}{subsubsection*.26}
+\contentsline {section}{\numberline {5.5}Design and Implementation}{60}{section.5.5}
+\contentsline {subsection}{\numberline {5.5.1}Design}{61}{subsection.5.5.1}
+\contentsline {subsection}{\numberline {5.5.2}Implementation}{61}{subsection.5.5.2}
+\contentsline {subsection}{\numberline {5.5.3}Equipment}{61}{subsection.5.5.3}
+\contentsline {section}{\numberline {5.6}Results}{61}{section.5.6}
+\contentsline {section}{\numberline {5.7}Evaluation}{61}{section.5.7}
+\contentsline {subsection}{\numberline {5.7.1}Evaluation of Requirement criteria and Claims}{61}{subsection.5.7.1}
+\contentsline {subsection}{\numberline {5.7.2}Discussion}{61}{subsection.5.7.2}
+\contentsline {chapter}{\numberline {6}Conclusion}{62}{chapter.6}
+\contentsline {section}{\numberline {6.1}Discussion}{62}{section.6.1}
+\contentsline {section}{\numberline {6.2}Conclusions}{62}{section.6.2}

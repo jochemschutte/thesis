@@ -1,0 +1,16 @@
+opvallend:
+	exceptions lastig -> niet rondgooien maar doorsturen (single machine 'monolith' makkelijker)
+	combo bufferocmponents (keep in memory, naar geheugen voor fault tolerant)
+	buffered by key
+	
+Goed
+	RDM is goud! (alleen sensorlevel getest)
+	
+Slecht
+	no editor -> eerst designen dan nog eens bouwen
+	
+Aanbevelingen
+	per component unittest mechanism
+
+notes
+	count cells by node scalable as long as nr events per sensor < capcity of worker
