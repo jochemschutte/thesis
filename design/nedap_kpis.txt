@@ -100,6 +100,9 @@ mon
 di
 4 hours (nuancer prog)
 4 hours (topology+ testing)
+wo
+1 hours prog (sensor component)
+
 
 			
 to sql -> calc dayly

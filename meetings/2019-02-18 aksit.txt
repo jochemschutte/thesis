@@ -1,5 +1,5 @@
 challenges beter inleiden en refereren waar opgelost (misschien in goal/resource question)
-`tech challenge -> wat is implicatie? (claims afhandelen
+tech challenge -> wat is implicatie? (claims afhandelen
 hoe qos iot oplossen
 challenge-questions-approach-rest
 state of affairs integreren met challenges

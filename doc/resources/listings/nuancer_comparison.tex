@@ -1,0 +1,56 @@
+\begin{scriptsize}
+\begin{lstlisting}[
+language=java, 
+caption={Simplified fragment of \emph{SensorNuancer} without struct objects}, 
+label={list:nuancer_without_structs}, 
+escapeinside={(*}{*)}, 
+captionpos=b,
+numbers=left,
+tabsize=4
+]
+public void runForMessagesHistoric(LinkedList<IOMessage> history) {
+	Map<String, String> args = new HashMap<>();
+	long first = Long.parseLong(
+		history.getFirst().getVars().get("TIMESTAMP"));
+	long last = Long.parseLong(
+		history.getLast().getVars().get("TIMESTAMP"));
+			
+	List<Integer> ecls = new LinkedList<>();
+	for(IOMessage m : history){
+		ecls.add(Integer.parseInt(m.getVars().get("ECL_LOCAL"));		
+	}
+	int normalizedEcl = normalizeEcl(ecls);
+			
+	args.put("MILLIS_ELAPSED", Long.toString(last-first));
+	args.put("ECL_LOCAL", history.getLast().getVars().get("ECL_LOCAL"));
+	args.put("ECL", Integer.toString(normalizedEcl));
+	publish("SENSOR_NORMALIZED", new IOMessage(args));		
+}
+\end{lstlisting}
+\begin{lstlisting}[
+language=java, 
+caption={Simplified fragment of \emph{SensorNuancer} with struct objects}, 
+label={list:nuancer_with_structs}, 
+escapeinside={(*}{*)}, 
+captionpos=b,
+numbers=left,
+tabsize=4
+]	
+public void runForMessagesHistoric(LinkedList<NuancerInStruct> history) {
+	NuancerOutStruct output = new NuancerOutStruct();
+	long first = history.getFirst().getTimestamp();
+	long last = history.getLast().getTimestamp();
+			
+	List<Integer> ecls = new LinkedList<>();
+	for(NuancerInStrcut struct : history){
+		ecls.add(struct.getEclLocal());
+	}
+	int normalizedEcl = normalizeEcl(ecls);		
+			
+	output.setMillisElapsed(last-first);
+	output.setEclLocal(history.getLast.getEclLocal());
+	output.setEcl(normalizedEcl);				
+	publish("SENSOR_NORMALIZED", output);	
+}
+\end{lstlisting}
+\end{scriptsize}

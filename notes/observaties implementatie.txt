@@ -11,6 +11,8 @@ Slecht
 	
 Aanbevelingen
 	per component unittest mechanism
+	interactive mode (spelen met model)
+	non-fatal criteria in rdm
 
 notes
 	count cells by node scalable as long as nr events per sensor < capcity of worker
