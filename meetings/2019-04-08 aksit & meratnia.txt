@@ -20,13 +20,26 @@ instructies instead
 to illustrate -> listing
 threats to validity
 
+intro
+	LPWA duidelijker
+	platforms
+	qos duidelijker
+	rode lijn
+background
+	(energy concervation)
+architecture
+	rum processor
+	...(review pending)
+rdm
+	DbBufferedProcessor
+val
+	... (review pending)
+conclusion
+	0.0
 	
 	
-1	rework
-2	(1/2)
-3	0.9
-4	0.8
-5	0.7
-6	0
-
-vrijdagochtend
+	
+only one app
+model niet extensive
+model niet adaptability/dev effort
+not blind study

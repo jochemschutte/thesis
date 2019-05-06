@@ -5,8 +5,7 @@
 Before discussing the research method we employ for the remainder of this thesis we will attempt to focus our efforts by scoping the project. This will be achieved by two analyses. First we will attempt to describe the set of target applications in more abstract concepts. Secondly we will focus our efforts be defining the stakeholders that stand to gain from an implementation of the intended monitoring platform. 
 
 \subsubsection*{Defining the set of applications}
-%TODO kleine ref van c/v analysis van architecture
-As stated before the concrete group of target applications for the QoS monitoring platform is WSN and IoT applications. However we can scope the group of applications more conceptually by specifying and parametrizing the data emitted by them and expected after processing, since this will be the input and output data for our platform and its implementations. For the purpose of scoping we will consider an implementation-agnostic  of the platform as a black box. In doing so we can focus on the intended inputs and expected outputs, and their contrasts, without concerning the internals of the platform to be designed.
+As stated before, the concrete group of target applications for the QoS monitoring platform is WSN and IoT applications. However we can scope the group of applications more conceptually by specifying and parametrizing the data emitted by them and expected after processing, since this will be the input and output data for our platform and its implementations. For the purpose of scoping we will consider an implementation-agnostic  of the platform as a black box. In doing so we can focus on the intended inputs and expected outputs, and their contrasts, without concerning the internals of the platform to be designed.
 
 Firstly we have the issue of \emph{individual information capacity}. Individual messages emitted by applications and presented to the platform contain very little individual capacity for information. Some information can be extrapolated from it, but only about the device that emitted it and at the exact moment the measurements were taken. Though, for example, detection of failure of a single node is an important task, it probably has little impact on the application at large if this application concerns thousands of sensors. This immediately identifies a second feature of the emitted data, in that it is extremely multi-source. The data originates from an incredible amount of distributed devices. This entails that, though the measured data-points from similar devices describe similar data, the aggregation of data from these sources is not a trivial task. Not only is a series of data temporally relevant, it is also related across the plain of topologically distributed sensor devices. Finally the huge amount of devices and the dynamic nature of sensor networks and IoT induces a high degree of (dynamic) scalability. Therefore any back-end application --- main processing or auxiliary support --- should anticipate and provide a sufficient potential for scalability. In contrast we have the expectations of the outcomes of the platform. Firstly, the platform is expected to output a relatively small amount of high-information actions, alerts and reports. The high-information consequences directly contradict the low-information capacity of individual device messages. Conversely, the moderately small number of output responses/events contradicts the immense influx of data-messages into the platform. These contradictions in turn affect the required scalability of the platform. 
 
@@ -29,8 +28,7 @@ The third layer of the model is the \textbf{Wider Environment}. This final layer
 \caption{Visual depiction of application of onion stakeholder model}
 \label{fig:onion}
 \end{figure}
-\section{Micro-service architecture}
-%TODO write
+%TODO refs naar chapters waar de informatie gebruikt wordt
 \section{Quality of Service \& Quality of Information}
 %TODO afkortingen?
 %TODO write
@@ -39,10 +37,7 @@ Existing platforms?
 \subsection{WSN energy conservation methods} 
 \subsection{Quality of Information of WSN data}
 \label{sec:back:qoi}
-Aside from Quality of Service, in WSNs and IoT applications we find the concept of Quality of Information (QoI). QoI [describes] parameters depicting quality attributes of information presented by and derived from as system. It is especially [applicable] to WSNs as they present raw low-level which is then highly processed by subsequent applications. We will therefore employ the concept of QoI to validate and evaluate the processing architecture presented in chapter \ref{ch:architecture}.
-
-%TODO cite or parafrase
-\cite{qoi_definition} identifies the following attributes describing Quality of Information.
+Aside from Quality of Service, in WSNs and IoT applications we find the concept of Quality of Information (QoI). QoI [describes] parameters depicting quality attributes of information presented by and derived from as system. It is especially [applicable] to WSNs as they present raw low-level which is then highly processed by subsequent applications. We will therefore employ the concept of QoI to validate and evaluate the processing architecture presented in chapter \ref{ch:architecture}. [names]\cite{qoi_definition} identifies the following attributes describing Quality of Information.
 \begin{description}
 \nospace
 \item[Accuracy] The degree of correctness which provides the level of detail in the deployed network. It is the value which is the close imitation of the real world value.
@@ -59,9 +54,9 @@ of confidence helping the user for decision making.
 transporting the data/information. It is the expensiveness of information. 
 \item[Reusability] The characteristic of information, where the information is reusable during its lifetime or as long as it is relevant.
 \end{description}
-\section{Constraint programming and solving paradigms}
+\section{Constraint programming and solving}
 \label{sec:back:constraint}
-In chapter \ref{ch:rdm} we will visit the concept of constraint programming and solvers. The concept of constraint programming encompasses modelling a problem by means of a collection of correlated variables and associated value domains. The relations between variables are captured in a list of constraints. The problem is then solved by finding assignments for each variable with respect to their domains which conforms with the specified constraints. 
+In chapter \ref{ch:rdm} we will visit the concept of constraint programming and constraint solvers. The concept of constraint programming encompasses modelling a problem by means of a collection of correlated variables and associated value domains. The relations between variables are captured in a list of constraints. The problem is then solved by finding assignments for each variable with respect to their domains which conforms with the specified constraints. 
 
 An example of a problem modelled as constraint problem is an automatic sudoku solver. The model would be a list or matrix of integer variables, with each entry having a domain $\{V_i|1\leq V_i\leq 9\}$. The constraint we would have is $V_1 \neq V_2$ for every combination of entries $(V_1,V_2)$ in the same row, column or 3-by-3 grid .
 
@@ -89,9 +84,9 @@ under consideration.
 
 In our conceptualization of the problem domain we will mostly focus on step 2 in which we will provide a list of common definitions, shared commonalities and variabilities. Also, in our approach we will combine steps 4 and 5 by formulating a list of requirements for our solution based on the identified commonalities and accounting for the found variabilities. As the list of requirements depends on invariants and accommodates variabilities it will allow us to design automated solutions.
 
-\subsection{Design Science Methodology}
-\label{sec:back:dsm}
-%TODO write
+%\subsection{Design Science Methodology}
+%\label{sec:back:dsm}
+%TTODO write
 \section{Example case}
 \label{sec:example_case}
 Throughout this [thesis] we will demonstrate our solutions by applying them to a hypothetical case. Though this case may sometimes seem oversimplified and nonsensical, it does provide an elementary example to illustrate all facets of our solutions without overcomplicating the case. This case is expressly not intended to demonstrate the capabilities or utility of our proposed solution. For that purpose, an application to a more complex real-world case will be performed in section \ref{ch:validation}. 

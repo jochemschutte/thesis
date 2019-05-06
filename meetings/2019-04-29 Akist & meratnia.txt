@@ -1,0 +1,40 @@
+review
+review C3
+planning ga ik maken
+hoe platforms(/protocollen)?
+hoe fault tolerance
+
+redundancy weghalen
+wat (bounded) -> hoe
+5 pag
+results concreter (subdoelen)
+adaptability voor validatie
+
+full draft
+ook naar ronny
+
+commettee
+
+
+
+intro (1d)
+	qos duidelijker
+	rode lijn
+background (1d)
+	(energy concervation)
+architecture (na review 1d)
+	rum processor
+	...(review pending)
+rdm (0.5d)
+	DbBufferedProcessor
+val (...)
+	... (review pending)
+conclusion (2d schrijven, 2d na review
+	0.0
+	
+	
+ma	
+di	h1
+wo	h2
+do	h3,h4
+vr	h5

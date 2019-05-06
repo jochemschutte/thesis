@@ -309,7 +309,6 @@ Alert ECL drop		& 0		& 1			& \cmark	&		 \\ \hline
 \label{sec:eval}
 In this section we will evaluate the obtained results and compare them to the criteria set out in section \ref{sec:criteria}. The criteria will be deliberated in the same order as the results in the previous section were.
 
-\subsection{Evaluation of Requirement criteria and Claims}
 \subsubsection{Applicability}
 As stated, the building blocks provided by the platform allowed for a sufficient implementation of the intended monitoring application. However it was discovered that, though possibly useful, the platform did not provide an efficient template to buffer snapshots grouped by a certain snapshot parameter.  This component could easily be provided by introducing a mapper function to the \emph{BufferedProcessor} which will determine into which buffer a snapshot will be added to. The existing filter, sort and execution methods will then be performed on these buckets individually, providing a mechanism of grouped computations.
 

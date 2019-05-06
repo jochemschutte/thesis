@@ -1,6 +1,106 @@
 \chapter{Conclusion}
-\section{Discussion}
-why not sensor or edge computing
-feedback into models (learning models)
-wider applicability?
+In this final section the thesis will be concluded. This will be performed by first revisiting the research questions and answering them as well as permitted by the results and efforts of this study. Subsequently, some issues left that require debating. Finally, some areas of exploration will be suggested for continued research.
+
 \section{Conclusions}
+This section will attempt to answer the research questions posed in \ref{sec:goal}. The first 5 of which regarding the development platform will be answered in the next subsection, the remaining 3 in the following.
+\subsection{Platform architecture}
+\subsubsection{Stream transformation types}
+From the reasons posed in the introductory chapter it can be derived that globally the input for the QoS determination process is a high influx of low-level, raw data describing the condition and performance of end-devices. From this data a number of high-information output parameters is required to be derived in order to cause concrete effects. From this [propositions] it is firstly concluded that the input data is transformed in order to enrich the data from raw to higher-level information. Secondly, the data is aggregated to further raise the level of information and to in increase the accuracy of the information. This aggregation can be performed across two dimensions: laterally or longitudinally. Lateral aggregation entails collecting similar data collected from different sources to determine high-level information of a state across a larger domain (e.g. geographically). Conversely, longitudinal aggregation encompasses data from a single source (a sensor or intermediary process), but which is buffered over a period of time. Such analyses can be used to infer higher-level information such as trends or to improve the accuracy and confidence in measured or computed parameters. The specified processes can have one or some snapshots as output, whereby \emph{some} is defined as a countable, fixed amount which does not increase as the number of inputs increases. To simplify the abstraction we will include one into some. From the preceding we conclude two types of information processing streams: one-to-some (transformation) and many-to-some (aggregation).
+
+The preceding discussion ignores two types of processing streams. The first of which is the many-to-many relation. It is omitted because it can be simulated by parallelized and subsequent many-to-one and one-to-one processes. It therefore only serves as an abstraction of the actual processing. The second stream type omitted is the one-to-many. Since the information-potential of data cannot be increased by splitting it apart, it will only produce copies of the information. Because only information processing streams are of interest such copying will also be disregarded. 
+
+\subsubsection{Platform design}
+The types of data streams are accounted for in the development platform by providing a micro-component architecture. This platform allows for the specification of processors which communicate with one another through the Apache Storm platform. The developed platform scaffolds processors for the identified data streams and provided builders enable rapid development of application topologies. There are three chief types of processors, however variants exist (e.g. local/external storage or local/distributed computation). These chief type of processors are:
+\begin{description}[style=nextline]
+\nospace
+\item[SingleMessageProcessor]Takes a single snapshot and emits one or some snapshots.
+\item[AccumulatorProcessor]Takes a large amount of related snapshots emitted by many sources and computes some high-information snapshot(s).
+\item[BufferedProcessor]Takes a sequence of temporally related snapshots and averages them to attain higher-level information or increase the accuracy of the measurements.
+\end{description}
+These components are abstract instantiations of the general Apache Storm \emph{Bolt} object. This allows them to easily be integrated into a Storm topology while providing convenient abstract scaffolds that aid application developers.
+
+\subsubsection{Level of abstraction}
+The level of abstraction of the platform was evaluated on three concepts: applicability, development effort required and adaptability. As we were able to design and develop a prototype monitoring application for \idsystems, it was concluded that the applicability was sufficient, at least for this preliminary validation study. The adaptability of the platform was also demonstrated to be sufficient by efficiently devising three hypothetical expansions of the developed system. 
+
+However it was shown that the platform was still too low-level as it did not provide an appropriate communication mechanism. Instead the mechanism relied too heavily on the innate key-value messaging system of Apache Storm. Which requires repeated parsing and casting, and did not provide easy access to datapoints within input messages. This can be alleviated by introducing structs based messaging (POJOs). This would eliminate the need for casting and provides hard-typed bindings for datapoints in messages. This would eliminate many points of failure and improve the time required for development and debugging.
+
+\subsubsection{Threats to scalability of capacity}
+From the identified stream traffic types two threats to the scalability of input capacity are derived. Firstly, should the amount of input devices increase, every task in the application must be performed more and more often. This will eventually approach to computational and memory limitations of the hardware executing the application. Therefore tasks must be able to be distributed among servers to ensure parallelized execution. If disjunct computations can be parallelized properly, there is still a second issues. This issue is that aggregation must eventually be performed centralized in order to emit an aggregated snapshot. Therefore it must be provided that aggregation can be executed distributively until the data volume has been reduced for a single machine to finish the aggregation.
+
+The developed monitoring platform attempts to account for these challenges. However due to compatibility issues with the chosen cloud platform, no benchmarks could be performed to confirm the scalability. Therefore, they will be asserted and defended in Section \ref{sec:conclusion:discussion} (Discussion).
+
+%\item\label{rq:design_scale} How can these challenges be overcome?
+
+
+\subsection{Resource Distribution Model}
+\subsubsection{Key concepts of QoS modelling}
+The model was conceived to capture the key concepts in modelling QoS. These concepts were determined to be interconnected resource parameters which eventually determine some resource(s) indicative of the degree of QoS provided by the system. This is represented in the model as Resources interconnected by Components. These Components determine how one resource is converted into another. Meanwhile, the Resource object enables the portrayal of the multiplicity of a shared resource. 
+
+\subsubsection{Modelling variable behaviour}
+By abstracting the conversion of resources into components, the modelling of variable behaviour is also facilitated. This is achieved further by equipping some components with multiple Resource Utilization Models (RUM). These models can be interchanged to evaluate differing modes of operation and calculate the implications this has on the state, validity and performance of the system.
+
+\subsubsection{Calculating optimal behaviour}
+The final research question regarding the RDM inquires how the optimal behaviour of the system, considering the current state of the system, can be determined. For this purpose the constraint programming has been employed. Since the model solution essentially features a constraint model with some entities with variable behaviour, constraint solving is tremendously applicable. The provided model solver iteratively attempts to assign components with RUM's in search of valid model instantiations. All valid model are subsequently ranked according to the QoS they provide and the optimal solution is chosen. In order to objectively compare the QoS provided by solutions it was decided that a model should have one --- and only one --- optimizable QoS parameter. If a model features multiple QoS parameter, this is achieved by applying an all-encompassing heuristic QoS function to those parameters netting a single comparative universal QoS indicator.
+
+%TODO andere plek? \/
+\subsubsection{TODO:validation}
+The proof-of-concept study shows the conceived Resource Distribution Model as a functional solution. It was shown to captivate the resource distribution of a micro-scale system (i.e. sensor devices). Additionally, it provided for an automated mechanism of determining the optimal behaviour of the modelled configurable system. Furthermore, by employing constraint solver paradigms the valid instantiations of the system's behaviour can efficiently be determined. After which, the optimal mode of operation can be calculated. Though the model has shown to be practical at micro-level, the validation case did not feature the complexity that required high-level modelling (e.g. groups of devices or whole application). Further validation should investigate the necessity and applicability of the model to high-level modelling use-cases.
+%TODO benchmarking solvers?
+
+\section{Discussion}
+\label{sec:conclusion:discussion}
+why storm needs further layer
+	accumulator is faster en auto checkpoint
+	
+%TODO vooral beschrijven waarom het niet gedaan is.
+why not sensor or edge computing
+
+wider applicability?
+niet alles van storm aanwzig in platform
+	is een gevaolg van eerst top down, dan bottom up 
+	(eignelijk eerst alleen messaging en runtime env)
+storm or spark windowing?
+	long window -> implications on message lifetime
+fault tolerance
+	long accumulator StatefullBolt	
+		partial computed state ipv temp buffer
+		may introduce data race (unsynced) or scalebility issue (sync)
+		doe lekker met distr. acc (want kafka)
+	long buffer: moeilijk
+		accumulated state niet genoeg
+		elems moeten verwijderbaar zijn (hele state persisten moeilijk)
+		volledig peristen -> performance op laag interval
+		db is beter
+	no ack mechanism 
+		low use op low-information (en built upon fallible tech (sensors))
+		difficult after fork (larger fork -> less chance on exactly once))
+		no use op long term
+		geen heilige graal (at most once -> at least once, exactly once is moeilijk)
+			veroorzaakt dupicates en out of order.
+		storm no partial ack paths (only end2end)
+			niet hanidg voor long term en accumulated processes
+				meer tussenprocessen/-buffers nodig -> does not entail fault tolerance
+			(Zijn nodig om accumulatie efficient te herberekenen)
+			Te doen met intermediary spouts (bolt.emit -> bolt.spout.emit)
+		only global ack timer
+			introduces performance constraint (message must be acked within time)
+		implement on architecutre level to retain component encapsulation (AckStrategy)
+		do offer, not defualt/enforce
+	acks
+		low importance (packet loss is inherent)
+		low impact (hopefully only topology level)
+		hoe stop start
+	checkpointing
+		high(er) importance higher chance of loss of (related) information
+		requires individual ocmponent implmeentation
+		may require alternative (checkpointed, not checkpointed)
+			no multiplicity (there are no checkpointed db/distributed processors)
+	
+\section{Future work}
+Promising
+needs few functional components
+needs gui
+needs further validation
+	applicability: more applications
+	usability: blind studies
+feedback into models (learning models)

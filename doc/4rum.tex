@@ -12,23 +12,24 @@
 \chapter{Resource Distribution Model}
 \label{ch:rdm}
 \section{Objective of the model}
-The aim of the Resource Distribution Model (RDM) is to comprehend the distribution, conversion and requirements of resource parameters in a system. The suggested target usage of these models is to allow automated analysis and optimization of the system under investigation. Therefore we require a detailed model with explicitly defined entities and relations. Only then can the model be employed by automated tools and algorithms.
+The aim of the Resource Distribution Model (RDM) is to comprehend the distribution, conversion and requirements of resource parameters in a system, in accordance with research question RQ6-8. The suggested target usage of these models is to allow automated analysis and optimization of the system under investigation. Therefore we require a detailed model with explicitly defined entities and relations. Only then can the model be employed by automated tools and algorithms. The research questions [related] to this chapter are 
 
 This will be performed by first exploring the problem domain. With the definitions and concepts of the problem domain identified, we will compose a list of requirements for the proposed model. With these requirements in mind we will explore contemporary resource modelling solutions and evaluate them on the applicability to our requirements. We will then explain how the selected technologies will be adapted for our purposes. Subsequently, we will describe our model in detail and exemplify how we intend to use the model in order to calculate the optimal performance of a modelled system. We will conclude this chapter with an evaluation of the proposed modelling technique.
-%TODO research questions herhalen
 
 \section{Conceptualization of the problem domain}
 \label{sec:cv_analysis}
-In this section we will investigate problem domain in order to eventually determine the requirements for the model. Again, we will achieve this by performaing a commonality/variablility analysis (section \ref{sec:back:cv_analysis}) of the problem domain, determining the definitions, common features and variations in our problem domain.
+In this section we will investigate the problem domain in order to eventually determine the requirements for the model. Again, we will achieve this by performing a commonality/variability analysis (section \ref{sec:back:cv_analysis}) of the problem domain, determining the definitions, common features and variations in our problem domain.
 
 \subsubsection{Definitions}
 We will first establish some terms we will be using throughout the C/V analysis and the remainder of this chapter. 
-\begin{description}
+\begin{description}[style=nextline]
 \nospace
-\item[Resource:] Any measurable/calculable parameter of a system
-\item[Resource constraint:] A constraint imposed on a resource.
-\item[Component:] Any physical or hypothetical entity that can consume or produce a resource
-\item[Quality of Service (QoS):] Parameters which are indicative of the level of service provided by a system.
+\item[Resource] Any measurable/calculable parameter of a system
+\item[Resource constraint] A constraint imposed on a resource.
+\item[Component] Any physical or hypothetical entity that can consume or produce a resource
+\item[Resource Utilization Model (RUM)] A model depicting how much of a resource is produced or consumed by a component. Each instance of such a model is internalized by a singular component.
+\item[Resource Distribution Model (RDM)] A model depicting components are interconnectively connected by resources. This global model encompasses all Resources, Components, their relations and behaviour. 
+\item[Quality of Service (QoS)] Particular resource parameters that are indicative of the level of service provided by a system.
 \end{description}
 \subsubsection{Commonalities}
 Following the definitions we will now identify commonalities that appear throughout the problem domain. These assumed features allow us to focus our efforts and allows more expressive specification of assumed concepts.
@@ -79,7 +80,6 @@ With the common and variable features of the problem domain established we can f
 \item \label{r:5constraint} A model should contain constraints that describe the limitations of interconnected resources.
 \item \label{r:6calculable}Given a resource distribution model, constant-valued resources and measurements, for each combination of values for variable resources, a value should be able to be evaluated for each calculated resource
 \item \label{r:7solvable} Given a calculable  resource distribution model (\ref{r:6calculable}), a set of resource constraints and an optimizer function; an optimal, valid appointment for each variable resource value should be able to be solved efficiently.
-%TODO easy to implement -> usability
 \end{enumerate}
 
 \subsection{Justification of identified requirements}
@@ -112,13 +112,11 @@ Requirement & Commonalities \\ \hline
 \caption{Justification of requirements by variety and commonalities}
 \label{table:justification}
 \end{table}
-%TODO full text?\\
 
 \section{State of the art of the solution domain}
 In this section we will explore the current techniques and technologies in the field of resource modelling. We will first identify the state of the art of the field, before evaluating their applicability according to our established requirements. Finally we will declare and defend the choices we made before adapting the technologies in the next section.
 
 \subsection{State of the art}
-%TODO qos-layers paper?
 Work regarding modelling resource distribution has been performed in several studies. Elementary examples of such research are the studies of Ammar et al\cite{rum_basis_2}. Through their efforts they laid the ground work for representing entities interconnected by shared resources. This UML-based model was one of the first examples of such a representation using formal methods and tools. Another example of early research is the study performed by Seceleanu et al\cite{rum_basis_89}. This study focussed on modelling resource utilization in embedded systems using timed state machines. The transitions in these automata were attributed resource costs to model the consumption of resources for transitioning to a state of remaining in one. Resource consumption and performance over time  can then be calculated and analysed according to the paths taken in this model.
 
 A continuation of this work was performed by Malakuti et al\cite{steven-te-brinke}. They combined the methods of the previous authors by provisioning the modelled system components with their own state machines. These state machines model the resources and services that are offered and required by the components. By analysing these component models as composite state machines, model checking tools (such as UPAAL\cite{web:upaal}) can be used to analyse and evaluate the performance of the investigated system as a whole.
@@ -127,10 +125,8 @@ A continuation of this work was performed by Malakuti et al\cite{steven-te-brink
 These efforts have produced methods of representing components connected by shared resources. Especially the notation of Malakuti et al\cite{steven-te-brinke}, which is both intuitive and descriptive. We will therefore continue to use this notation.
 
 however these models are all focussed on components that are self-aware of their resource usage and performance. Instead, we are interested in off-site analysis of interconnected resources and accumulated performance of a composite system. Our focus is therefore alternatively more resource-centred. It is concerned how production and consumption of a resource is interconnected. Components only serve as secondary elements, merely specifying how these resources are converted into other resources. Therefore a resource-centred adaptation of this framework might be more suitable for our problem.
-%TODO meer
-%TODO deficit state of art (metingen)
 
-Secondly, there is the issue of how to represent a Resource Utilization Models (RUM)\cite{steven-te-brinke}, the model for variable behaviour of components. Previous studies \cite{rum_basis_89, steven-te-brinke} have used timed automata to represent behaviour cycles. This allows for automated tools to calculate a runtime schedule in high levels of granularity. However the high level of granularity comes at the cost of efficiency. When we shorten the time intervals for the automata, entailing higher granularity, then solvers require additional computational resources and time to execute. This might force a problem on resource constraint devices or applications that require the solver algorithm to run many times for a multitude of devices. Additionally, we need to consider that a model contains multiple components specified by RUM's. For these models a valid, optimal RUM composition needs to be determined. In this case RUM's might influence each other, which implies that for different compositions of these models, the individual models need to be re-calculated. %TODO validate
+Secondly, there is the issue of how to represent a Resource Utilization Models (RUM)\cite{steven-te-brinke}, the model for variable behaviour of components. Previous studies \cite{rum_basis_89, steven-te-brinke} have used timed automata to represent behaviour cycles. This allows for automated tools to calculate a runtime schedule in high levels of granularity. However the high level of granularity comes at the cost of efficiency. When we shorten the time intervals for the automata, entailing higher granularity, then solvers require additional computational resources and time to execute. This might force a problem on resource constraint devices or applications that require the solver algorithm to run many times for a multitude of devices. Additionally, we need to consider that a model contains multiple components specified by RUM's. For these models a valid, optimal RUM composition needs to be determined. In this case RUM's might influence each other, which implies that for different compositions of these models, the individual models need to be re-calculated.
 
 An alternative approach is to model the RUM as a set of static parameters. A component then has multiple RUM's representing different modes of execution. This is achieved by averaging the behaviour for that mode of execution, which would otherwise be modelled by a single timed automaton. This comes at great cost of granularity, since the RUM's now only describe a few static, predefined long-term behaviours. However it significantly improves the complexity of the search space. For this approach timed automata is no longer a sensible technology since the element of time intervals has been eliminated. Instead the problem is a pure decision problem\cite{decision_problem}. The only problem to be solved is to find a suitable RUM for each modelled component. The search space of a decision problem can be explored with a simple brute force search, exploring all options and compositions. However more effectively, combinatorial problems can often be solved with constraint solvers. The problem is easily transposed to a constraint problem with the RDM as model, resource constraints as constraints and the RUM's as variables for the components. With the many solution strategies described in \ref{sec:back:constraint} available for different types of problems, a suitable solver should be able to be found or developed.
 
@@ -159,9 +155,7 @@ As stated we will model resource distribution by extending the model by Malakuti
 \end{enumerate}
 \end{enumerate}
 
-A graphic representation of the adapted meta-model can be found in figure \ref{fig:component}. A complete entity relation diagram for the meta-model can be found in Appendix \ref{app:rum_uml}. 
-
-In essence the model is a collection of \emph{Resources} and \emph{Components}. Each of these resources can be connected to components by means of a \emph{ResourceInterface} and a \emph{ResourceFunction}. 
+A graphic representation of the adapted meta-model can be found in figure \ref{fig:component}. In essence the model is a collection of \emph{Resources} and \emph{Components}. Each of these resources can be connected to components by means of a \emph{ResourceInterface} and a \emph{ResourceFunction}. 
 \begin{figure}
 \centering
   \includegraphics[width=0.3\linewidth]{resources/img/component.pdf}
@@ -169,9 +163,8 @@ In essence the model is a collection of \emph{Resources} and \emph{Components}. 
   \label{fig:component}
 \end{figure}
 
-%TODO insert pics
 \subsubsection{Resource}
-A resource is an entity describing a parameter of a system. This can be a measured parameter (e.g. battery capacity or throughput), but can also describe a derived parameter (e.g. service time left). Each resource is identified by it's name and has a unit associated with it. By aggegating the ResourceInterfaces of a resource the amount of the resource produced and consumed can be collected and analysed.
+A resource is an entity describing a parameter of a system. This can be a measured parameter (e.g. battery capacity or throughput), but can also describe a derived parameter (e.g. service time left). Each resource is identified by it's name and has a unit associated with it. By aggregating the ResourceInterfaces of a resource the amount of the resource produced and consumed can be collected and analysed.
 
 \subsubsection{ResourceInterface}
 Resources and components are connected through resource interfaces. A ResourceInterface can be one of three types:
@@ -245,8 +238,6 @@ If a constraint evaluates to \emph{satisfied} it will be pruned from the constra
 
 Given that we encounter unsatisfactory options early in the tree, this will possibly eliminate large parts of the search tree. An example of the application of this algorithm on the example previously posed (Figure \ref{fig:rdm_cpu_radio}) is given in Figure \ref{fig:search_cpu_radio}. This example is executed based on an RdmMessage with values $\{measureRateRequired=8,\ powerBySpecification=16\}$. This application demonstrates that using this algorithm, we eliminate a significant portion of the search tree. This is due to early constraint failure detection in the \emph{CPU=high\_cpu} banch of the tree.
 
-%TODO brute force for low nr of models
-
 \input{resources/listings/backtrack-search}
 %label=alg:backtrack-search
 
@@ -260,24 +251,20 @@ Given that we encounter unsatisfactory options early in the tree, this will poss
 \section{Discussion of the proposed model}
 We will conclude this chapter by endorsing some of the choices that were made for our proposed model. 
 \subsubsection{Static model}
-As stated before we chose to use a static representation of resource utilization by ModelComponents. We chose this in order greatly reduce the complexity of the problem and this allows the model to be evaluated within a reasonable amount of time. We came to this conclusion after early experiments with timed automata. In this experiment we modelled a minimal system with one component with three RUM's. When analysing the model using time intervals of one week over a life span of ten years, it took over one minute to calculate the optimal traversal of the automaton. Granted, this was performed on a laptop machine and not a high-powered server. When deployed on a server with sufficient calculatory resources the time to calculate will be reduced. This is however counteracted by the fact for a WSN application this calculation needs to be repeated for thousands of sensors. When we compare this performance to that of the static models, which can evaluate more complex models (e.g. 3 components, 5 RUM's each) within seconds, we must eliminate timed automata as valuable real-time technology. However, this does not eliminate automata entirely. Automata can still be used to model the fine grained run cycles of parts of a system in order to develop generalized static RUM's.
+As stated before we chose to use a static representation of resource utilization by ModelComponents. We chose this in order greatly reduce the complexity of the problem and this allows the model to be evaluated within a reasonable amount of time. We came to this conclusion after early experiments with timed automata. In this experiment we modelled a minimal system with one component with three RUM's. When analysing the model using time intervals of one week over a life span of ten years, it took over one minute to calculate the optimal traversal of the automaton. Granted, this was performed on a laptop machine and not a high-powered server. When deployed on a server with sufficient calculatory resources the time to calculate will be reduced. However, this is counteracted by the fact for a WSN application this calculation needs to be repeated for thousands of sensors. When we compare this performance to that of the static models, which can evaluate more complex models within seconds, we must eliminate timed automata as viable solution for real-time analysis. However, this does not eliminate automata entirely. Automata can still be used to model the fine grained run cycles of parts of a system in order to develop generalized static RUM's.
 
-%TODO
-%(dis)advantages van explicit model
 
 \subsubsection{Solver libraries}
 When developing this solution we chose to implement the constraint solving algorithm ourselves, instead of employing existing libraries such as Choco Solver\cite{web:choco} or OptaPlanner\cite{web:opta}. 
 
 The Choco Solver is a powerful solver which not only employs backtrack search, but also constraint propagation to eliminate failing search paths before assigning them. However, while powerfull, it has only limited support for real intervals \cite{ibex-choco}. Additionally it proved very difficult to convert the user defined models and arithmetic expressions to the modelling mechanism of the solver. Requiring the user to either input the model and calculations in the complex modelling mechanism of the Choco Solver or for us to develop a compiler to rewrite the easy to write user input to Choco Solver code.
 
-Another examined library is the OptaPlanner. The OptaPlanner is a modelling framework for constraint problems and excels in use cases involving planning and resource allocation. It also enables object injection which would be greatly suitable for injecting our RUM's into components. However the OptaPlanner is strictly a constraint modelling framework and does not employ advanced solving techniques developed in the field of constraint programming. It performs a brute force depth-first search over the search space (Cartesian product of all RUM compositions) running a single code block which evaluates all constraints. It consequently can not reduce the search space by eliminating failing branches and redundant constraints. Therefore it lacks the means to solve the problem efficiently
+Another examined library is the OptaPlanner\cite{optaplanner}. The OptaPlanner is a modelling framework for constraint problems and excels in use cases involving planning and resource allocation. It also enables object injection which would be greatly suitable for injecting our RUM's into components. However the OptaPlanner is strictly a constraint modelling framework and does not employ advanced solving techniques developed in the field of constraint programming. It performs a brute force depth-first search over the search space (Cartesian product of all RUM compositions) running a single code block which evaluates all constraints. It consequently can not reduce the search space by eliminating failing branches and redundant constraints. Therefore it lacks the means to solve the problem efficiently
 
 Finally, the implementation of backtrack search does not differ much from the implementation of depth-first search. Additionally, developing our own solver allows us to incorporate domain knowledge into our custom search algorithm, further reducing the runtime required. This reduces the comparative benefit of employing a constraint solver library and eventually led us to develop our own solver implementation.
-%TODO ref to 'general' paper
 
 \subsubsection{Constraint propagation}
-%TODO actually mention propagation
-A technique in constraint solvers mentioned before is the concept of constraint propagation. Constraint propagation explores the search space the in the same manner as backtrack search. However, for each variable assignment $V_1$ all other variable domains are preventatively reduced by pruning all variable assignments $V_2$ that are incompatible with $V_1$. For example in the example of Figure \ref{fig:rdm_cpu_radio}: if \emph{CPU=High\_CPU} is initially assigned, \emph{Radio=High\_radio} is pruned because it would require more power than is actually produced. This eliminates inconsistent variables without the need of assigning them, thereby reducing the search space even more effectively than native backtrack search. This is easily implemented with integer/real variables that are interconnected with constraints. However, in our model the variables are not integer/real domains, but objects with integer/real variables. This doesn't make constraint propagation impossible, but does complicated it greatly.
+A technique in constraint solvers mentioned before is the concept of constraint propagation \cite{ref-zoeken}. Constraint propagation explores the search space the in the same manner as backtrack search. However, for each variable assignment $V_1$ all other variable domains are preventatively reduced by pruning all variable assignments $V_2$ that are incompatible with $V_1$. For example in the example of Figure \ref{fig:rdm_cpu_radio}: if \emph{CPU=High\_CPU} is initially assigned, \emph{Radio=High\_radio} is pruned because it would require more power than is actually produced. This eliminates inconsistent variables without the need of assigning them, thereby reducing the search space even more effectively than native backtrack search. This is easily implemented with integer/real variables that are interconnected with constraints. However, in our model the variables are not integer/real domains, but objects with integer/real variables. This doesn't make constraint propagation impossible, but does complicated it greatly.
 
 Secondly, the interconnected nature of our problem can impede the benefits received from constraint propagation. To illustrate this consider the following example: resource \emph{R} is connected to a set of producers \emph{P} and a set of consumers \emph{C}, for each the amount produced or consumed is variable. The amount produced or consumed by any component \emph{x} is denoted by $R_x$. The availability constraint (more must be produced than is consumed) on \emph{R} can then be written as:
 $$\sum_{p \in P}R_p \geq \sum_{c \in C}R_c$$
@@ -289,7 +276,7 @@ Which might not be many since a single consumer must consume more of a resource 
 
 To conclude, the part of the tree that is eliminated with constraint propagation is limited since we are already halfway into the search tree and, additionally, the chance that a value is eliminated halfway in the tree is very small. Therefore no further effort was made to incorporate constraint propagation or other look-ahead strategies in the solver.
 
-%\section*{TODO/work in progress}
+
 %include historic information. Model is now painfully one-dimentional and does not [prevent] local minimum/maximum.
 
 %\subsection{discussion}
