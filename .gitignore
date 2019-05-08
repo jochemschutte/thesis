@@ -6,6 +6,7 @@ doc/*.bbl
 doc/*.blg
 doc/*.out
 doc/*.cpt
+doc/*.toc
 .metadata
 .recommenders
 .settings

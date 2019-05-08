@@ -2,10 +2,11 @@
 \newcommand{\nedap}{Nedap }
 \newcommand{\ublox}{u-blox }
 \newcommand{\sensit}{SENSIT }
-\chapter{Proof of concept by case study}
+\chapter{Proof of concept validation by case study}
 \label{ch:validation}
-\section{Case study}
-\subsection{Background}
+This chapter will attempt to validate the applicability of the platform to the field of LPWA QoS monitoring and management. This will be performed by designing and developing a prototype monitoring application for a commercial car parking application sensor application. Firstly, some background will be given on the sensor application to be monitored. Next, the goals, claims and methodology of the study will be declared. With the goal and means stated, the experiment will be performed by realizing a prototype monitoring application. As the actual implementation details are auxiliary, they will not be examined in detail. However, the implementation will be described superficially to contextualize the validation efforts. After implementation, the results of the validation study will present and their implications deliberated. This chapter will be concluded with a discussion on the results, conclusions and limitations of the study.
+\section{Context of the case study}
+\subsection{Company background Background}
 \label{sec:sensit}
 \subsubsection*{Nedap - Identification Systems}
 [TODO]
@@ -14,7 +15,7 @@ The \sensit \idsystems smart parking application is devised to monitor parking l
 
 In order to communicate with the back-end the sensors employ wireless technology. Previously, the sensors were connected to sinks using a proprietary network of relay nodes. However the recent proliforation of large scale cellular IoT networks has caused \nedap to shift towards these technologies. This allows large numbers of sensors to a single cell tower, without the need of deploying and managing a network of relay nodes for new sensor deployments. Additionally the effort in managing and maintianing the network is outsource to professional operators. To connect the sensors to the internet the \emph{Narrow-band Internet of Things} technology was determined to be most suitable. New \sensit sensors are therefore equipped with \ublox \cite{web:ublox} NB-IoT radio modules to connect them to operated cell networks.
 
-\subsection{Context of the Case Study}
+\subsection{Conceptualization of the monitoring application}
 In this section we will describe and scope the context of the QoS monitoring application to be developed. We will first describe the input for the application in terms of sensor data emitted by the WSN application under investigation. Consequently, the characteristics of the expected outcomes of the application to be prototyped will be discussed. 
 
 \subsubsection{Sensor data signature}
@@ -43,77 +44,36 @@ The second type of effect to be caused by the application is instant alerting. T
 
 The last type of consequence is reporting. The goal of this is to inform technicians, managers or clients on the general operation of the WSN application. This comprises two types of reporting. The first is \emph{periodical reporting}. Periodical reporting will primarily focus on business goals such as long term performance metrics, compliance to service level agreements of both service providers and clients, and prospected short-term maintenance efforts and costs. The other type of reporting is \emph{real-time reporting}. This is useful to technicians monitoring the performance of an application during its runtime. Use cases include monitoring the number of incoming events, latencies of sensor devices and sinks, environmental conditions (such as weather and temperature) and which sensor strategies currently are deployed. Notice that the real-time aspect of this type of reporting does not require events to be reported instantaneously since for such statistics a per second or minute update suffices.
 
-\section{Structure of the validation study}
-With the application, case and its context clear, the focus will be turned to detailing the validation study. Before executing our validation study, this section will first depict the taken process. We will begin by clearly stating the claims we aim to confirm and the bounds of our scope. Following that we will describe the intended method of testing those claims specifically by detailing the quantified criteria the platform implementation process must adhere to. We must note that these criteria will only cover the scope of the validation study, not the functional requirements of the implementation for the case. As mentioned before, though important for the outcome of the product for the company, for this validation study these requirements are ancillary.
+%\section{Structure of the validation study}
+%With the application, case and its context clear, the focus will be turned to detailing the validation study. Before executing our validation study, this section will first depict the taken process. We will begin by clearly stating the claims we aim to confirm and the bounds of our scope. Following that we will describe the intended method of testing those claims specifically by detailing the quantified criteria the platform implementation process must adhere to. We must note that these criteria will only cover the scope of the validation study, not the functional requirements of the implementation for the case. As mentioned before, though important for the outcome of the product for the company, for this validation study these requirements are ancillary.
 
-With the goals clearly stated, parametrized and quantified, we will design and implement a prototype monitoring application built upon the developed software platform, tailored to the QoS monitoring needs of \idsystems. As mentioned before the actual implementation details are secondary for validation purposes of this chapter. Therefore we will only touch upon it shortly without going into great detail. We will however give a short summary of the developed prototype to provide a context to the validation efforts. During and after the development process we will measure the relevant parameters required to evaluate the determined validation criteria. To conclude the investigative implementation, we will attempt to adapt the constructed application to a few hypothetical extension scenarios in order to explore the adaptability of the provided platform.
+%With the goals clearly stated, parametrized and quantified, we will design and implement a prototype monitoring application built upon the developed software platform, tailored to the QoS monitoring needs of \idsystems. As mentioned before the actual implementation details are secondary for validation purposes of this chapter. Therefore we will only touch upon it shortly without going into great detail. We will however give a short summary of the developed prototype to provide a context to the validation efforts. During and after the development process we will measure the relevant parameters required to evaluate the determined validation criteria. To conclude the investigative implementation, we will attempt to adapt the constructed application to a few hypothetical extension scenarios in order to explore the adaptability of the provided platform.
 
-We will conclude this chapter by stating, analysing and deliberating the results obtained by measuring and observing the development process. These results will be compared with the priorly determined criteria of the study. If these criteria are met, this will validate the claims they are meant to affirm. We will finish by discussing the process and results in order to deliberate the limitations and lessons learned regarding the proposed development platform.
+%We will conclude this chapter by stating, analysing and deliberating the results obtained by measuring and observing the development process. These results will be compared with the priorly determined criteria of the study. If these criteria are met, this will validate the claims they are meant to affirm. We will finish by discussing the process and results in order to deliberate the limitations and lessons learned regarding the proposed development platform.
 	
-\section{Criteria of the Case Study}
-\subsection{Claims}
-\label{sec:claims}
-In this section we will state the claims regarding the proposed platform we aim to validate. The cardinal claim investigated is that the appropriate level of abstraction was chosen in the design of the development platform. This entails that our collection of components can be adapted to suit a plethora of purposes and target applications. Conversely, the level of abstraction is not that low-level that every implementation requires unnecessarily large development efforts because basic procedures require repeated implementation. This claim mirrors the research question \ref{rq:abstraction}, which asks "What is the appropriate level of abstraction for a WSN monitoring platform [...]". This claim is explicated into three sub-claims.
-
-The first sub-claim regarding the level of abstraction is that the platform features a level of abstraction low enough to facilitate the implementation of the monitoring application for \sensit. I.e. the platforms abstraction does not obfuscate key functionalities which would require reimplementation of formerly present features. 
-
-The second sub-claim to be validated is that the level of abstraction is not that low that it requires application developers to repeatedly implement functionality that, due to their frequent nature, should have been provided by the platform itself. This claim seems similar to the first claim. However, as will become apparent in Section \ref{sec:val:method}, the metrics and methods verifying these claims are different. Therefore they shall be treated as two separate claims.
-
-The final sub-claim employed to validate the appropriate level of abstraction is that the platform facilitates convenient adaptation of a realized platform implementation. This validation will be performed by introducing or changing a minor feature. Examples of such features could be new reporting goals, variations to the input or change to the requirement context. Should the appropriate level of abstraction have been chosen, it should prove uncumbersome to adapt the topology to these novel conditions.
-
-To recap, we validate the main claim by three sub-claims that are summarized as applicability, usability and adaptability. For the remainder of this chapter these three claims will be addressed using these headings. In full these claims read:
-\begin{description}[style=nextline]
-\nospace
-\item[Applicability] The platform's level of abstraction is low enough to suit a large number of applications,
-\item[Usability] The platform's level of abstraction is high enough that the framework prevents repeated implementation of common procedures, and
-\item[Adaptability] The platform facilitates effortless adaptation of an instantiated application.
-\end{description}
-Altogether, these claims culminate in the main claim that the appropriate level of abstraction has been chosen.
-
-%The first claim regarding our platform is that the appropriate level of abstraction was chosen. This entails an adequate compromise between the ease of implementation of the platform and the flexibility of its components. We claim that we have chosen our level of abstraction in such a manner 
-
-%The second method employed to validate the level of abstraction of the platform is by extending the developed application. This will be performed by introducing a new feature. Examples of such features could be new reporting goals, variations to the input or change to the requirement context. The degree of adaptability will then be measured by the amount of topology components that need to be introduced or changed. Should the appropriate level of abstraction have been chosen, it should prove uncumbersome to adapt the topology to these novel conditions.
-
-%The final claim that requires validation is regarding the scalability of the platform. As mentioned numerous times before the extreme scale of WSN applications requires (auxiliary) back-end processes that are at least as scalable as the application they observe, as is captivated in research question \ref{rq:design_scale}. Our claim is that our platform offers the tools to design a fully scalable WSN monitoring application. In order to validate the scalability of the platform and its implementation, possible congestion points will need to be identified and stress-tested in order to show that proper configuration of the component(s) will alleviate any scalability issue. This will be validated by means of two methods, which will be detailed in section \ref{sec:val:method}.
-
-%TODO move to structure/methodology
-\subsection{Bounds}
-Before going into how we aim to validate the stated claims, the bounds and limitations of this validation study will need to be considered. The first glaring limitation of this study is that it is extremely limited in scope. The platform will only be implemented for a specific WSN application and this study will therefore not state the platform to be appropriate for the entire set of applications that was determined in Section \ref{sec:back:context} of the background chapter. Instead, this study will at most affirm the platform as a proof-of-concept for WSN application QoS monitoring.
-
-The second limitation worthy of notion is that, aside from only regarding a single WSN application, it will also run on a simulation of that application. As mentioned before, this is because the NB-IoT incorporated sensor devices of the \sensit application have only recently started deployment. As a consequence a test bed of significant scale is presently not available. However by simulating a full future deployment of the application we are able to easily adapt the WSN application under investigation, in terms of both scale and functionality. This allows us to not only test for intended regular behaviour but also for extreme and niche conditions. Additionally our simulated environment allows for easy temporal manipulation, which enables us to speed up, halt and repeat simulations.
-
-%only one case. Partial validation, proof of concept
-%simulated environmant (based on acutal data signatures and data rates)
-%	current state of sensit not a scale challenge
-%	simulation can fast forward
+%\section{Criteria of the Case Study}
 \section{Method}
 \label{sec:val:method}
 \subsection{General approach} 
-In order to validate weather the level of abstraction of the platform can facilitate the needs of the intended monitoring application for \sensit (applicability), a prototype implementation will be designed and constructed. The expected outcome is an instantiation of the platform that serves the QoS processing needs, without requiring to work around the platform and without breaking the abstraction in order to access underlying processes. The possible existence of such an instantiation demonstrates that, at least for this use case, the level of abstraction is low enough to expose the full functionality of the platform, validating the first claim.
-
-In order to validate that the level of abstraction is low enough, but not too low (usability), we will consider the program instructions required for the platform instantiation. These required instructions should not be more then the instruction required for a hypothetical monolithic implementation, supposing the level of abstraction is not too high (applicability claim). 
-
-Finally, the adaptability of the platform and its instantiations will be evaluated by introducing some minor new features and requirements to the platform implementation. Should the appropriate level of abstraction have been chosen, it should prove uncumbersome to adapt the topology to these novel conditions.
+In order to validate weather the level of abstraction of the platform can facilitate the needs of the intended monitoring application for \sensit, a prototype implementation will be designed and constructed. The expected outcome is an instantiation of the platform that serves the QoS processing needs The possible existence of such an instantiation demonstrates that, at least for this use case, the level of abstraction is low enough to expose the full functionality that is required  (\textbf{applicability}). In order to validate that the level of abstraction is low enough, but not too low (\textbf{usability}), we will consider the program instructions required for the platform instantiation. These required instructions should not be more then the instruction required for a hypothetical monolithic implementation, supposing the level of abstraction is not too high (applicability claim). Finally, the \textbf{adaptability} of the platform and its instantiations will be evaluated by introducing some minor new features and requirements to the platform implementation. Should the appropriate level of abstraction have been chosen, it should prove uncumbersome to adapt the topology to these novel conditions.
 
 From a business perspective, the most interesting parameter to express the adoption effort would be the time required to develop and evolve an application based on the proposed technology. However, this parameter is extremely subjective as it heavily depends on the level of skill of the developer and its familiarity with the technology. We will therefore primarily measure the effort by the code, expressed in number of instructions, required to construct a monitoring application built by integration of our platform. 
 %TODO voor presentatie: goldylocks area.
 
-%Our method of confirming the scalability of the platform is twofold. First, we will flood the system with events. If our claim of scalability is correct this will not cause a build-up of message anywhere in the topology of the application. Should such a congestion occur this should be able to be alleviated by scaling the deployment configuration of the components, i.e. the number of tasks and workers per component, without requiring a change in the topology or the internals of the components themselves. The second method we will employ to test the scalability of the system is by initially configuring the simulation in for real-world deployment. We will then deliberately trigger an event shower in the sensor simulation. It is expected that the platform will experience a sudden influx of input messages. Should such an event occur, the platform is not expected to hold its ordinary timing constraints. However, the platform is expected to eventually return to its normal execution, i.e. within the bounds typical of ordinary execution. The platform will pass this test if it is able to process the batch of messages caused by the sudden influx and return to ordinary execution within a certain amount of time.
+\subsection{Claims}
+\label{sec:claims}
+In this section we will state the claim and criteria regarding the proposed platform we aim to validate. The cardinal claim investigated is that the appropriate level of abstraction was chosen in the design of the development platform. This entails that our collection of components can be adapted to suit a plethora of purposes and target applications. Conversely, the level of abstraction is not that low-level that every implementation requires unnecessarily large development efforts because basic procedures require repeated implementation. This claim mirrors the research question \ref{rq:abstraction}, which asks "What is the appropriate level of abstraction for a WSN monitoring platform [...]". This claim is explicated into three sub-claims.
 
-\subsection{Validation criteria}
-\label{sec:criteria}
-Before starting the implementation, the criteria the monitoring application and its development process must adhere to must be stated. Fulfilment of these criteria affirms the belief in the claims stated in the previous section. The criteria will be discussed analogous to the three identified sub-claims iterated in Section \ref{sec:claims}.
+\subsubsection{Applicability}
+Intuitively, the first criterium regarding the level of abstraction is that the platform features a level of abstraction low enough to facilitate the implementation of the monitoring application for \sensit. I.e. the platforms abstraction does not obfuscate key functionalities which would require reimplementation of formerly present features. This seems an obvious and trivial demand, but without stating it, any subsequent criterium is pointless. More specifically, the platform should enable an instantiation which enables iterative and consequent enrichment and accumulation of information. At multiple stages of the consequential iteration the application should be able to generate outputs such as alerts and reports for auxiliary processes and systems.
 
-Again we re-iterate, these criteria and requirements only relate to the validation study, not the requirements of the actual monitoring application prototype that will be designed and developed. Reason for this is that the aim is to evaluate the development platform, not this particular instance of the platform.
+\subsubsection{Usability}
+The second criterium to be validated is that the level of abstraction is not too low. Though the platform should enable an instantiation according to the needs of \idsystems, it should do so with minimal development effort. A [too low] level of abstraction requires application developers to repeatedly implement functionality that, due to their frequent nature, should have been provided by the platform itself. This criterium seems similar to the first, but the metrics determining their attainment are measured differently. Therefore, they will be regarded as two separate claims.
 
-\subsubsection*{Applicability}
-Intuitively, the primary criterium is that an instantiation of the proposed platform should be possible in accordance with the needs and wants of \idsystems . This seems an obvious and trivial demand, but without stating it, any subsequent criterium is pointless. More specifically, the platform should enable an instantiation which enables iterative and consequent enrichment and accumulation of information. At multiple stages of the consequential iteration the application should be able to generate outputs such as alerts and reports for auxiliary processes and systems. This requirement validates the applicability claim of Section \ref{sec:claims}.
+These development efforts will be expressed in the number of code instructions required to realize the implementation. Since an absolute benchmark was difficult to ascertain, the upper bound of permissible number of code instructions is established relative to the amount of instructions necessary for a functionally similar monolithic implementation. Should a larger code-base be determined, this entails a level of abstraction that is too low and requires (repeated) implementation of procedures that should have been provided by the platform itself. For the construction of the topology it was chosen to allow at most 4 operations for every component in the platform topology. The parameter of 4 operations per component originates from an assertion made in Chapter \ref{ch:architecture}.
 
-\subsubsection*{Usability} 
-Though the platform should enable an instantiation according to the needs of \idsystems, it should do so with minimal development effort. These efforts will be expressed in the number of code instructions required to realize the implementation. Since an absolute benchmark was difficult to ascertain, the upper bound of permissible number of code instructions is established relative to the amount of instructions necessary for a functionally similar monolithic implementation. Should a larger code-base be determined, this entails a level of abstraction that is too low and requires (repeated) implementation of procedures that should have been provided by the platform itself. For the construction of the topology it was chosen to allow at most 4 operations for every component in the platform topology. The parameter of 4 operations per component originates from an assertion made in Chapter \ref{ch:architecture}.
-
-\subsubsection{Adaptability}
-For the adaptability of the application provided by the platform it was determined that minor new features and requirements should require not more than
+\subsubsection{Adapatability}
+The final criterium employed to validate the appropriate level of abstraction is that the platform facilitates convenient adaptation of a realized platform implementation. This validation will be performed by introducing or changing a minor feature (e.g. new input type, altered reporting requirement). Should the appropriate level of abstraction have been chosen, it should prove uncumbersome to adapt the topology to these novel conditions. For the adaptability of the application provided by the platform it was determined that minor new features and requirements should require not more than
 \begin{itemize}
 \nospace
 \item a localized rearrangement of the model/topology, 
@@ -123,25 +83,44 @@ As for all cases, small changes are allowed to the components interfacing with t
 
 The rationale for these allowances is that the modularization provided by the platform should prevent entanglement of concerns and therefore minor changes should cause localized effects. There is however a possibility that (especially new features) require a change in several components since its the functionality was not previously present. Therefore minor consistent changes are allowed to those components in order to forwarded the new functionality. Finally, the reason for the allowance of a major change in two components is that often computation and analysis of a datapoint is separated into distinct components due to separation of concerns. Therefore a changed requirement will often require a change in both components.
 
-\subsubsection{Summary of criteria}
-The concrete criteria formulated in this section are as follows:
-\begin{enumerate}
-\nospace
-\item An instantiation of the proposed platform should be possible in accordance with the needs and wants of \idsystems, which allows for
-\begin{itemize}
-\item iterative and consequent enrichment and accumulation of information, and
-\item output consequences at multiple stages of computation.
-\end{itemize}
-\item The instantiation of the platform should require 
-\begin{itemize}
-\item no more calculation code than it would in a monolithic system, and
-\item at most 4 instructions of code per component to build the topology.
-\end{itemize}
-\item A minor change in the goals or requirements should require only one change in the topology, a single component (and its interfacing) or a small and consistent change in multiple components.
+%To recap, we validate the main claim by three sub-claims that are summarized as applicability, usability and adaptability. For the remainder of this chapter these three claims will be addressed using these headings. In full these claims read:
+%\begin{description}[style=nextline]
+%\nospace
+%\item[Applicability] The platform's level of abstraction is low enough to suit a large number of applications,
+%\item[Usability] The platform's level of abstraction is high enough that the framework prevents repeated implementation of common procedures, and
+%\item[Adaptability] The platform facilitates effortless adaptation of an instantiated application.
+%\end{description}
+%Altogether, these claims culminate in the main claim that the appropriate level of abstraction has been chosen.
+
+\subsection{Bounds}
+Before executing the validation study, the bounds and limitations of this validation study will need to be considered. The first glaring limitation of this study is that it is extremely limited in scope. The platform will only be implemented for a specific WSN application and this study will therefore not state the platform to be appropriate for the entire set of applications that was determined in Section \ref{sec:back:context} of the background chapter. Instead, this study will at most affirm the platform as a proof-of-concept for WSN application QoS monitoring.
+
+The second limitation worthy of notion is that, aside from only regarding a single WSN application, it will also run on a simulation of that application. As mentioned before, this is because the NB-IoT incorporated sensor devices of the \sensit application have only recently started deployment. As a consequence a test bed of significant scale is presently not available. However by simulating a full future deployment of the application we are able to easily adapt the WSN application under investigation, in terms of both scale and functionality. This allows us to not only test for intended regular behaviour but also for extreme and niche conditions. Additionally our simulated environment allows for easy temporal manipulation, which enables us to speed up, halt and repeat simulations.
+
+%only one case. Partial validation, proof of concept
+%simulated environmant (based on acutal data signatures and data rates)
+%	current state of sensit not a scale challenge
+%	simulation can fast forward
+
+%\subsubsection{Summary of criteria}
+%The concrete criteria formulated in this section are as follows:
+%\begin{enumerate}
+%\nospace
+%\item An instantiation of the proposed platform should be possible in accordance with the needs and wants of \idsystems, which allows for
+%\begin{itemize}
+%\item iterative and consequent enrichment and accumulation of information, and
+%\item output consequences at multiple stages of computation.
+%\end{itemize}
+%\item The instantiation of the platform should require 
+%\begin{itemize}
+%\item no more calculation code than it would in a monolithic system, and
+%\item at most 4 instructions of code per component to build the topology.
+%\end{itemize}
+%\item A minor change in the goals or requirements should require only one change in the topology, a single component (and its interfacing) or a small and consistent change in multiple components.
 %\item A realistic deployment of the instantiated application should be able to handle an input of 100.000 devices.
 %\item A reconfiguration of the realistic deployment should be able to handle a hypothetical load of 1 million input devices, without changing the topological order of the components.
 %\item An event burst of factor 100 should be processed within [number] seconds.
-\end{enumerate}
+%\end{enumerate}
 
 %Aside from the usability criterium we find the scalability required of the platform. We will formalize this requirement with two criteria. The first regards the general scalability of the platform. It requires the application to be able to cope with fantastic amounts of input data by only reconfiguring the worker tasks of the application, without changing the topological order of those components. Secondly, the implementation should be able to cope with fluctuating data signatures. For this the following criterium was formulated. The platform implementation should return to normal execution parameters within a certain amount of time after experiencing an increased input load.
 
@@ -226,7 +205,7 @@ To model the state, behaviour and strategies of the sensor we employed the RDM m
 Earlier experiments with resource consumption models have shown that a device will act differently when in the beginning than in the end of its life-cycle, when there is a scarce resource involved. The reason for this is that in the beginning the models will instruct the device to operate on a strategy that will consume less resources then it is allowed on average. Then, when it has saved up enough of that resource, it is allowed to spend it on a strategy that consumes more than that average. To mitigate this effect is has been chosen to recalculate the available resources on a monthly basis. This way there is still such a cycle, but its period is far shorter and the effect will be much less and much more regular overall.
 
 \subsection{Adapting the application}
-We will conclude this section by deliberating some hypothetical adaptations in order to investigate the tunability of the platform.
+We will conclude this section by deliberating some hypothetical adaptations in order to investigate the adaptability of the platform.
 
 \subsubsection{Nuancer local}
 The first change we introduce is the constraint for the \emph{Nuancer} to not require a database connection. Reason for such a requirement is to reduce latency or to eliminate capacity issues caused by employing an SQL database. 
@@ -272,7 +251,7 @@ The result of the applicability investigation with regard to the distributed top
 \subsubsection{Usability}
 %It took about 80 hours to conceive, implement, debug and tune this architecture implementation. This time spent can be divided into roughly 15\% design, 35\% initial implementation and 50\% debugging and tuning \footnote{All hours spent on a component after its first inclusion in the topology and executing it are pooled into the latter category}.
 %TODO model requirements res+comp+interf+rdm*connRes
-Specifying the sensor model and application topology could be performed within the set parameters. As claimed, each component requires but four actions to be introduced to the topology. These actions are create component, declare component, subscribe as consumer, declare output channels.
+Specifying the sensor model and application topology could be performed within the set parameters. As claimed, each component requires but four actions to be introduced to the topology. These actions are create component, declare component, subscribe consumer channels, declare output channels.
 
 However the internal code of the topology components, which actually performs the calculations and computations, required about twice the amount of code that a monolithic application would. While the actual number of lines of code was only a little higher than then its monolithic counterpart would, the computations and transformations performed on those lines was far more then would be necessary in a monolithic application. These discrepancies will be deliberated on further in Section \ref{sec:eval}.
 

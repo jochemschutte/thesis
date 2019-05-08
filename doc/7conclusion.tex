@@ -1,11 +1,13 @@
+%TODO refs naar welke hoofdstukken
 \chapter{Conclusion}
 In this final section the thesis will be concluded. This will be performed by first revisiting the research questions and answering them as well as permitted by the results and efforts of this study. Subsequently, some issues left that require debating. Finally, some areas of exploration will be suggested for continued research.
 
 \section{Conclusions}
-This section will attempt to answer the research questions posed in \ref{sec:goal}. The first 5 of which regarding the development platform will be answered in the next subsection, the remaining 3 in the following.
+\label{sec:conclusions}
+This section will attempt to answer the research questions posed in \ref{sec:goal}. The first 5 of which regarding the development platform (detailed in Chapter \ref{ch:architecture}) will be answered in the next subsection, the remaining 3 regarding resource modelling (Chapter \ref{ch:rdm}) in the following.
 \subsection{Platform architecture}
 \subsubsection{Stream transformation types}
-From the reasons posed in the introductory chapter it can be derived that globally the input for the QoS determination process is a high influx of low-level, raw data describing the condition and performance of end-devices. From this data a number of high-information output parameters is required to be derived in order to cause concrete effects. From this [propositions] it is firstly concluded that the input data is transformed in order to enrich the data from raw to higher-level information. Secondly, the data is aggregated to further raise the level of information and to in increase the accuracy of the information. This aggregation can be performed across two dimensions: laterally or longitudinally. Lateral aggregation entails collecting similar data collected from different sources to determine high-level information of a state across a larger domain (e.g. geographically). Conversely, longitudinal aggregation encompasses data from a single source (a sensor or intermediary process), but which is buffered over a period of time. Such analyses can be used to infer higher-level information such as trends or to improve the accuracy and confidence in measured or computed parameters. The specified processes can have one or some snapshots as output, whereby \emph{some} is defined as a countable, fixed amount which does not increase as the number of inputs increases. To simplify the abstraction we will include one into some. From the preceding we conclude two types of information processing streams: one-to-some (transformation) and many-to-some (aggregation).
+From the reasons posed in the introductory chapter it can be derived that globally the input for the QoS determination process is a high influx of low-level, raw data describing the condition and performance of end-devices. From this data a number of high-information output parameters is required to be derived in order to cause concrete effects. From this proposition it is firstly concluded that the input data is transformed in order to enrich the data from raw to higher-level information. Secondly, the data is aggregated to further raise the level of information and to in increase the accuracy of the information. This aggregation can be performed across two dimensions: laterally or longitudinally. Lateral aggregation entails collecting similar data collected from different sources to determine high-level information of a state across a larger domain (e.g. geographically). Conversely, longitudinal aggregation encompasses data from a single source (a sensor or intermediary process), but which is buffered over a period of time. Such analyses can be used to infer higher-level information such as trends or to improve the accuracy and confidence in measured or computed parameters. The specified processes can have one or some snapshots as output, whereby \emph{some} is defined as a countable, fixed amount which does not increase as the number of inputs increases. To simplify the abstraction we will include one into some. From the preceding we conclude two types of information processing streams: one-to-some (transformation) and many-to-some (aggregation).
 
 The preceding discussion ignores two types of processing streams. The first of which is the many-to-many relation. It is omitted because it can be simulated by parallelized and subsequent many-to-one and one-to-one processes. It therefore only serves as an abstraction of the actual processing. The second stream type omitted is the one-to-many. Since the information-potential of data cannot be increased by splitting it apart, it will only produce copies of the information. Because only information processing streams are of interest such copying will also be disregarded. 
 
@@ -25,11 +27,9 @@ The level of abstraction of the platform was evaluated on three concepts: applic
 However it was shown that the platform was still too low-level as it did not provide an appropriate communication mechanism. Instead the mechanism relied too heavily on the innate key-value messaging system of Apache Storm. Which requires repeated parsing and casting, and did not provide easy access to datapoints within input messages. This can be alleviated by introducing structs based messaging (POJOs). This would eliminate the need for casting and provides hard-typed bindings for datapoints in messages. This would eliminate many points of failure and improve the time required for development and debugging.
 
 \subsubsection{Threats to scalability of capacity}
-From the identified stream traffic types two threats to the scalability of input capacity are derived. Firstly, should the amount of input devices increase, every task in the application must be performed more and more often. This will eventually approach to computational and memory limitations of the hardware executing the application. Therefore tasks must be able to be distributed among servers to ensure parallelized execution. If disjunct computations can be parallelized properly, there is still a second issues. This issue is that aggregation must eventually be performed centralized in order to emit an aggregated snapshot. Therefore it must be provided that aggregation can be executed distributively until the data volume has been reduced for a single machine to finish the aggregation.
+From the identified stream traffic types two threats to the scalability of input capacity are derived. Firstly, should the amount of input devices increase, every task in the application must be performed more and more often. This will eventually approach to computational and memory limitations of the hardware executing the application. Therefore tasks must be able to be distributed among servers to ensure parallelized execution. If disjunct computations can be parallelized individually, there is still a second issues. This issue is that aggregation must eventually be performed centralized in order to emit an aggregated snapshot. Therefore it must be provided that aggregation can be executed distributively until the data volume has been reduced for a single machine to finish the aggregation.
 
-The developed monitoring platform attempts to account for these challenges. However due to compatibility issues with the chosen cloud platform, no benchmarks could be performed to confirm the scalability. Therefore, they will be asserted and defended in Section \ref{sec:conclusion:discussion} (Discussion).
-
-%\item\label{rq:design_scale} How can these challenges be overcome?
+The developed monitoring platform attempts to account for these challenges. However due to compatibility issues with the chosen cloud platform, no benchmarks could be performed to confirm the scalability. Therefore, they will be asserted and defended in Section \ref{sec:conclusion:discussion} Discussion.
 
 
 \subsection{Resource Distribution Model}
@@ -42,65 +42,130 @@ By abstracting the conversion of resources into components, the modelling of var
 \subsubsection{Calculating optimal behaviour}
 The final research question regarding the RDM inquires how the optimal behaviour of the system, considering the current state of the system, can be determined. For this purpose the constraint programming has been employed. Since the model solution essentially features a constraint model with some entities with variable behaviour, constraint solving is tremendously applicable. The provided model solver iteratively attempts to assign components with RUM's in search of valid model instantiations. All valid model are subsequently ranked according to the QoS they provide and the optimal solution is chosen. In order to objectively compare the QoS provided by solutions it was decided that a model should have one --- and only one --- optimizable QoS parameter. If a model features multiple QoS parameter, this is achieved by applying an all-encompassing heuristic QoS function to those parameters netting a single comparative universal QoS indicator.
 
-%TODO andere plek? \/
-\subsubsection{TODO:validation}
-The proof-of-concept study shows the conceived Resource Distribution Model as a functional solution. It was shown to captivate the resource distribution of a micro-scale system (i.e. sensor devices). Additionally, it provided for an automated mechanism of determining the optimal behaviour of the modelled configurable system. Furthermore, by employing constraint solver paradigms the valid instantiations of the system's behaviour can efficiently be determined. After which, the optimal mode of operation can be calculated. Though the model has shown to be practical at micro-level, the validation case did not feature the complexity that required high-level modelling (e.g. groups of devices or whole application). Further validation should investigate the necessity and applicability of the model to high-level modelling use-cases.
-%TODO benchmarking solvers?
-
 \section{Discussion}
 \label{sec:conclusion:discussion}
-why storm needs further layer
-	accumulator is faster en auto checkpoint
-	
-%TODO vooral beschrijven waarom het niet gedaan is.
-why not sensor or edge computing
+This section will discuss some questions that might have been raised by this thesis.
+\subsubsection{Is the platform as scalable as proposed?}
+As mentioned, due to compatibility issues with the chosen cloud infrastructure, no tests could be performed validating the scalable capacity of the platform. However we can hypothesize on the scalable capacity by regarding the features of the supporting technologies. The requirements for scalability, as identified in Section \ref{sec:conclusions}, are:
+\begin{enumerate}
+\nospace
+\item disjunct computations can be parallelized individually, and
+\item aggregation can be performed distributively, at least up until a point where the data volume is reduced enough for a single processor.
+\end{enumerate}
+The first demand is innately present in Apache Storm. A bolt can be executed by multiple tasks on multiple workers. This entails that if the processes are completely disjunct, scalability is attained by assigning more parallel workers to the process. Further more by employing a field grouping it can be assured that similar snapshots are always processed by the same worker, which can ensure dependable parallel execution of statefull processes.
 
-wider applicability?
-niet alles van storm aanwzig in platform
-	is een gevaolg van eerst top down, dan bottom up 
-	(eignelijk eerst alleen messaging en runtime env)
-storm or spark windowing?
-	long window -> implications on message lifetime
-fault tolerance
-	long accumulator StatefullBolt	
-		partial computed state ipv temp buffer
-		may introduce data race (unsynced) or scalebility issue (sync)
-		doe lekker met distr. acc (want kafka)
-	long buffer: moeilijk
-		accumulated state niet genoeg
-		elems moeten verwijderbaar zijn (hele state persisten moeilijk)
-		volledig peristen -> performance op laag interval
-		db is beter
-	no ack mechanism 
-		low use op low-information (en built upon fallible tech (sensors))
-		difficult after fork (larger fork -> less chance on exactly once))
-		no use op long term
-		geen heilige graal (at most once -> at least once, exactly once is moeilijk)
-			veroorzaakt dupicates en out of order.
-		storm no partial ack paths (only end2end)
-			niet hanidg voor long term en accumulated processes
-				meer tussenprocessen/-buffers nodig -> does not entail fault tolerance
-			(Zijn nodig om accumulatie efficient te herberekenen)
-			Te doen met intermediary spouts (bolt.emit -> bolt.spout.emit)
-		only global ack timer
-			introduces performance constraint (message must be acked within time)
-		implement on architecutre level to retain component encapsulation (AckStrategy)
-		do offer, not defualt/enforce
-	acks
-		low importance (packet loss is inherent)
-		low impact (hopefully only topology level)
-		hoe stop start
-	checkpointing
-		high(er) importance higher chance of loss of (related) information
-		requires individual ocmponent implmeentation
-		may require alternative (checkpointed, not checkpointed)
-			no multiplicity (there are no checkpointed db/distributed processors)
-	
+For aggregation the platform also enables scalability. Firstly, as the DistributedAccumulatorProcessor is implemented as an Apache Spark Streaming application, it enjoys the scalability guarantees offered by Spark. Furthermore, even the regular AccumulatorProcessor can be composed in such a manner that it first accumulates partitions of the input set, before accumulating those intermediary results. This can be achieved by subsequent map-reduce steps, as is provided for by the AccumulatorProcessor For the BufferedProcessor scalability is less of an issue since it receives its input from a single source. Therefore, issues only arise when that source increases its emission tremendously. However, should such an issue arise, the performance of the processor can be increased by keeping an internal state aside from its buffer. Incoming snapshots are ``added'' to this state and out-of-scope snapshots are ``subtracted'' from it, which eliminates repeated scanning of the entire buffer.
+
+\subsubsection{Does Apache Storm need another scaffolding layer?}
+The the platform was conceived in a specific top-down order:
+\begin{enumerate}
+\item Conceptualization of the LPWA WSN domain.
+\item Decision for micro-components architecture.
+\item Specification and implementation of components (Single message, accumulated, buffered) and variations (local vs. distributed, in-memory vs. database)
+\item Integration with supporting technology (Apache Storm)
+\end{enumerate}
+Originally, the search was for a supporting technology was mainly for its core messaging system and execution environment. Therefore, as a byproduct of this approach, some advanced features of Apache Storm had been overlooked. As a consequence the scaffolding layer provided by the platform is very close to the Storm functionality. 
+
+One Storm feature that approximates the added functionality of the platform is stream windowing. This considers a range of input messages of a certain length or duration. This window is subsequently moved and input in the window is supplied to a processor. This could provide for the base functionality of the BufferedProcessor. However the scaffolding provided for this processor enables context aware control over the buffer, since the processor can inspect the entire buffer when pruning values. Whereas, the windowing of Storm which can only prune values based on the timestamp or buffer length. Additionally, the windowing of Storm keeps the window in-memory, which becomes an issue for high influx processors or long windows. Therefore the DistributedAccumulatorProcessor and the DatabaseBufferedProcessor attempt to resolve this by respectively employing Apache Kafka/Spark and databases.
+
+Finally, it might be argued that if the additions of the platform are as beneficial as is claimed, they would have been integrated into Apache Storm already. However, This is contradicted by fact that for this application an explicit scope has been ascertained. Firstly, the platform was designed with a focus on calculating and monitoring QoS of WSN applications specifically, whereas Apache Storm is devised for streaming applications in general. Secondly, research regarding the first research question has yielded a specific taxonomy of the stream and processing types that should be regarded. Finally, for the platform a specific implementation language was chosen: Java. This allows the platform to profit from certain language specific benefits that are disregarded in Apache Storm to become language-independent.
+		
+\subsubsection{Why aren't Apache Storm's fault tolerant measures incorporated?}
+While the platform enjoys the innate service fault tolerance of Apache Storm, i.e. if a service fails it will be automatically restarted. However, Storm also features methods to (partially) ensure fault tolerance on a data-level. This again is caused by the relatively late decision for Apache storm, as mentioned in the previous subsection. These measures and the impact of their deficiency will be deliberated shortly.
+
+The first of these methods is message acknowledgement. Storm keeps track of messages emitted within the topology and dependencies of input/output messages. This allows messages to be replayed at the spout if processing fails somewhere in the topology. While this is a powerful function, there are some considerations to be made regarding it. Firstly, employing this will definitely result in non-sequential streams. This is caused when a windowed/buffered processor fails processing and every message in its window/buffer is replayed when a timeout occurs. Though any WSN streaming application should arrange for incidental out-of-sequence messages, a failing windowed/buffered processors causes a burst of out-of-sequence messages. The possibility of replays also changes the conditions of the message delivery system. Whereas originally it guaranteed at-most-once processing, with replays it guarantees at-least-once processing with no upper limit to the number of replays. This is exacerbated by the fact that most LPWA applications employ a best-effort delivery guarantee to back-end applications and does not account for messages dropped in the network. Therefore, formally the entire application will feature no processing guarantees (0--many).
+
+Another measure is statefull processors and checkpointing. Storm allows processors that keep an internal state and persist that state to remote storage periodically. Then if the processor fails, its state can be recovered. This could be used for a statefull variant of the AccumulatorProcessor. However, for the BufferedProcessor to persist its state may become very data-intensive. The reason for this is that, even if it would keep an internal state, it must keep a list of in-scope input messages. if that list is very large, periodically persisting it to remote storage may become a problem.
+
+It is impotent to note that the above considerations do not invalidate acking and checkpointing with regards to our goals. However it does present that these measures alone do not guarantee fault tolerance. In order to assert such guarantees careful considerations must be made regarding the application's topology and configuration. However, even with close consideration 100\% data fault tolerance may not be attainable. We do advice for these features to be incorporated into the platform eventually. However, for the above mentioned reasons no priority has been given to it yet.
+
+\subsubsection{Applicable field of applications}
+The final issue that will be addressed is the general applicability of the platform. The goal of this study was to design and devise a general platform that would enable the development of a QoS monitoring and management application for LPWA WSN applications. Though a concept platform has been developed, its proof-of-concept validation was only performed on one application. It would therefore be an overstatement to assert the platforms general applicability to LPWA applications based solely on the validation study.
+
+Instead this assertion is based on the analysis of types of data streams and reductions presented in LPWA QoS determination. It was determined that these streams can be categorized as one-to-some, lateral many-to-some and longitudinal many-to-one. Furthermore, a system (at an abstract level) was identified to consist of correlated resources. How these resources are interconnected and calculated may depend on the current operation strategy of the system under investigation. Additionally, given the resource parameters of a system, a operation strategy may or may not satisfy the specified resource constraints. Finally, the performance of a system under certain operation strategies can be compared according to some resource parameters.
+
+These concepts were all present in the case to which the platform was applied. Furthermore, all these concepts could be captivated and processed by the platform implementation. Therefore we state that, under the assumption that the aforementioned concepts are the key identifying features of LPWA WSN application QoS, the developed platform is a viable solution for LPWA WSN QoS monitoring and management. Weather the presumed concepts are indeed the key identifying features for this class of applications requires further investigation. 
+
 \section{Future work}
-Promising
-needs few functional components
-needs gui
-needs further validation
-	applicability: more applications
-	usability: blind studies
-feedback into models (learning models)
+Though the platform appears promising, there is further work to be done. In this conclusive section some envisioned areas that require further exploration will be suggested.
+
+\subsubsection{Obtaining accurate Resource Distribution Models}
+The proof-of-concept study has shown that the RDM is a powerful tool to calculate the state and performance of a system based on some input measurements. However, in order to perform these calculations, an instantiation of the model must first be realized. This can only be done if all the relations, formulas and adjustable behaviour required to model the behaviour are known. Therefore, even though the model is powerful, obtaining an accurate realization of it can prove laborious. Therefore, efforts should be made to research how these hypothetical models can be extracted from genuine systems. Some research areas of interest would be extraction through formal statistical analysis tools or machine learning.
+
+\subsubsection{Suggested improvements}
+Chapter \ref{ch:validation} identified some deficiencies in the abstraction of the development platform. The first of which is the introduction of a strongly typed messaging system. This is required to obfuscate the cumbersome serialization that is required in distributed systems. By introducing such a scheme it becomes vastly easier precisely and adequately access a datapoint in a snapshot.
+The second feature to introduce is a visual representation and editor of the concepts of the platform. This goes for both the Resource Distribution Model and the platform topology builder. Such a GUI will integrate the visual representation of the design process and the programmed representation of the functional artefact into a single visual and functional entity.
+
+\subsubsection{Better incorporation of Apache Storm}
+A method that can verify the implementation of the  platform's scaffolding layer is by reperforming a part of this study with a slightly different methodology. The executed course of actions contextualized the problem domain, decided on micro-component architecture, specified and implemented the components and finally integrated it with Apache Storm. An alternate approach could be to retain the decisions for a micro-component architecture, functional specification of the micro-components and choice for Apache Storm. However, instead of building the components first and then incorporating a Storm's messaging system, a more bottom-up implementation approach can be employed. This approach would better consider the advanced features provided by Apache Storm. The predicted outcome for this study is a leaner scaffolding layer that better enables the advanced features offered by Storm. 
+
+Another possible outcome for this suggested study is that Apache Storm does not require a scaffolding layer to better enable the development of an LWPA QoS monitoring application. Such a conclusion does not trivialize this study however. For this case the assumption is that a solely Storm-based approach can simulate the features of our platform. Then, by the transitive property, the conclusions of our validation study also hold for this Storm-based approach. However, we suppose that such a conclusion is highly unlikely, since the improvements suggested by the validation study (POJO messaging system, graphical topology editor) are also lacking in Apache Storm.
+
+\subsubsection{Further validation}
+The final recommendation for continued research is to solidify the claims of the validation study by reperforming it with slight alterations. For this continued research three sub directions are identified. 
+
+Firstly, the validation study can be performed on a wider base of LPWA WSN applications. Preferably, this would be performed after the known deficiencies are absolved. Broadening the scope of applications solidifies the claim that the platform is an applicable development platform for LPWA QoS monitoring in general. Alternatively it allows for more deficiencies to surface.
+
+The proof-of-concept study shows the conceived Resource Distribution Model as a functional solution. It was shown to captivate the resource distribution of a micro-scale system (i.e. sensor device). Additionally, it provided for an automated mechanism of determining the optimal behaviour of the modelled configurable system. Furthermore, by employing constraint solver paradigms the valid instantiations of the system's behaviour can efficiently be determined. After which, the optimal operational strategy can be calculated. Though the model has shown to be practical at micro-level, the validation case did not feature the complexity that required high-level modelling (e.g. groups of devices or whole application) or convoluted configurable behaviour (i.e. multiple components with varying behaviour). Therefore, the study needs to be performed on WSN applications that do feature more complicated systems to be modelled by the Resource Distribution Model. This entails both models with more convoluted configurable behaviour and applications that require higher-level (e.g. application-level) modelling of its QoS parameters. Such studies should establish the (un)necessity or (in)feasibility of the model at such levels.
+
+the final area of continued research is to have the validation study be carried out by software engineers with limited familiarity of the proposed development platform. Such blind studies should give insight into the usability of the platform with regards to the general population of software developers. 
+	
+
+	
+	
+
+%Promising
+%bottom down approach
+%needs few functional components
+%needs gui
+%needs further validation
+%	applicability: more applications
+%	usability: blind studies
+%feedback into models (learning models)
+
+%why storm needs further layer
+%	accumulator is faster en auto checkpoint
+	
+%why not sensor or edge computing
+
+%wider applicability?
+%niet alles van storm aanwzig in platform
+%	is een gevaolg van eerst top down, dan bottom up 
+%	(eignelijk eerst alleen messaging en runtime env)
+%storm or spark windowing?
+%	long window -> implications on message lifetime
+%fault tolerance
+%	long accumulator StatefullBolt	
+%		partial computed state ipv temp buffer
+%		may introduce data race (unsynced) or scalebility issue (sync)
+%		doe lekker met distr. acc (want kafka)
+%	long buffer: moeilijk
+%		accumulated state niet genoeg
+%		elems moeten verwijderbaar zijn (hele state persisten moeilijk)
+%		volledig peristen -> performance op laag interval
+%		db is beter
+%	no ack mechanism 
+%		low use op low-information (en built upon fallible tech (sensors))
+%		difficult after fork (larger fork -> less chance on exactly once))
+%		no use op long term
+%		geen heilige graal (at most once -> at least once, exactly once is moeilijk)
+%			veroorzaakt dupicates en out of order.
+%		storm no partial ack paths (only end2end)
+%			niet hanidg voor long term en accumulated processes
+%				meer tussenprocessen/-buffers nodig -> does not entail fault tolerance
+%			(Zijn nodig om accumulatie efficient te herberekenen)
+%			Te doen met intermediary spouts (bolt.emit -> bolt.spout.emit)
+%		only global ack timer
+%			introduces performance constraint (message must be acked within time)
+%		implement on architecutre level to retain component encapsulation (AckStrategy)
+%		do offer, not defualt/enforce
+%	acks
+%		low importance (packet loss is inherent)
+%		low impact (hopefully only topology level)
+%		hoe stop start
+%	checkpointing
+%		high(er) importance higher chance of loss of (related) information
+%		requires individual ocmponent implmeentation
+%		may require alternative (checkpointed, not checkpointed)
+%			no multiplicity (there are no checkpointed db/distributed processors)
+	

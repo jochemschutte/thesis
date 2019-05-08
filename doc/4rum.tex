@@ -247,12 +247,11 @@ Given that we encounter unsatisfactory options early in the tree, this will poss
 \label{fig:search_cpu_radio}
 \end{figure}
 
-
+%TODO every valu as double?
 \section{Discussion of the proposed model}
 We will conclude this chapter by endorsing some of the choices that were made for our proposed model. 
 \subsubsection{Static model}
 As stated before we chose to use a static representation of resource utilization by ModelComponents. We chose this in order greatly reduce the complexity of the problem and this allows the model to be evaluated within a reasonable amount of time. We came to this conclusion after early experiments with timed automata. In this experiment we modelled a minimal system with one component with three RUM's. When analysing the model using time intervals of one week over a life span of ten years, it took over one minute to calculate the optimal traversal of the automaton. Granted, this was performed on a laptop machine and not a high-powered server. When deployed on a server with sufficient calculatory resources the time to calculate will be reduced. However, this is counteracted by the fact for a WSN application this calculation needs to be repeated for thousands of sensors. When we compare this performance to that of the static models, which can evaluate more complex models within seconds, we must eliminate timed automata as viable solution for real-time analysis. However, this does not eliminate automata entirely. Automata can still be used to model the fine grained run cycles of parts of a system in order to develop generalized static RUM's.
-
 
 \subsubsection{Solver libraries}
 When developing this solution we chose to implement the constraint solving algorithm ourselves, instead of employing existing libraries such as Choco Solver\cite{web:choco} or OptaPlanner\cite{web:opta}. 

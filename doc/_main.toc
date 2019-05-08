@@ -71,55 +71,60 @@
 \contentsline {subsubsection}{Static model}{55}{subsubsection*.21}
 \contentsline {subsubsection}{Solver libraries}{55}{subsubsection*.22}
 \contentsline {subsubsection}{Constraint propagation}{56}{subsubsection*.23}
-\contentsline {chapter}{\numberline {5}Proof of concept by case study}{57}{chapter.5}
-\contentsline {section}{\numberline {5.1}Case study}{57}{section.5.1}
-\contentsline {subsection}{\numberline {5.1.1}Background}{57}{subsection.5.1.1}
-\contentsline {subsection}{\numberline {5.1.2}Context of the Case Study}{57}{subsection.5.1.2}
+\contentsline {chapter}{\numberline {5}Proof of concept validation by case study}{57}{chapter.5}
+\contentsline {section}{\numberline {5.1}Context of the case study}{57}{section.5.1}
+\contentsline {subsection}{\numberline {5.1.1}Company background Background}{57}{subsection.5.1.1}
+\contentsline {subsection}{\numberline {5.1.2}Conceptualization of the monitoring application}{58}{subsection.5.1.2}
 \contentsline {subsubsection}{Sensor data signature}{58}{subsubsection*.24}
-\contentsline {subsubsection}{QoS monitoring needs}{58}{subsubsection*.25}
-\contentsline {section}{\numberline {5.2}Structure of the validation study}{59}{section.5.2}
-\contentsline {section}{\numberline {5.3}Criteria of the Case Study}{60}{section.5.3}
-\contentsline {subsection}{\numberline {5.3.1}Claims}{60}{subsection.5.3.1}
-\contentsline {subsection}{\numberline {5.3.2}Bounds}{61}{subsection.5.3.2}
-\contentsline {section}{\numberline {5.4}Method}{61}{section.5.4}
-\contentsline {subsection}{\numberline {5.4.1}General approach}{61}{subsection.5.4.1}
-\contentsline {subsection}{\numberline {5.4.2}Validation criteria}{62}{subsection.5.4.2}
-\contentsline {subsubsection}{Adaptability}{63}{subsubsection*.26}
-\contentsline {subsubsection}{Summary of criteria}{63}{subsubsection*.27}
-\contentsline {section}{\numberline {5.5}Implementation of the WSN monitoring application}{64}{section.5.5}
-\contentsline {subsection}{\numberline {5.5.1}Design and Implementation}{64}{subsection.5.5.1}
-\contentsline {subsubsection}{Application topology}{64}{subsubsection*.28}
-\contentsline {subsubsection}{Sensor Resource Distribution Model}{66}{subsubsection*.29}
-\contentsline {subsection}{\numberline {5.5.2}Adapting the application}{67}{subsection.5.5.2}
-\contentsline {subsubsection}{Nuancer local}{67}{subsubsection*.30}
-\contentsline {subsubsection}{New sensor data encoding}{68}{subsubsection*.31}
-\contentsline {subsubsection}{Alert on long-term ECL drop}{69}{subsubsection*.32}
-\contentsline {section}{\numberline {5.6}Results}{69}{section.5.6}
-\contentsline {subsubsection}{Applicability}{69}{subsubsection*.33}
-\contentsline {subsubsection}{Usability}{70}{subsubsection*.34}
-\contentsline {subsubsection}{Adaptability}{70}{subsubsection*.35}
-\contentsline {section}{\numberline {5.7}Evaluation}{70}{section.5.7}
-\contentsline {subsubsection}{Applicability}{70}{subsubsection*.36}
-\contentsline {subsubsection}{Usability}{71}{subsubsection*.37}
-\contentsline {subsubsection}{Adaptability}{73}{subsubsection*.38}
-\contentsline {section}{\numberline {5.8}Discussion}{73}{section.5.8}
-\contentsline {subsection}{\numberline {5.8.1}Conclusions}{73}{subsection.5.8.1}
-\contentsline {subsection}{\numberline {5.8.2}Discussion}{74}{subsection.5.8.2}
-\contentsline {subsubsection}{Representativeness of the SENSIT application}{74}{subsubsection*.39}
-\contentsline {subsubsection}{Threat of over-abstraction}{74}{subsubsection*.40}
-\contentsline {subsubsection}{Developer skill level}{75}{subsubsection*.41}
-\contentsline {subsection}{\numberline {5.8.3}Limitations and recommendations}{76}{subsection.5.8.3}
-\contentsline {chapter}{\numberline {6}Conclusion}{78}{chapter.6}
-\contentsline {section}{\numberline {6.1}Conclusions}{78}{section.6.1}
-\contentsline {subsection}{\numberline {6.1.1}Platform architecture}{78}{subsection.6.1.1}
-\contentsline {subsubsection}{Stream transformation types}{78}{subsubsection*.42}
-\contentsline {subsubsection}{Platform design}{79}{subsubsection*.43}
-\contentsline {subsubsection}{Level of abstraction}{79}{subsubsection*.44}
-\contentsline {subsubsection}{Threats to scalability of capacity}{80}{subsubsection*.45}
-\contentsline {subsection}{\numberline {6.1.2}Resource Distribution Model}{80}{subsection.6.1.2}
-\contentsline {subsubsection}{Key concepts of QoS modelling}{80}{subsubsection*.46}
-\contentsline {subsubsection}{Modelling variable behaviour}{80}{subsubsection*.47}
-\contentsline {subsubsection}{Calculating optimal behaviour}{80}{subsubsection*.48}
-\contentsline {subsubsection}{TODO:validation}{81}{subsubsection*.49}
-\contentsline {section}{\numberline {6.2}Discussion}{81}{section.6.2}
-\contentsline {section}{\numberline {6.3}Future work}{81}{section.6.3}
+\contentsline {subsubsection}{QoS monitoring needs}{59}{subsubsection*.25}
+\contentsline {section}{\numberline {5.2}Method}{60}{section.5.2}
+\contentsline {subsection}{\numberline {5.2.1}General approach}{60}{subsection.5.2.1}
+\contentsline {subsection}{\numberline {5.2.2}Claims}{60}{subsection.5.2.2}
+\contentsline {subsubsection}{Applicability}{60}{subsubsection*.26}
+\contentsline {subsubsection}{Usability}{61}{subsubsection*.27}
+\contentsline {subsubsection}{Adapatability}{61}{subsubsection*.28}
+\contentsline {subsection}{\numberline {5.2.3}Bounds}{62}{subsection.5.2.3}
+\contentsline {section}{\numberline {5.3}Implementation of the WSN monitoring application}{62}{section.5.3}
+\contentsline {subsection}{\numberline {5.3.1}Design and Implementation}{62}{subsection.5.3.1}
+\contentsline {subsubsection}{Application topology}{62}{subsubsection*.29}
+\contentsline {subsubsection}{Sensor Resource Distribution Model}{65}{subsubsection*.30}
+\contentsline {subsection}{\numberline {5.3.2}Adapting the application}{66}{subsection.5.3.2}
+\contentsline {subsubsection}{Nuancer local}{66}{subsubsection*.31}
+\contentsline {subsubsection}{New sensor data encoding}{66}{subsubsection*.32}
+\contentsline {subsubsection}{Alert on long-term ECL drop}{67}{subsubsection*.33}
+\contentsline {section}{\numberline {5.4}Results}{68}{section.5.4}
+\contentsline {subsubsection}{Applicability}{68}{subsubsection*.34}
+\contentsline {subsubsection}{Usability}{68}{subsubsection*.35}
+\contentsline {subsubsection}{Adaptability}{68}{subsubsection*.36}
+\contentsline {section}{\numberline {5.5}Evaluation}{69}{section.5.5}
+\contentsline {subsubsection}{Applicability}{69}{subsubsection*.37}
+\contentsline {subsubsection}{Usability}{69}{subsubsection*.38}
+\contentsline {subsubsection}{Adaptability}{71}{subsubsection*.39}
+\contentsline {section}{\numberline {5.6}Discussion}{71}{section.5.6}
+\contentsline {subsection}{\numberline {5.6.1}Conclusions}{71}{subsection.5.6.1}
+\contentsline {subsection}{\numberline {5.6.2}Discussion}{72}{subsection.5.6.2}
+\contentsline {subsubsection}{Representativeness of the SENSIT application}{72}{subsubsection*.40}
+\contentsline {subsubsection}{Threat of over-abstraction}{73}{subsubsection*.41}
+\contentsline {subsubsection}{Developer skill level}{73}{subsubsection*.42}
+\contentsline {subsection}{\numberline {5.6.3}Limitations and recommendations}{74}{subsection.5.6.3}
+\contentsline {chapter}{\numberline {6}Conclusion}{76}{chapter.6}
+\contentsline {section}{\numberline {6.1}Conclusions}{76}{section.6.1}
+\contentsline {subsection}{\numberline {6.1.1}Platform architecture}{76}{subsection.6.1.1}
+\contentsline {subsubsection}{Stream transformation types}{76}{subsubsection*.43}
+\contentsline {subsubsection}{Platform design}{77}{subsubsection*.44}
+\contentsline {subsubsection}{Level of abstraction}{77}{subsubsection*.45}
+\contentsline {subsubsection}{Threats to scalability of capacity}{78}{subsubsection*.46}
+\contentsline {subsection}{\numberline {6.1.2}Resource Distribution Model}{78}{subsection.6.1.2}
+\contentsline {subsubsection}{Key concepts of QoS modelling}{78}{subsubsection*.47}
+\contentsline {subsubsection}{Modelling variable behaviour}{78}{subsubsection*.48}
+\contentsline {subsubsection}{Calculating optimal behaviour}{78}{subsubsection*.49}
+\contentsline {section}{\numberline {6.2}Discussion}{79}{section.6.2}
+\contentsline {subsubsection}{Is the platform as scalable as proposed?}{79}{subsubsection*.50}
+\contentsline {subsubsection}{Does Apache Storm need another scaffolding layer?}{79}{subsubsection*.51}
+\contentsline {subsubsection}{Why aren't Apache Storm's fault tolerant measures incorporated?}{80}{subsubsection*.52}
+\contentsline {subsubsection}{Applicable field of applications}{81}{subsubsection*.53}
+\contentsline {section}{\numberline {6.3}Future work}{82}{section.6.3}
+\contentsline {subsubsection}{Obtaining accurate Resource Distribution Models}{82}{subsubsection*.54}
+\contentsline {subsubsection}{Suggested improvements}{82}{subsubsection*.55}
+\contentsline {subsubsection}{Better incorporation of Apache Storm}{82}{subsubsection*.56}
+\contentsline {subsubsection}{Further validation}{83}{subsubsection*.57}
