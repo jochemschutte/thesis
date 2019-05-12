@@ -11,6 +11,7 @@ float
 \textbf{Input}: A constraint network $R$ and an ordering of the variables $d = \{x_1,...,x_n\}$.\\
 \textbf{Output}: Either a solution if one exists or a decision that the network is inconsistent.
 \begin{enumerate}
+\setcounter{enumi}{-1}
 \item (Initialize.) $cur \leftarrow 0$.
 \item (Step forward.) If $x_{cur}$ is the last variable, then all variables have value assignments;\hspace{5px}
 exit with this solution. Otherwise, $cur \leftarrow cur + 1$. Set $D'_{cur} \leftarrow D_{cur}$.

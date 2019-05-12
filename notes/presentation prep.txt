@@ -1,0 +1,18 @@
+vragen
+	Waarom eigen buffer/windowing
+	hoe zijn de key features geidentificeerd (h3/4)
+		apps/studies
+	hoe maak je zo'n model
+	why geen lerende modellen
+		goede richting
+		moeilijk
+		out of scope
+	rdm very discreet
+	welke features wel in platform, niet in storm
+
+
+voor nedap/aux slides
+	mijn vs storm
+		long vs short timeout
+	example topology vs monolyth
+		

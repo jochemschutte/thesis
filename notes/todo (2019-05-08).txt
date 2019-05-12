@@ -1,6 +1,8 @@
 TODO
 background
 	1wat moet nog, wat niet
+arch
+	runtime environments
 RDM
 	why every value as double
 validatie
@@ -13,4 +15,15 @@ overall
 	refs maken
 	consistente spelling
 
-shit doorlezen
+belangrijk
+	background: wat moet, wat niet?
+	intro adaptability noemen
+	we/us/our weg
+	cites en refs
+	
+	
+interchangeble (iot/lpwa/wsn)
+inconsistente spelling (datapoint, data-point, datapoint)
+protocols en platforms van intro naar background
+background of nedap in validation
+meer referenties
