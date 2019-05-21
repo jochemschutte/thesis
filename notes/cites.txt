@@ -1,0 +1,4 @@
+IoT Technologies for Embedded Computing: A Survey
+	qos tradeoff
+	
+timidi prohibere cito, asini prohibere sero, deori prohibere nunquam

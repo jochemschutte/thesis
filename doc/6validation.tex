@@ -8,12 +8,13 @@ This chapter will attempt to validate the applicability of the platform to the f
 \section{Context of the case study}
 \subsection{Background}
 \label{sec:sensit}
-\subsubsection*{Nedap - Identification Systems}
+\subsubsection*{Nedap: Identification Systems}
 [TODO]
+nedap \cite{web:idsystems}idsys \cite{web:sensit}
 \subsubsection*{\sensit smart parking application}
-The \sensit \idsystems smart parking application is devised to monitor parking lots and garages. It employ a huge amount (up to thousands) of affordable LPWA sensor nodes. Each individual parking spot is equipped with one of these sensors to determine its occupation. To determine changes in occupation, each sensor is equipped with an infra-red and magnetic induction sensor. Should a change in occupation be detected, a message containing the measured sensor deltas is sent to the back-end application. This granular approach to smart parking allows the \sensit application to monitor and visualise the occupation of individual parking spaces in a lot, garage or even across cities.
+The \sensit \cite{web:sensit} smart parking application is devised to monitor parking lots and garages. It employ a huge amount (up to thousands) of affordable LPWA sensor nodes. Each individual parking spot is equipped with one of these sensors to determine its occupation. To determine changes in occupation, each sensor is equipped with an infra-red and magnetic induction sensor. Should a change in occupation be detected, a message containing the measured sensor deltas is sent to the back-end application. This granular approach to smart parking allows the \sensit application to monitor and visualise the occupation of individual parking spaces in a lot, garage or even across cities.
 
-In order to communicate with the back-end the sensors employ wireless technology. Previously, the sensors were connected to sinks using a proprietary network of relay nodes. However the recent proliforation of large scale cellular IoT networks has caused \nedap to shift towards these technologies. This allows large numbers of sensors to a single cell tower, without the need of deploying and managing a network of relay nodes for new sensor deployments. Additionally the effort in managing and maintianing the network is outsource to professional operators. To connect the sensors to the internet the \emph{Narrow-band Internet of Things} technology was determined to be most suitable. New \sensit sensors are therefore equipped with \ublox\cite{web:ublox} NB-IoT radio modules to connect them to operated cell networks.
+In order to communicate with the back-end the sensors employ wireless technology. Previously, the sensors were connected to sinks using a proprietary network of relay nodes. However the recent proliforation of large scale cellular IoT networks has caused \nedap to shift towards these technologies. This allows large numbers of sensors to a single cell tower, without the need of deploying and managing a network of relay nodes for new sensor deployments. Additionally the effort in managing and maintianing the network is outsource to professional operators. To connect the sensors to the internet the \emph{Narrow-band Internet of Things} technology was determined to be most suitable. New \sensit sensors are therefore equipped with \ublox \cite{web:ublox} NB-IoT radio modules to connect them to operated cell networks.
 
 \subsection{Conceptualization of the monitoring application}
 This section will describe and scope the context of the QoS monitoring application to be developed. First, the input for the application as  emitted by the WSN application under investigation. Consequently, the characteristics of the expected outcomes of the application to be prototyped will be discussed. 
@@ -334,7 +335,7 @@ Secondly, the inclusion of a graphical model/topology editor will remove the dis
 To solidify the validity of this study, some contending issues must be addressed. 
 
 \subsubsection{Representativeness of the \sensit application}
-The first issue of which is the applicability of the study. For any assertion to be relevant to the field of LPWA WSN it must be demonstrated that the \sensit application is representative and conforms to the characteristics for LPWA WSN applications. Table \ref{table:LPWA-chars} lists the typical LPWA WSN characteristics, as reported by multiple sources\cite{lora_vs_sigfox_boek, lora_vs_sigfox_whitepaper, nbiot_vs_lora_vs_sigfox, lora_vs_sigfox, tmobile, nbiot}.
+The first issue of which is the applicability of the study. For any assertion to be relevant to the field of LPWA WSN it must be demonstrated that the \sensit application is representative and conforms to the characteristics for LPWA WSN applications. Table \ref{table:LPWA-chars} lists the typical LPWA WSN characteristics, as reported by multiple sources \cite{lora_vs_sigfox_boek, lora_vs_sigfox_whitepaper, nbiot_vs_lora_vs_sigfox, lora_vs_sigfox, tmobile, nbiot}.
 
 \begin{table}
 \centering

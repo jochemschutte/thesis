@@ -7,8 +7,9 @@ vragen
 		goede richting
 		moeilijk
 		out of scope
-	rdm very discreet
+	rdm very specific
 	welke features wel in platform, niet in storm
+	waarom niet some-to-one (zoals paper: event management system)
 
 
 voor nedap/aux slides
