@@ -1,25 +1,17 @@
 TODO
-background
-	1wat moet nog, wat niet
+
 arch
-	runtime environments
+	runtime environments?
 RDM
-	why every value as double
+	why every value as double?
 validatie
 	stuk over nedap:idsys (background schrijven)
-	(adaptability in intro noemen)
 overall
-	duplicatie opsporen
 	footnotes checken
 	plaatsing images checken
 	refs maken
 	consistente spelling
 
-belangrijk
-	background: wat moet, wat niet?
-	intro adaptability noemen
-	we/us/our weg
-	cites en refs
 	
 	
 interchangeble (iot/lpwa/wsn)

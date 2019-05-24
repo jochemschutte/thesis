@@ -86,7 +86,7 @@ The protocols described in Section \ref{sec:qos-protocols} are unfortunately not
 Though IntServ's hard QoS guarantees are powerful, the overhead required to establish these flows is far too imposing \cite{intserv_diffserv_too_complex, qos_challenges}. Since LPWA only sends small message payloads, the heavy per flow negotiation data will easily exceed the payload data. With LPWA's limited resources in mind this cannot be considered as an efficient solution. Conversely, DiffServ does not feature this immense overhead cost. However, application of the protocol is complicated by the movement to commercial network operators, as it would require them to implement a class-based allocation system in their networks. The previously mentioned inhibitions are potentially aggravated by local net neutrality laws. Though this was not a concern in privately operated proprietary networks, in universal Internet of Things extreme networks severe net neutrality laws may prohibit priority treatment of data flows based on their source, destination or content \cite{net_neutrality}. This implies that the required QoS guarantees cannot feasibly or legally be (fully) provided by a commercial Internet of Things network provider and in-network protocols
 %TODO citesdiffserv
 
-Furthermore, both IntServ and DiffServ consider only network QoS, therefore they lack the level of inspection to report or consider the state of limited resources in end-devices. This deficiency also troubles IoT-specific QoS protocols. Most efforts are focussed towards efficient and effective networking in order to facilitate increasing data-rates. These protocols disregard important device metrics, such as node lifetime and sensor measurement accuracy, which are paramount to determining the health and performance of an IoT application. Finally, though the protocol of R. Duan et al \cite{qos_extensive_architecture} does feature this level of inspection, the details require further implementation to fully complete the protocol. Since the field of IoT is relatively young, no such IoT-specific QoS procedures have matured to a uniform and universal internet standard. From the preceding it is concluded that contemporary general purpose or IoT-specific QoS protocols cannot provide for an adequate in-network solution. Instead, this obligation is imposed on the back-end and the end-devices.
+Furthermore, both IntServ\footnotemark\footnotetext{henk} and DiffServ consider only network QoS, therefore they lack the level of inspection to report or consider the state of limited resources in end-devices. This deficiency also troubles IoT-specific QoS protocols. Most efforts are focussed towards efficient and effective networking in order to facilitate increasing data-rates. These protocols disregard important device metrics, such as node lifetime and sensor measurement accuracy, which are paramount to determining the health and performance of an IoT application. Finally, though the protocol of R. Duan et al \cite{qos_extensive_architecture} does feature this level of inspection, the details require further implementation to fully complete the protocol. Since the field of IoT is relatively young, no such IoT-specific QoS procedures have matured to a uniform and universal internet standard. From the preceding it is concluded that contemporary general purpose or IoT-specific QoS protocols cannot provide for an adequate in-network solution. Instead, this obligation is imposed on the back-end and the end-devices
 
 %TODO check footnote is on page
 %TODO plaatsing
@@ -97,7 +97,7 @@ Furthermore, both IntServ and DiffServ consider only network QoS, therefore they
 \begin{tabular}{|l|c|c|c|c|c|} \hline
  & ThingWorx & Cisco Jasper & Nimbits \\ 
  & & Control Center & \\ \hline
-LPWA specific\footnotemark & \xmark & \cmark &  \xmark \\ \hline
+LPWA specific\footnote{I.e. constrained by resource limitations} & \xmark & \cmark &  \xmark \\ \hline
 QoS monitoring focus & \xmark & \xmark & \xmark \\ \hline
 Open-source & \xmark & \xmark & \cmark \\ \hline
 Device-level inspection & \cmark & \xmark & \cmark \\ \hline
@@ -107,8 +107,6 @@ Extreme scalability & \xmark & \cmark & \xmark \\ \hline
 \end{minipage}
 \label{table:platform_assessment}
 \end{table*}
-
-\footnotetext{I.e. constrained by resource limitations}
 
 An assessment of the discussed platforms and their applicability to the field of LPWA is depicted in table \ref{table:platform_assessment}. It shows that these platforms are all lacking in some important considerations. These platforms are either not conceived with a focus on LPWA's severe resource constraints, a primary focus on resource and QoS monitoring or the extreme scale of contemporary WSN applications \cite{platforms,forrester,study_of_various,good_assessment}.
 
