@@ -10,6 +10,8 @@ vragen
 	rdm very specific
 	welke features wel in platform, niet in storm
 	waarom niet some-to-one (zoals paper: event management system)
+	platform ook voor general?
+		Kan voor metingen. RDM slecht met events
 
 
 voor nedap/aux slides

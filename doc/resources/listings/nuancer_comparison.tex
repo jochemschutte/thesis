@@ -1,4 +1,5 @@
 \begin{scriptsize}
+\begin{minipage}{\textwidth}
 \begin{lstlisting}[
 language=java, 
 caption={Simplified fragment of \emph{SensorNuancer} without struct objects}, 
@@ -27,6 +28,10 @@ public void runForMessagesHistoric(LinkedList<IOMessage> history) {
 	publish("SENSOR_NORMALIZED", new IOMessage(args));		
 }
 \end{lstlisting}
+\end{minipage}
+\end{scriptsize}
+\begin{scriptsize}
+\begin{minipage}{\textwidth}
 \begin{lstlisting}[
 language=java, 
 caption={Simplified fragment of \emph{SensorNuancer} with struct objects}, 
@@ -48,9 +53,10 @@ public void runForMessagesHistoric(LinkedList<NuancerInStruct> history) {
 	int normalizedEcl = normalizeEcl(ecls);		
 			
 	output.setMillisElapsed(last-first);
-	output.setEclLocal(history.getLast.getEclLocal());
+	output.setEclLocal(history.getLast().getEclLocal());
 	output.setEcl(normalizedEcl);				
 	publish("SENSOR_NORMALIZED", output);	
 }
 \end{lstlisting}
+\end{minipage}
 \end{scriptsize}

@@ -17,34 +17,39 @@
 \contentsline {section}{\numberline {1.5}Thesis organization}{12}{section.1.5}% 
 \contentsline {chapter}{\numberline {2}Background}{13}{chapter.2}% 
 \contentsline {section}{\numberline {2.1}Context of the project}{13}{section.2.1}% 
-\contentsline {section}{\numberline {2.2}Quality of Information of WSN data}{15}{section.2.2}% 
-\contentsline {section}{\numberline {2.3}Constraint programming and solving}{17}{section.2.3}% 
-\contentsline {section}{\numberline {2.4}Commonality/variability analysis}{18}{section.2.4}% 
-\contentsline {section}{\numberline {2.5}Example case}{18}{section.2.5}% 
-\contentsline {chapter}{\numberline {3}Design of IoT monitoring platform architecture}{20}{chapter.3}% 
-\contentsline {section}{\numberline {3.1}Goal}{20}{section.3.1}% 
-\contentsline {section}{\numberline {3.2}Conceptualization of the problem domain}{20}{section.3.2}% 
-\contentsline {section}{\numberline {3.3}Requirements for the proposed software platform}{22}{section.3.3}% 
-\contentsline {section}{\numberline {3.4}Exploration of the solution domain}{23}{section.3.4}% 
-\contentsline {subsection}{\numberline {3.4.1}Architecture and execution platform}{24}{subsection.3.4.1}% 
-\contentsline {subsection}{\numberline {3.4.2}Message brokers}{25}{subsection.3.4.2}% 
-\contentsline {subsection}{\numberline {3.4.3}Distributed computing}{27}{subsection.3.4.3}% 
-\contentsline {subsubsection}{MapReduce}{27}{subsubsection*.7}% 
-\contentsline {subsubsection}{Apache Spark (Streaming)}{27}{subsubsection*.8}% 
-\contentsline {subsection}{\numberline {3.4.4}Solution decisions}{29}{subsection.3.4.4}% 
-\contentsline {section}{\numberline {3.5}Design of the software platform}{30}{section.3.5}% 
+\contentsline {section}{\numberline {2.2}Commonality/variability analysis}{15}{section.2.2}% 
+\contentsline {section}{\numberline {2.3}Distributed computation technologies}{16}{section.2.3}% 
+\contentsline {subsection}{\numberline {2.3.1}Monolith vs micro-component}{16}{subsection.2.3.1}% 
+\contentsline {subsection}{\numberline {2.3.2}Apache Storm}{17}{subsection.2.3.2}% 
+\contentsline {subsection}{\numberline {2.3.3}Message brokers}{18}{subsection.2.3.3}% 
+\contentsline {subsection}{\numberline {2.3.4}Distributed processing}{19}{subsection.2.3.4}% 
+\contentsline {subsubsection}{MapReduce}{19}{subsubsection*.7}% 
+\contentsline {subsubsection}{Apache Spark (Streaming)}{19}{subsubsection*.8}% 
+\contentsline {section}{\numberline {2.4}Quality of Information of WSN data}{20}{section.2.4}% 
+\contentsline {section}{\numberline {2.5}Constraint programming and solving}{21}{section.2.5}% 
+\contentsline {chapter}{\numberline {3}Design of IoT monitoring platform architecture}{23}{chapter.3}% 
+\contentsline {section}{\numberline {3.1}Objective of this chapter}{23}{section.3.1}% 
+\contentsline {section}{\numberline {3.2}Conceptualization of the problem domain}{23}{section.3.2}% 
+\contentsline {section}{\numberline {3.3}Requirements for the proposed software platform}{26}{section.3.3}% 
+\contentsline {section}{\numberline {3.4}Evaluation of the solution domain}{27}{section.3.4}% 
+\contentsline {subsubsection}{Architecture and execution platform}{27}{subsubsection*.9}% 
+\contentsline {subsubsection}{Distributed computing}{27}{subsubsection*.10}% 
+\contentsline {subsection}{\numberline {3.4.1}Solution decisions}{29}{subsection.3.4.1}% 
+\contentsline {section}{\numberline {3.5}Design of the software platform}{29}{section.3.5}% 
 \contentsline {subsection}{\numberline {3.5.1}Micro-component architecture}{30}{subsection.3.5.1}% 
 \contentsline {subsection}{\numberline {3.5.2}Scaffolds for micro-components}{32}{subsection.3.5.2}% 
-\contentsline {subsubsection}{DatabaseBufferedProcessor}{33}{subsubsection*.9}% 
-\contentsline {subsubsection}{DistributedAccumulatorProcessor}{34}{subsubsection*.10}% 
-\contentsline {section}{\numberline {3.6}Demonstration by example topology}{35}{section.3.6}% 
-\contentsline {section}{\numberline {3.7}Discussion of the proposed software platform}{37}{section.3.7}% 
+\contentsline {subsubsection}{DatabaseBufferedProcessor}{33}{subsubsection*.11}% 
+\contentsline {subsubsection}{DistributedAccumulatorProcessor}{34}{subsubsection*.12}% 
+\contentsline {section}{\numberline {3.6}Demonstration by example case}{35}{section.3.6}% 
+\contentsline {subsection}{\numberline {3.6.1}The example case}{35}{subsection.3.6.1}% 
+\contentsline {subsection}{\numberline {3.6.2}Application of the platform}{36}{subsection.3.6.2}% 
+\contentsline {section}{\numberline {3.7}Discussion of the proposed software platform}{38}{section.3.7}% 
 \contentsline {chapter}{\numberline {4}Resource Distribution Model}{41}{chapter.4}% 
 \contentsline {section}{\numberline {4.1}Objective of the model}{41}{section.4.1}% 
 \contentsline {section}{\numberline {4.2}Conceptualization of the problem domain}{41}{section.4.2}% 
-\contentsline {subsubsection}{Definitions}{41}{subsubsection*.11}% 
-\contentsline {subsubsection}{Commonalities}{42}{subsubsection*.12}% 
-\contentsline {subsubsection}{Variabilities}{42}{subsubsection*.13}% 
+\contentsline {subsubsection}{Definitions}{41}{subsubsection*.13}% 
+\contentsline {subsubsection}{Commonalities}{42}{subsubsection*.14}% 
+\contentsline {subsubsection}{Variabilities}{42}{subsubsection*.15}% 
 \contentsline {section}{\numberline {4.3}Requirements for the proposed model}{43}{section.4.3}% 
 \contentsline {subsection}{\numberline {4.3.1}Requirements}{43}{subsection.4.3.1}% 
 \contentsline {subsection}{\numberline {4.3.2}Justification of identified requirements}{44}{subsection.4.3.2}% 
@@ -53,73 +58,69 @@
 \contentsline {subsection}{\numberline {4.4.2}Evaluation of the solution domain}{45}{subsection.4.4.2}% 
 \contentsline {subsection}{\numberline {4.4.3}Choices of employed solutions}{46}{subsection.4.4.3}% 
 \contentsline {section}{\numberline {4.5}Design of the Resource Distribution Model}{46}{section.4.5}% 
-\contentsline {subsubsection}{Resource}{47}{subsubsection*.14}% 
-\contentsline {subsubsection}{ResourceInterface}{47}{subsubsection*.15}% 
-\contentsline {subsubsection}{ResourceFunction}{48}{subsubsection*.16}% 
-\contentsline {subsubsection}{Component}{48}{subsubsection*.17}% 
-\contentsline {subsubsection}{ResouceConstraint}{48}{subsubsection*.18}% 
-\contentsline {subsubsection}{Optimizer}{48}{subsubsection*.19}% 
-\contentsline {subsubsection}{RdmMessage}{49}{subsubsection*.20}% 
+\contentsline {subsubsection}{Resource}{47}{subsubsection*.16}% 
+\contentsline {subsubsection}{ResourceInterface}{47}{subsubsection*.17}% 
+\contentsline {subsubsection}{ResourceFunction}{48}{subsubsection*.18}% 
+\contentsline {subsubsection}{Component}{48}{subsubsection*.19}% 
+\contentsline {subsubsection}{ResouceConstraint}{48}{subsubsection*.20}% 
+\contentsline {subsubsection}{Optimizer}{48}{subsubsection*.21}% 
+\contentsline {subsubsection}{RdmMessage}{49}{subsubsection*.22}% 
 \contentsline {subsection}{\numberline {4.5.1}Demonstration by example case}{49}{subsection.4.5.1}% 
 \contentsline {subsection}{\numberline {4.5.2}Computing a valid, optimal model assignment}{49}{subsection.4.5.2}% 
 \contentsline {section}{\numberline {4.6}Discussion of the proposed model}{51}{section.4.6}% 
-\contentsline {subsubsection}{Behaviour as static RUM's}{53}{subsubsection*.21}% 
-\contentsline {subsubsection}{Solver libraries}{53}{subsubsection*.22}% 
-\contentsline {subsubsection}{Constraint propagation}{54}{subsubsection*.23}% 
+\contentsline {subsubsection}{Behaviour as static RUM's}{53}{subsubsection*.23}% 
+\contentsline {subsubsection}{Solver libraries}{53}{subsubsection*.24}% 
+\contentsline {subsubsection}{Constraint propagation}{54}{subsubsection*.25}% 
 \contentsline {chapter}{\numberline {5}Proof-of-concept validation by case study}{55}{chapter.5}% 
 \contentsline {section}{\numberline {5.1}Context of the case study}{55}{section.5.1}% 
 \contentsline {subsection}{\numberline {5.1.1}Background}{55}{subsection.5.1.1}% 
 \contentsline {subsection}{\numberline {5.1.2}Conceptualization of the monitoring application}{56}{subsection.5.1.2}% 
-\contentsline {subsubsection}{Sensor data signature}{56}{subsubsection*.24}% 
-\contentsline {subsubsection}{QoS monitoring needs}{57}{subsubsection*.25}% 
+\contentsline {subsubsection}{Sensor data signature}{56}{subsubsection*.26}% 
+\contentsline {subsubsection}{QoS monitoring needs}{57}{subsubsection*.27}% 
 \contentsline {section}{\numberline {5.2}Method}{58}{section.5.2}% 
 \contentsline {subsection}{\numberline {5.2.1}General approach}{58}{subsection.5.2.1}% 
 \contentsline {subsection}{\numberline {5.2.2}Claims}{58}{subsection.5.2.2}% 
-\contentsline {subsubsection}{Applicability}{58}{subsubsection*.26}% 
-\contentsline {subsubsection}{Usability}{59}{subsubsection*.27}% 
-\contentsline {subsubsection}{Adapatability}{59}{subsubsection*.28}% 
+\contentsline {subsubsection}{Applicability}{59}{subsubsection*.28}% 
+\contentsline {subsubsection}{Usability}{59}{subsubsection*.29}% 
+\contentsline {subsubsection}{Adapatability}{59}{subsubsection*.30}% 
 \contentsline {subsection}{\numberline {5.2.3}Bounds}{60}{subsection.5.2.3}% 
 \contentsline {section}{\numberline {5.3}Implementation of the WSN monitoring application}{60}{section.5.3}% 
 \contentsline {subsection}{\numberline {5.3.1}Design and Implementation}{60}{subsection.5.3.1}% 
-\contentsline {subsubsection}{Application topology}{60}{subsubsection*.29}% 
-\contentsline {subsubsection}{Sensor Resource Distribution Model}{63}{subsubsection*.30}% 
+\contentsline {subsubsection}{Application topology}{61}{subsubsection*.31}% 
+\contentsline {subsubsection}{Sensor Resource Distribution Model}{63}{subsubsection*.32}% 
 \contentsline {subsection}{\numberline {5.3.2}Adapting the application}{63}{subsection.5.3.2}% 
-\contentsline {subsubsection}{Nuancer local}{63}{subsubsection*.31}% 
-\contentsline {subsubsection}{New sensor data encoding}{65}{subsubsection*.32}% 
-\contentsline {subsubsection}{Alert on long-term ECL drop}{65}{subsubsection*.33}% 
-\contentsline {section}{\numberline {5.4}Results}{66}{section.5.4}% 
-\contentsline {subsubsection}{Applicability}{66}{subsubsection*.34}% 
-\contentsline {subsubsection}{Usability}{66}{subsubsection*.35}% 
-\contentsline {subsubsection}{Adaptability}{66}{subsubsection*.36}% 
-\contentsline {section}{\numberline {5.5}Evaluation}{67}{section.5.5}% 
-\contentsline {subsubsection}{Applicability}{67}{subsubsection*.37}% 
-\contentsline {subsubsection}{Usability}{67}{subsubsection*.38}% 
-\contentsline {subsubsection}{Adaptability}{69}{subsubsection*.39}% 
-\contentsline {section}{\numberline {5.6}Discussion}{69}{section.5.6}% 
-\contentsline {subsection}{\numberline {5.6.1}Conclusions}{69}{subsection.5.6.1}% 
-\contentsline {subsection}{\numberline {5.6.2}Discussion}{70}{subsection.5.6.2}% 
-\contentsline {subsubsection}{Representativeness of the SENSIT application}{70}{subsubsection*.40}% 
-\contentsline {subsubsection}{Threat of over-abstraction}{71}{subsubsection*.41}% 
-\contentsline {subsubsection}{Developer skill level}{71}{subsubsection*.42}% 
-\contentsline {subsection}{\numberline {5.6.3}Limitations and recommendations}{72}{subsection.5.6.3}% 
+\contentsline {subsubsection}{Nuancer local}{64}{subsubsection*.33}% 
+\contentsline {subsubsection}{New sensor data encoding}{65}{subsubsection*.34}% 
+\contentsline {subsubsection}{Alert on long-term ECL drop}{66}{subsubsection*.35}% 
+\contentsline {section}{\numberline {5.4}Results \& Evaluation}{66}{section.5.4}% 
+\contentsline {subsubsection}{Applicability}{66}{subsubsection*.36}% 
+\contentsline {subsubsection}{Usability}{67}{subsubsection*.37}% 
+\contentsline {subsubsection}{Adaptability}{69}{subsubsection*.38}% 
+\contentsline {section}{\numberline {5.5}Conclusion \& Discussion}{69}{section.5.5}% 
+\contentsline {subsection}{\numberline {5.5.1}Conclusions}{69}{subsection.5.5.1}% 
+\contentsline {subsection}{\numberline {5.5.2}Discussion}{70}{subsection.5.5.2}% 
+\contentsline {subsubsection}{Representativeness of the SENSIT application}{70}{subsubsection*.39}% 
+\contentsline {subsubsection}{Threat of over-abstraction}{70}{subsubsection*.40}% 
+\contentsline {subsubsection}{Developer skill level}{71}{subsubsection*.41}% 
+\contentsline {subsection}{\numberline {5.5.3}Limitations and recommendations}{72}{subsection.5.5.3}% 
 \contentsline {chapter}{\numberline {6}Conclusion}{74}{chapter.6}% 
 \contentsline {section}{\numberline {6.1}Conclusions}{74}{section.6.1}% 
 \contentsline {subsection}{\numberline {6.1.1}Platform architecture}{74}{subsection.6.1.1}% 
-\contentsline {subsubsection}{Stream transformation types}{74}{subsubsection*.43}% 
-\contentsline {subsubsection}{Platform design}{75}{subsubsection*.44}% 
-\contentsline {subsubsection}{Level of abstraction}{75}{subsubsection*.45}% 
-\contentsline {subsubsection}{Threats to scalability of capacity}{76}{subsubsection*.46}% 
+\contentsline {subsubsection}{Stream transformation types}{74}{subsubsection*.42}% 
+\contentsline {subsubsection}{Platform design}{75}{subsubsection*.43}% 
+\contentsline {subsubsection}{Level of abstraction}{75}{subsubsection*.44}% 
+\contentsline {subsubsection}{Threats to scalability of capacity}{76}{subsubsection*.45}% 
 \contentsline {subsection}{\numberline {6.1.2}Resource Distribution Model}{76}{subsection.6.1.2}% 
-\contentsline {subsubsection}{Key concepts of QoS modelling}{76}{subsubsection*.47}% 
-\contentsline {subsubsection}{Modelling variable behaviour}{76}{subsubsection*.48}% 
-\contentsline {subsubsection}{Calculating optimal behaviour}{76}{subsubsection*.49}% 
+\contentsline {subsubsection}{Key concepts of QoS modelling}{76}{subsubsection*.46}% 
+\contentsline {subsubsection}{Modelling variable behaviour}{76}{subsubsection*.47}% 
+\contentsline {subsubsection}{Calculating optimal behaviour}{76}{subsubsection*.48}% 
 \contentsline {section}{\numberline {6.2}Discussion}{77}{section.6.2}% 
-\contentsline {subsubsection}{Is the platform as scalable as proposed?}{77}{subsubsection*.50}% 
-\contentsline {subsubsection}{Does Apache Storm need another scaffolding layer?}{77}{subsubsection*.51}% 
-\contentsline {subsubsection}{Why aren't Apache Storm's fault tolerant measures incorporated?}{78}{subsubsection*.52}% 
-\contentsline {subsubsection}{Applicable field of applications}{79}{subsubsection*.53}% 
+\contentsline {subsubsection}{Is the platform as scalable as proposed?}{77}{subsubsection*.49}% 
+\contentsline {subsubsection}{Does Apache Storm need another scaffolding layer?}{77}{subsubsection*.50}% 
+\contentsline {subsubsection}{Why aren't Apache Storm's fault tolerant measures incorporated?}{78}{subsubsection*.51}% 
+\contentsline {subsubsection}{Applicable field of applications}{79}{subsubsection*.52}% 
 \contentsline {section}{\numberline {6.3}Future work}{80}{section.6.3}% 
-\contentsline {subsubsection}{Obtaining accurate Resource Distribution Models}{80}{subsubsection*.54}% 
-\contentsline {subsubsection}{Suggested improvements}{80}{subsubsection*.55}% 
-\contentsline {subsubsection}{Better incorporation of Apache Storm}{80}{subsubsection*.56}% 
-\contentsline {subsubsection}{Further validation}{81}{subsubsection*.57}% 
+\contentsline {subsubsection}{Obtaining accurate Resource Distribution Models}{80}{subsubsection*.53}% 
+\contentsline {subsubsection}{Suggested improvements}{80}{subsubsection*.54}% 
+\contentsline {subsubsection}{Better incorporation of Apache Storm}{80}{subsubsection*.55}% 
+\contentsline {subsubsection}{Further validation}{81}{subsubsection*.56}% 
