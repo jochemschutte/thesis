@@ -12,6 +12,9 @@ vragen
 	waarom niet some-to-one (zoals paper: event management system)
 	platform ook voor general?
 		Kan voor metingen. RDM slecht met events
+	applicability devices -> application?
+	hoeveel sensors nu? (nbiot, overall)
+	less skill -> more gain
 
 
 voor nedap/aux slides
