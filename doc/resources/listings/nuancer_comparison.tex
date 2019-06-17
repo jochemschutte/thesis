@@ -1,8 +1,9 @@
-\begin{scriptsize}
+
 \begin{minipage}{\textwidth}
+\begin{scriptsize}
 \begin{lstlisting}[
 language=java, 
-caption={Simplified fragment of \emph{SensorNuancer} without struct objects}, 
+caption={Simplified fragment of \emph{SensorNuancer} without structs}, 
 label={list:nuancer_without_structs}, 
 escapeinside={(*}{*)}, 
 captionpos=b,
@@ -23,31 +24,28 @@ public void runForMessagesHistoric(LinkedList<IOMessage> history) {
 	int normalizedEcl = normalizeEcl(ecls);
 			
 	args.put("MILLIS_ELAPSED", Long.toString(last-first));
-	args.put("ECL_LOCAL", history.getLast().getVars().get("ECL_LOCAL"));
+	args.put("ECL_LOCAL", history.getLast().getVars()
+	                                            .get("ECL_LOCAL"));
 	args.put("ECL", Integer.toString(normalizedEcl));
 	publish("SENSOR_NORMALIZED", new IOMessage(args));		
 }
 \end{lstlisting}
-\end{minipage}
-\end{scriptsize}
-\begin{scriptsize}
-\begin{minipage}{\textwidth}
 \begin{lstlisting}[
 language=java, 
-caption={Simplified fragment of \emph{SensorNuancer} with struct objects}, 
+caption={Simplified fragment of \emph{SensorNuancer} with structs}, 
 label={list:nuancer_with_structs}, 
 escapeinside={(*}{*)}, 
 captionpos=b,
 numbers=left,
 tabsize=4
 ]	
-public void runForMessagesHistoric(LinkedList<NuancerInStruct> history) {
-	NuancerOutStruct output = new NuancerOutStruct();
+public void runForMessagesHistoric(LinkedList<NStructIn> history) {
+	NStructOut output = new NStructOut();
 	long first = history.getFirst().getTimestamp();
 	long last = history.getLast().getTimestamp();
 			
 	List<Integer> ecls = new LinkedList<>();
-	for(NuancerInStrcut struct : history){
+	for(NStructIn struct : history){
 		ecls.add(struct.getEclLocal());
 	}
 	int normalizedEcl = normalizeEcl(ecls);		
@@ -58,5 +56,8 @@ public void runForMessagesHistoric(LinkedList<NuancerInStruct> history) {
 	publish("SENSOR_NORMALIZED", output);	
 }
 \end{lstlisting}
-\end{minipage}
 \end{scriptsize}
+\end{minipage}
+
+
+

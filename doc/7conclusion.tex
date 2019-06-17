@@ -1,4 +1,4 @@
-%TODO refs naar welke hoofdstukken
+
 \chapter{Conclusion}
 In this final section the thesis will be concluded. This will be performed by first revisiting the research questions and answering them as well as permitted by the results of the study. Subsequently, some remaining issues will be debated. Finally, some areas of exploration will be suggested for continued research.
 
@@ -7,9 +7,9 @@ In this final section the thesis will be concluded. This will be performed by fi
 This section will endeavour to resolve the research questions posed in Section \ref{sec:goal} in order, each under its own heading. The first five of which, regarding the development platform detailed in Chapter \ref{ch:architecture}, will be answered in the next subsection. The remaining three, regarding Resource Distribution Model of Chapter \ref{ch:rdm}, will be resolved in the following.
 \subsection{Platform architecture}
 \subsubsection{Stream transformation types}
-From the analyses posed in Section \ref{sec:back:context} of the background and the commonality/variability analysis of Chapter \ref{ch:architecture}, it is derived that in broad terms the input for the QoS determination process is a high influx of low-level, raw data describing the condition and performance of sensor devices. From this data a number of high-information output parameters requires derivation in order to cause concrete effects. From this proposition it is firstly concluded that the input data is transformed in order to enrich the data from raw to higher-level information. 
+From the analyses posed in Section \ref{sec:back:context} of the background and the commonality/variability analysis of Chapter \ref{ch:architecture}, it is derived that in broad terms the input for the QoS determination process is a high influx of low-level, raw data describing the condition and performance of sensor devices. From this data a number of high-information output parameters requires derivation in order to cause concrete effects. From this proposition it is firstly concluded that the input data is transformed in order to enrich the data from raw to higher-level information.
 
-Secondly, the data is aggregated to further raise the level of information and increase the accuracy of the information. This aggregation can be performed across two dimensions: laterally or longitudinally. Lateral aggregation entails collecting similar data obtained from different sources to determine high-level information of a state across a large domain (e.g. geographically). Conversely, longitudinal aggregation encompasses data from a single source (a device or intermediary process), but which is collected over a period of time. Such analyses can be used to infer higher-level information such as trends or to improve the accuracy and confidence in measured or computed parameters. 
+Secondly, the data is aggregated to further raise the level of information and increase the accuracy of the information. This aggregation can be performed across two dimensions: laterally or longitudinally. Lateral aggregation entails collecting similar data obtained from different sources to determine high-level information of a state across a large domain (e.g. geographically). Conversely, longitudinal aggregation encompasses data from a single source (a device or intermediary process), but which is collected over a period of time. Such analyses can be used to infer higher-level information such as trends or to improve the accuracy and confidence in measured or computed parameters.
 
 The specified processes can have one or some snapshots as output, whereby \emph{some} is defined as a countable, fixed amount which does not increase as the number of inputs increases. To simplify the abstraction, \emph{one} will be included into \emph{some}. The preceding concludes two types of information processing streams: one-to-some (transformation) and many-to-some (aggregation).
 
@@ -68,7 +68,7 @@ The the platform was conceived in a specific top-down order:
 \item decided on micro-component architecture,
 \item specified the required micro-components,
 \item implemented the components, and finally
-\item integrated the components with Apache Storm. 
+\item integrated the components with Apache Storm.
 \end{enumerate}
 Originally, the search  for a supporting technology was mainly for its core messaging system and execution environment. Therefore, as a byproduct of this approach, some advanced features of Apache Storm had been overlooked. As a consequence, the scaffolding layer provided by the platform is very close to the Storm functionality.
 
@@ -90,7 +90,7 @@ The final issue that will be addressed is the general applicability of the platf
 
 Instead, this assertion is based on the analysis of types of data streams and reductions present in LPWA QoS determination. It was determined that these streams can be categorized as one-to-some, lateral many-to-some and longitudinal many-to-one. Furthermore, a system (at an abstract level) was identified to consist of correlated resources. How these resources are interconnected and calculated may depend on the current operation strategy of the system under investigation. Additionally, given the resource parameters of a system, an operational strategy may or may not satisfy the specified resource constraints. Finally, the performance of a system under certain operational strategies can be compared according to some resource parameters.
 
-These concepts were all present in the case to which the platform was applied. Furthermore, all these concepts could be captivated and processed by the platform implementation. Therefore, it is stated  that, under the assumption that the aforementioned concepts are the key identifying features of LPWA WSN application QoS, the developed platform is a viable solution for LPWA WSN QoS monitoring and management. Whether the presumed concepts are indeed the key identifying features for this class of applications requires further investigation
+These concepts were all present in the case to which the platform was applied. Furthermore, all these concepts could be captivated and processed by the platform implementation. Therefore, it is stated  that, under the assumption that the aforementioned concepts are the key identifying features of LPWA WSN application QoS, the developed platform is a viable solution for LPWA WSN QoS monitoring and management. Whether the presumed concepts are indeed the key identifying features for this class of applications requires further investigation.
 
 \section{Future work}
 Though the platform appears promising, there is further work to be done. In this conclusive section some envisioned areas that require further exploration will be suggested.
@@ -110,7 +110,7 @@ A method that can verify the implementation of the  platform's scaffolding layer
 \item decided on micro-component architecture,
 \item specified the required micro-components,
 \item implemented the components, and finally
-\item integrated the components with Apache Storm. 
+\item integrated the components with Apache Storm.
 \end{enumerate}
 An alternate approach could be to retain the conceptualization of the domain, decisions for a micro-component architecture, functional specification of the micro-components and choice for Apache Storm (steps 1, 2, 3 \& 5). However, instead of building the components first and then incorporating a Storm's messaging system, a more bottom-up implementation approach can be employed. This approach would consider the advanced features provided by Apache Storm and build the components upon them. The predicted outcome for this study is a leaner scaffolding layer that better enables the advanced features offered by Storm.
 
@@ -145,7 +145,7 @@ The final area of continued research is to have the validation study be carried 
 
 %wider applicability?
 %niet alles van storm aanwzig in platform
-%	is een gevaolg van eerst top down, dan bottom up 
+%	is een gevaolg van eerst top down, dan bottom up
 %	(eignelijk eerst alleen messaging en runtime env)
 %storm or spark windowing?
 %	long window -> implications on message lifetime
@@ -159,7 +159,7 @@ The final area of continued research is to have the validation study be carried 
 %		elems moeten verwijderbaar zijn (hele state persisten moeilijk)
 %		volledig peristen -> performance op laag interval
 %		db is beter
-%	no ack mechanism 
+%	no ack mechanism
 %		low use op low-information (en built upon fallible tech (sensors))
 %		difficult after fork (larger fork -> less chance on exactly once))
 %		no use op long term

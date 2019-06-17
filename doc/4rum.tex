@@ -4,9 +4,9 @@
 %		(jim coplin? var/com)
 %probelem analysis
 %req
-%technieken 
+%technieken
 %etc.
- 
+
 
 \newcommand{\rdmid}{2}
 \chapter{Resource Distribution Model}
@@ -126,7 +126,7 @@ These efforts have produced methods of representing components connected by shar
 
 Secondly, there is the issue of how to represent Resource Utilization Models (RUM), the model for variable behaviour of components. Previous studies have used timed automata to represent behaviour cycles \cite{rum_basis_89, steven_te_brinke}. This allows for automated tools to calculate a runtime schedule in high degree of granularity. However, the high level of granularity comes at the cost of efficiency. When the time interval for the automata is shortened, entailing higher granularity, then solvers require additional computational resources and time to execute. This might enforce a complication on resource constraint devices or applications that require the solver algorithm to run many times for a multitude of devices. Additionally, it must be considered that a model contains multiple components specified by RUMs. A composition of such related automata explodes the search space for the composite automaton, reducing the feasibility of calculating them effectively.
 
-An alternate approach is to model the RUM as a set of static parameters. A component then has multiple RUM's representing different modes of execution. This is achieved by averaging the behaviour for that mode of execution, which would otherwise be modelled by a single timed automaton. This comes at great cost of granularity, since the RUM's now only describe a few static, predefined periodical behaviours. However, it significantly reduces the complexity of the search space. For this approach timed automata are no longer a suitable technology, since the element of time intervals has been eliminated. Instead, the problem is a pure decision problem. The problem to be solved is to find a suitable RUM for each modelled component
+An alternate approach is to model the RUM as a set of static parameters. A component then has multiple RUM's representing different modes of execution. This is achieved by averaging the behaviour for that mode of execution, which would otherwise be modelled by a single timed automaton. This comes at great cost of granularity, since the RUM's now only describe a few static, predefined periodical behaviours. However, it significantly reduces the complexity of the search space. For this approach timed automata are no longer a suitable technology, since the element of time intervals has been eliminated. Instead, the problem is a pure decision problem. The problem to be solved is to find a suitable RUM for each modelled component.
 
 The search space of a decision problem can be explored with a simple brute force search, exploring all options and compositions. However, more effectively, combinatorial problems can often be solved with constraint solvers. The problem is easily transposed to a constraint problem with the RDM as model, resource constraints as constraints and the RUM's as variables for the components. With the many solution strategies described in \ref{sec:back:constraint} available for different types of problems, a suitable solver should be able to be found or devised.
 
@@ -134,7 +134,7 @@ The search space of a decision problem can be explored with a simple brute force
 \label{sub:choices}
 With careful consideration the following choices for the solution implementation have been made. For modelling it was chosen to adapt the framework of Malakuti et al \cite{steven_te_brinke} by emphasizing on resources and introducing some new features. The components will still exist in the model, but will merely serve the function of connecting resources to one another. Another adaptation is the existence of multiple RUM's for a component, which allows injection of different methods of operation.
 
-As for how to model the RUM, it was chosen to reduce the complexity of the system by modelling resource usage with fixed mathematical functions. Modelling changeable behaviour is subsequently achieved by providing a component with multiple RUM, detailing different operational strategies. The strongest advocate for this choice is the fact of the focus for this study: large WSN applications. In a WSN monitoring platform the task of determining optimal device function will need to be performed repeatedly for many sensor devices. Additionally, devices in most large-scale LPWA applications only communicate data a limited amount of times per day (at most a few hundred)\cite{nbiot_battery_not_suitable, lora_vs_sigfox_boek}. Therefore, high granularity is not of grave importance because the feedback-control cycle is not that short
+As for how to model the RUM, it was chosen to reduce the complexity of the system by modelling resource usage with fixed mathematical functions. Modelling changeable behaviour is subsequently achieved by providing a component with multiple RUM, detailing different operational strategies. The strongest advocate for this choice is the fact of the focus for this study: large WSN applications. In a WSN monitoring platform the task of determining optimal device function will need to be performed repeatedly for many sensor devices. Additionally, devices in most large-scale LPWA applications only communicate data a limited amount of times per day (at most a few hundred)\cite{nbiot_battery_not_suitable, lora_vs_sigfox_boek}. Therefore, high granularity is not of grave importance because the feedback-control cycle is not that short.
 
 The fact that a component can have more than one mode of operation and the choice of static parameters for those functions, makes constraint solvers most suitable as means to solve the model. However, the search algorithm will be complemented to conclude not only the valid compositions but the optimal solution, given some heuristic function.
 
@@ -164,7 +164,7 @@ A graphic representation of the adapted meta-model is given in figure \ref{fig:c
 \end{figure}
 
 \subsubsection{Resource}
-A resource is an entity describing a parameter of a system. This can be a measured parameter (e.g. battery capacity or throughput), but can also describe a derived parameter (e.g. service time left). Each resource is identified by it's name and has a unit associated with it
+A resource is an entity describing a parameter of a system. This can be a measured parameter (e.g. battery capacity or throughput), but can also describe a derived parameter (e.g. service time left). Each resource is identified by it's name and has a unit associated with it.
 
 \subsubsection{ResourceInterface}
 Resources are interfaced with through ResourceInterfaces. A ResourceInterface can be one of three types:
@@ -200,7 +200,7 @@ The Optimizer is introduced to ascertain the heuristic score of an RDM with a va
 Finally, to supply the model with the state of the system under investigation the RdmMessage is posed. The RdmMessage is provisioned using values measured from the system and injected into the model, after which the appropriate resource functions are evaluated accordingly. Technically, a simple mapping from a resource identifier to a measured value would suffice for this purpose, but this mapping is wrapped in an object to support future evolution of the model.
 
 \subsection{Demonstration by example case}
-To illustrate the application of this model, an example of an instantiation of the model is provided in Figure \ref{fig:rdm_cpu_radio}. This instantiation is again based on the example case described in Section \ref{sec:example_case}. This depiction contains a power supply (battery) which emits a resource `power', measured in milliwatts. The actual value of this variable is instantiated based on the input message (illustrated by dotted arrow). The reason for this is that, as described earlier, specifications of power supplies vary in the example case. This power is consequently consumed by the device's CPU and radio module. This entails an implied resource constraint $c_1$, which enforces that the joint power consumption of the CPU and radio may not exceed the power produced by the power supply. Both the CPU and Radio can run on a high or low performance model, with the high models having aggravating consequences for the power consumption and the offered number of measurements and throughput respectively. The amount of measurements per second offered by the CPU is subsequently consumed in full by the \emph{Measurement requester}. This component simulates a resource request on the sensor devices and imposes a requisite on the minimum amount of measurements performed and offered by the CPU, as formulated by constraint $c_2$. The requested value is determined by a parameter supplied by the input message. 
+To illustrate the application of this model, an example of an instantiation of the model is provided in Figure \ref{fig:rdm_cpu_radio}. This instantiation is again based on the example case described in Section \ref{sec:example_case}. This depiction contains a power supply (battery) which emits a resource `power', measured in milliwatts. The actual value of this variable is instantiated based on the input message (illustrated by dotted arrow). The reason for this is that, as described earlier, specifications of power supplies vary in the example case. This power is consequently consumed by the device's CPU and radio module. This entails an implied resource constraint $c_1$, which enforces that the joint power consumption of the CPU and radio may not exceed the power produced by the power supply. Both the CPU and Radio can run on a high or low performance model, with the high models having aggravating consequences for the power consumption and the offered number of measurements and throughput respectively. The amount of measurements per second offered by the CPU is subsequently consumed in full by the \emph{Measurement requester}. This component simulates a resource request on the sensor devices and imposes a requisite on the minimum amount of measurements performed and offered by the CPU, as formulated by constraint $c_2$. The requested value is determined by a parameter supplied by the input message.
 
 Finally, both the amount of measurements and bandwidth provided are supplied to the \emph{QoS calculator}. It uses these resources to calculate a singular value depicting the level of QoS provided by the model instantiation. This value is used to determine the optimal variable composition given a set of valid models. In closing, emphasis should be given to the interfaces of the QoS calculator. These interfaces are not regular \emph{consume} relations but \emph{calculate} relations. This entails that the QoS calculator has full knowledge of the amounts offered, without affecting the consumption of those resources. This ensures that the behaviour of the QoS calculator has no influence on the validity of the model by impacting constraint $c_2$.
 
@@ -209,7 +209,7 @@ Finally, both the amount of measurements and bandwidth provided are supplied to 
 \begingroup\centering
   \includegraphics[width=\linewidth]{resources/img/rdm_cpu_radio.pdf}\endgroup \\ \\
   \noindent Constraints: \\
-$c_1: power_{power\_supply} >= power_{cpu}+power_{radio} $ \\ 
+$c_1: power_{power\_supply} >= power_{cpu}+power_{radio} $ \\
 $c_2: measurements_{cpu} >= measurements_{measurement\_requester}$ \\ \\
 \noindent Optimize:\\$max(QoS)$\\
 \hrule
@@ -236,12 +236,10 @@ This is performed by employing backtrack-search. A simple brute force search wou
 \end{itemize}
 for all subsequent assignments of unprovisioned components.
 
-If a constraint evaluates to \emph{satisfied} it will be pruned from the constraint set and will not evaluated for the remainder of this branch of the search tree, for it is known to always succeed. If a constraint is \emph{unresolved} it is kept, since its status is not certain for every future state. If even a single constraint \emph{fails} the remainder of that branch of the search tree will never be valid. Therefore, the algorithm backtracks through the tree by partially rolling back model assignments. A different model is then selected for the same component or a different component entirely and the algorithm is repeated. This ensures that validated constraints are not reevaluated and invalidated search tree traversals are detected early. The full original algorithm is given in Listing \ref{alg:backtrack-search}
+If a constraint evaluates to \emph{satisfied} it will be pruned from the constraint set and will not evaluated for the remainder of this branch of the search tree, for it is known to always succeed. If a constraint is \emph{unresolved} it is kept, since its status is not certain for every future state. If even a single constraint \emph{fails} the remainder of that branch of the search tree will never be valid. Therefore, the algorithm backtracks through the tree by partially rolling back model assignments. A different model is then selected for the same component or a different component entirely and the algorithm is repeated. This ensures that validated constraints are not reevaluated and invalidated search tree traversals are detected early.
 
 By rapidly detecting unsatisfactory options in the search tree, large portions of the tree can possibly be eliminated. An example of the application of this algorithm on the previously illustrated example (Figure \ref{fig:rdm_cpu_radio}) is given in Figure \ref{fig:search_cpu_radio}. This example is executed based on an RdmMessage with values $\{measureRateRequired=5,\ powerBySpecification=16\}$. This application demonstrates that using this algorithm eliminates a significant portion of the search tree. This is due to early detection of constraint failure in the \emph{CPU=high\_cpu} branch of the tree.
 
-\input{resources/listings/backtrack-search}
-%label=alg:backtrack-search
 
 \begin{figure}
 \input{resources/img/tree_cpu_radio}
@@ -249,9 +247,8 @@ By rapidly detecting unsatisfactory options in the search tree, large portions o
 \label{fig:search_cpu_radio}
 \end{figure}
 
-%TODO check placement of this header and previous images
 \section{Discussion of the proposed model}
-This chapter will be concluded by endorsing some of the choices that were made for the proposed model
+This chapter will be concluded by endorsing some of the choices that were made for the proposed model.
 \subsubsection{Behaviour as static RUM's}
 As stated before it was chosen to use a static representation of resource utilization in Resource Utilization Models. This was chosen in order greatly reduce the complexity of the search problem, which allows the model to be evaluated within a reasonable amount of time. This was decided after early experiments with timed automata. In this experiment a minimal system with one component with three RUM's was modelled. When computing the behaviour of the model using time intervals of one week over a life span of ten years, it took over one minute to calculate the optimal traversal of the automaton. Granted, this was performed on a laptop machine and not a high-powered server. When deployed on a machine with elevated computational resources the time to calculate will be reduced. However, this is counteracted by the fact for a WSN application this calculation needs to be repeated for thousands of sensors. When this performance is compared to that of the static models, which can evaluate more complex models within seconds, timed automata must be eliminated as viable solution for real-time analysis. However, this does not eliminate automata entirely. Automata can still be used to model the fine grained runtime behaviour a system in order to abstract generalized static RUM's from it.
 
@@ -269,11 +266,11 @@ A technique in constraint solvers mentioned before is the concept of constraint 
 
 Secondly, the interconnected nature of resources can impede the benefits received from constraint propagation. To illustrate this consider the following complex example: resource \emph{R} is connected to a set of producers \emph{P} and a set of consumers \emph{C}, for each the amount produced or consumed is variable. The amount produced or consumed by any component \emph{x} is denoted by $R_x$. The availability constraint (i.e. amount produced must exceed the amount consumed) on \emph{R} can then be written as:
 $$\sum_{p \in P}R_p \geq \sum_{c \in C}R_c$$
-Which entails for any consumer $c1 \in C$: 
+Which entails for any consumer $c1 \in C$:
 $$R_{c1} \leq \left(\sum_{p \in P} R_p - \sum_{c2 \in (C-c1)} R_{c2}\right)$$
 In order to be able to prune any value from the domain of consumer \emph{c1}, all producers must be assigned. Only then can a concrete upper bound be determined\setcounter{footnote}{1}\footnote{Future assignments of the other consumers may be disregarded since they will never raise the upper bound for $R_{c1}$, only lower it.}. This requires the search to be already at least $|P|$ levels deep, reducing the part of the tree possibly eliminated. Even then, only values can be pruned for which:
 $$R_{c1} > \sum_{p \in P} R_p$$
-Which might not be many since a single consumer must consume more of a resource than produced by all producers combined, in order for the constraint to fail. When other consumers get a value assigned pruning becomes more effective, but this requires even more variable assignments
+Which might not be many since a single consumer must consume more of a resource than produced by all producers combined, in order for the constraint to fail. When other consumers get a value assigned pruning becomes more effective, but this requires even more variable assignments.
 %This problem is aggravated when $R_p$ is a derived value calculated using a number of other resources. Values for all these resources must be known in order to calculate the value of $R_p$.
 
 To conclude, the part of the tree that is eliminated with constraint propagation is limited. For any variable to be pruned the algorithm must already be halfway into the search tree. Furthermore, the chance that a value is eliminated halfway in the tree is very small. Therefore, no further effort was made to incorporate constraint propagation or other look-ahead strategies in the solver.

@@ -15,6 +15,7 @@ vragen
 	applicability devices -> application?
 	hoeveel sensors nu? (nbiot, overall)
 	less skill -> more gain
+	open source niet gratis?
 
 
 voor nedap/aux slides

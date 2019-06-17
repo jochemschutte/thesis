@@ -9,6 +9,7 @@
 \usepackage{pifont}
 \usepackage{enumitem}
 \usepackage{qtree}
+\usepackage[export]{adjustbox}
 \usepackage[numbers,sort]{natbib}
 \usepackage{listings}
 \titleformat{\chapter}{\normalfont\huge}{\thechapter.}{20pt}{\huge\textbf}
@@ -16,19 +17,33 @@
 \newcommand{\xmark}{\ding{53}}%
 \newcommand{\nospace}{\setlength\itemsep{0em}}
 \begin{document}
-\author{J.J. Schutte, University of Twente}
-\date{June 27, 2019}
-\title{Master Thesis:\\Design of a development platform to monitor and manage Low Power, Wide Area WSNs}
+\author{J.J. Schutte, University of Twente\\\emph{j.j.schutte@student.utwente.nl}}
+\date{June 27, 2019 \\ \vspace{26em} \includegraphics[width=\textwidth ,center]{resources/img/logos.png}}
+\title{\textbf{Master Thesis} \\Design of a development platform to monitor and manage Low Power, Wide Area WSNs
+}
 \maketitle
-\abstract{todo}
-%TODO abstract
+%\begin{titlepage}
+%\large
+%\centering
+%{\Huge{Master Thesis}\\}
+%{\Large{Design of a development platform to monitor and manage Low Power, Wide Area WSNs}} \\
+
+%J.J. Schutte, University of Twente \\
+%\emph{j.j.schutte@student.utwente.nl} \\
+%June 27, 2019
+%\end{titlepage}
+
+
+\abstract{The recent explosion of Low Power Wide Area (LPWA) WSN devices has raised interest in perceiving the Quality of Service (QoS) provided to and by such applications. Current QoS solutions do not respect LPWA-specific considerations, such as limited resources and extreme scale. This study has set out to research an appropriate solution to QoS monitoring and management that does concern these considerations. This is achieved by establishing a development platform focused on LPWA QoS. The platform consists of two chief concepts. The first of which is a distributed stream processing architecture. The architecture back-bone is based on Apache Storm and provides scaffolding for different classes of stream transformations, which guides users in implementing their monitoring applications. The second artefact is a model capable of captivating resources and calculating the performance of a system, considering different modes of operation of that system. The proposed development platform is validated by implementing an instantiation of it, based on an actual, commercial on-street parking application. Though the study shows some deficiencies still present in the solution, its results demonstrate it as an applicable and feasible aid in constructing scalable applications capable of QoS monitoring in LPWA WSNs. \\ \\
+%{Keywords --- WSN, IoT, LPWA, QoS}
+\textbf{Keywords}: Wireless Sensor Networks, Internet of Things, LPWA, Quality of Service
 \subsubsection*{Committee}
 This thesis was supervised and examined by:
 \begin{table}[h]
 \begin{tabular}{ll}
 prof.dr.ir. M. Aksit & University of Twente, Formal Methods and Tools \\
 dr. N. Meratnia & University of Twente, Pervasive Systems\\
-R. Boland & Nedap NV, Identification Systems \\
+R. Boland & Nedap N.V., Identification Systems \\
 \end{tabular}
 \end{table}
 %\item[prof.dr.ir. M. Aksit] Formal Methods and Tools - University of Twente
@@ -40,9 +55,6 @@ R. Boland & Nedap NV, Identification Systems \\
 \input{./_content}
 \bibliography{bibliography}
 \bibliographystyle{ieeetr}
-%TODO abstract
-
-%TODO check spelling
 %timestamp - time-stamp
 %datapoint - data-point - data point
 %criterium - criterion
