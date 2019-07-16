@@ -1,0 +1,186 @@
+terms
+	wsn
+	iot
+	topology
+	system
+	platform
+	RDM
+
+welcome/intro
+schedule
+	context & 
+context
+	proliforation of devices
+	probebly thinking consumer electronics
+	especially WSN 
+	specifically LPWA (show apparaat)
+		cheap/low data (kb per day)/high range(cell network)
+		large scale
+		explosion (15-30 billion)
+	movement shared network (up ot 10.000 per cell)
+	previous screams for performance monitoring
+		Term coined is QoS
+		what is offered
+		what can we offer
+	this study set out to enable this
+schedule
+	problem
+	approach
+	solutions
+		distributed architecture
+		rdm
+	validation by proof-of-concept
+	conclusions
+problem
+	general purpose exists (protocols, applications, development platforms)
+	chain (problems cross out)
+	resources (no device)
+		restricted processing (raw kpi)
+		short, scheduled duty cycle (no wake up guarentee)
+	mobile operators (no network)
+	iot is different (ultimately back end)
+(current state of art)
+goal
+rq
+	two artefacts
+		How can we design abstract platform for scalable processing of streams of raw KPI indicators !!!! vroeg definieren wat platform is: rapid development and evolution of specific appliations
+		how can we model the state and evaluate the performance (QoS) of a configurable system (what is system?)
+	terms clarification
+approach
+	development platform 
+	modelling technique 
+		measured state
+		calculated performance
+		variations due to configurable behavior
+	proof of concept validation (to be continued)
+architecture
+	design approach
+	c/v analysis
+		scalable
+		multi-level reporting
+		three streams	
+	design
+		scalable
+			microcomponent arch
+				also allows multi-level reporting
+		streams dus storm
+			build upon with adaptations
+			topics
+		"feature" diagram
+			single snapshot
+				SingleMessageProcessor
+				RDM-Processor
+			longitudinal
+				HistoricBufferedProcessor
+					internal
+				DatabaseBufferedProcessor
+					scaffolding to store buffer in db
+			latteral
+				Accumulator
+					not distributed can be chained
+				DistributedAccumulatorProcessor
+					new slide
+		spark streaming
+			fastest
+			no integration with storm
+			
+			...
+			
+	example
+	(notions)
+model
+	goal
+		represent state, calculate QoS
+		based on kpi and configurable behavior		
+	cv-analysis
+	model design
+		RDM/RUM
+		not state machines
+		represent
+			component
+			resource
+			Rinterface
+		calculate
+			RUM
+			constraint
+			optimizer
+	example
+		uitleg
+		model
+	solving
+		brute force
+		constraint solving (backtrack-search)
+validation
+	implementation		
+		context
+			sensor
+			needs
+		topology
+		model
+	claims & method
+		applicability
+			can it be done?
+		usabiblity
+			no more than monolyth
+			4 per arch comp
+			(goldy-locks zone)
+		adaptability
+			3 suggested extensions
+			hypothesize the consequences
+			2 components new/changed local changes to topology
+			(entengulation of concerns)
+		simulation
+	demo
+
+	results/evaluation
+		applicability pass
+		usabilty
+			topology pass
+			nr lines fail
+		adaptability pass
+	discussion
+		parsing/casting/accessing
+			absolved by structs
+		difficult going back and forth
+			GUI
+conclusion
+	conclusions
+		promising platform architecture, with some defficiencies
+		model (promising)
+			captivates resource distribution
+			describes variable behaviour
+			explored efficciently
+			
+	Discussion
+		similar to storm & fault tolerant features not included
+		limited validation
+			not blind
+			just one app
+		no scalabilty validation
+	Future work 
+		suggested addittions
+		redo with storm
+		further validation
+			more applications
+			blind studies
+			scalability
+	
+TODO
+	GUI
+	
+Sensor
+	hexadecimal kpi string
+	configurable duty cycle
+	montly 'credit' budget
+	share of montly data budget
+	
+
+needs
+	sensor management (data and credit budget)
+	sensor-level alerting
+	group-level share recalculation
+	application-level dashboard
+	
+	
+
+
